@@ -3,6 +3,9 @@
 import pygame,sys
 from text import *
 from util import *
+from gestorRecursos import *
+import fase
+from fase import *
 
 class Menu(object):
     def __init__(self,screen,title,items):
@@ -128,7 +131,7 @@ class MainMenu(Menu):
     def __init__(self,screen,title,items):
         Menu.__init__(self,screen,title,items)
         self.active = True
-        self.background = load_image("Intro.jpg")
+        self.background = GestorRecursos.CargarImagen("Intro.jpg", -1)
 
     def run(self):
         while self.active==True:
@@ -143,9 +146,13 @@ class MainMenu(Menu):
             self.action = None
             NoMenu = MenuDificultad(self.screen,"Dificultad",MENU_DIFFICULTY)
             NoMenu.run()
-        '''if self.action == MENU_OPTIONS[1]:
-            #print(2)
-        if self.action == MENU_OPTIONS[2]:
+        if self.action == MENU_OPTIONS[1]:
+            # Creamos la fase
+            fase = Fase()
+            # Se dibuja en pantalla
+            fase.dibujar(screen)
+            pygame.display.flip()
+        '''if self.action == MENU_OPTIONS[2]:
             #print(3)'''
         if self.action == MENU_OPTIONS[3]:
             pygame.quit()
@@ -156,7 +163,7 @@ class MenuDificultad(Menu):
     def __init__(self,screen,title,items):
         Menu.__init__(self,screen,title,items)
         self.active = True
-        self.background = load_image("Intro.jpg")
+        self.background = GestorRecursos.CargarImagen("Intro.jpg", -1)
 
     def run(self):
         while self.active==True:
@@ -177,7 +184,10 @@ class MenuDificultad(Menu):
            self.active = False
 
 pygame.init()
-screen = pygame.display.set_mode((795, 525), 0, 32) #CARATERISTICAS DE LA VENTANA
+# Open a window on the screen
+screen_width=795
+screen_height= 525
+screen = pygame.display.set_mode([screen_width,screen_height], 0, 32) #CARATERISTICAS DE LA VENTANA
 pygame.display.set_caption('Game Menu')
 gm = MainMenu(screen,TITLE,MENU_OPTIONS)
 gm.run()
