@@ -1,38 +1,53 @@
-# -*- coding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 
-import pygame,sys
+import sys
+import pygame
+import pyganim
 from text import *
-from util import *
+from pygame.locals import *
+from escena import *
 from gestorRecursos import *
-import fase
-from fase import *
+from values import *
+from fase import Fase
+from animaciones import AnimacionFuego, AnimacionRayo, AnimacionHumo
 
-class Menu(object):
-    def __init__(self,screen,title,items):
-        self.screen = screen;
-        self.title = Text(title,60,FONT_MENU)
-        self.scr_width = self.screen.get_rect().width
-        self.scr_height = self.screen.get_rect().height
-        self.items = []
-        self.action = None
-        pos_y = self.screen.get_rect().width/len(items)
-        for index, item in enumerate(items):
-            menu_item = MenuItem(item,FONT_MENU, 32)
-            t_h = len(items) * menu_item.height
-            pos_x = 20
-            menu_item.set_position(pos_x, pos_y)
-            self.items.append(menu_item)
-            pos_y += self.screen.get_rect().width/(len(items)**1.9)
-        self.mouse_is_visible = True
-        self.cur_item = None
-        
-    def set_mouse_visibility(self):
-        if self.mouse_is_visible:
-            pygame.mouse.set_visible(True)
+# -------------------------------------------------
+# Clase abstracta ElementoGUI
+
+class ElementoGUI:
+    def __init__(self, pantalla, rectangulo):
+        self.pantalla = pantalla
+        self.rect = rectangulo
+
+    def establecerPosicion(self, posicion):
+        (posicionx, posiciony) = posicion
+        self.rect.left = posicionx
+        self.rect.bottom = posiciony
+
+    def posicionEnElemento(self, posicion):
+        (posicionx, posiciony) = posicion
+        if (posicionx>=self.rect.left) and (posicionx<=self.rect.right) and (posiciony>=self.rect.top) and (posiciony<=self.rect.bottom):
+            return True
         else:
-            pygame.mouse.set_visible(False)
+            return False
 
- #CAMBIA EL COLOR DE LA OPCION AL SELECIONARLA CON EL TECLADO
+    def dibujar(self):
+        raise NotImplemented("Tiene que implementar el metodo dibujar.")
+    def accion(self):
+        raise NotImplemented("Tiene que implementar el metodo accion.")
+
+    def set_mouse_selection(self, item, mpos):  
+        if item.is_mouse_selection(mpos):
+            item.set_font_color(RED)
+        else:
+            item.set_font_color(WHITE)
+
+    def is_mouse_selection(self, (posx, posy)):
+        if (posx >= self.rect.left and posx <= self.rect.left + self.rect.width) and \
+            (posy <= self.rect.bottom and posy >= self.rect.bottom - self.rect.height):
+                return True
+        return False
+
     def set_keyboard_selection(self, key):
         for item in self.items:
             item.set_font_color(WHITE)
@@ -59,35 +74,113 @@ class Menu(object):
             text = self.items[self.cur_item].value
             self.action = text
 
-#CAMBIA EL COLOR DE LA OPCION AL PASAR POR ENCIMA CON EL RATON
-    def set_mouse_selection(self, item, mpos):  
-        if item.is_mouse_selection(mpos):
-            item.set_font_color(RED)
-        else:
-            item.set_font_color(WHITE)
 
-    def draw(self):
-        mpos = pygame.mouse.get_pos()   # captura posicion del raton
-        self.screen.blit(self.title.render,(10,20))
-        for item in self.items:
-            if self.mouse_is_visible:
-                self.set_mouse_selection(item, mpos)
-            self.screen.blit(item.label, item.position)
+# -------------------------------------------------
+# Clase Boton y los distintos botones
 
-    # controlar eventos
-    def check_events(self):
+class Boton(ElementoGUI):
+    def __init__(self, pantalla, nombreImagen, posicion):
+        # Se carga la imagen del boton
+        self.imagen = GestorRecursos.CargarImagen(nombreImagen,-1)
+        self.imagen = pygame.transform.scale(self.imagen, (20, 20))
+        # Se llama al método de la clase padre con el rectángulo que ocupa el botón
+        ElementoGUI.__init__(self, pantalla, self.imagen.get_rect())
+        # Se coloca el rectangulo en su posicion
+        self.establecerPosicion(posicion)
+
+    def dibujar(self, pantalla):
+        pantalla.blit(self.imagen, self.rect)
+
+    
+
+class BotonJugar(Boton):
+    def __init__(self, pantalla):
+        Boton.__init__(self, pantalla, 'boton_verde.png', (580,530))
+    def accion(self):
+        self.pantalla.menu.ejecutarJuego()
+
+class BotonSalir(Boton):
+    def __init__(self, pantalla):
+        Boton.__init__(self, pantalla, 'boton_rojo.png', (580,560))
+    def accion(self):
+        self.pantalla.menu.salirPrograma()
+
+
+# -------------------------------------------------
+# Clase TextoGUI y los distintos textos
+
+class TextoGUI(ElementoGUI):
+    def __init__(self, pantalla, fuente, color, texto, posicion):
+        self.texto = texto
+        self.fuente = fuente
+        # Se crea la imagen del texto
+        self.imagen_texto = fuente.render(texto, True, color)
+        # Se llama al método de la clase padre con el rectángulo que ocupa el texto
+        ElementoGUI.__init__(self, pantalla, self.imagen_texto.get_rect())
+        # Se coloca el rectangulo en su posicion
+        self.establecerPosicion(posicion)
+
+    def dibujar(self, pantalla):
+        pantalla.blit(self.imagen_texto, self.rect)
+
+    def set_font_color(self, color):
+        self.imagen_texto = self.fuente.render(self.texto, True, color)
+        #self.label = self.text.render
+
+
+class CampoTexto(TextoGUI):
+    def __init__(self, pantalla,texto,fuente,color,tamano,x,y,accion):
+        # La fuente la debería cargar el estor de recursos
+        fuente = pygame.font.Font(os.path.join(FONT_DIR, fuente + ".TTF"), tamano)
+        self.accion = accion
+        TextoGUI.__init__(self, pantalla, fuente, color, texto, (x, y))
+
+    def accion(self):
+        self.accion()
+
+class TextoSalir(TextoGUI):
+    def __init__(self, pantalla):
+        # La fuente la debería cargar el estor de recursos
+        fuente = pygame.font.SysFont('arial', 26);
+        TextoGUI.__init__(self, pantalla, fuente, (0, 0, 0), 'Salir', (610, 565))
+    def accion(self):
+        self.pantalla.menu.salirPrograma()
+
+# -------------------------------------------------
+# Clase PantallaGUI y las distintas pantallas
+
+class PantallaGUI:
+    def __init__(self, menu, nombreImagen,titulo):
+        self.menu = menu
+        self.title = titulo
+        # Se carga la imagen de fondo
+        self.imagen = GestorRecursos.CargarImagen(nombreImagen)
+        self.imagen = pygame.transform.scale(self.imagen, (ANCHO_PANTALLA, ALTO_PANTALLA))
+        # Se tiene una lista de elementos GUI
+        self.elementosGUI = []
+        # Se tiene una lista de animaciones
+        self.animaciones = []
+
+        self.mouse_is_visible = True
+
+    def eventos(self, lista_eventos):
         mpos = pygame.mouse.get_pos()   # captura posicion del raton
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+        for evento in lista_eventos:
+            if evento.type == QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.KEYDOWN:
+            if evento.type == KEYDOWN:
                 self.mouse_is_visible = False
-                self.set_keyboard_selection(event.key)
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                for item in self.items:
-                    if item.is_mouse_selection(mpos):
-                        self.action= item.value
+                self.set_keyboard_selection(evento.key)
+            if evento.type == MOUSEBUTTONDOWN:
+                for elemento in self.elementosGUI:
+                    if elemento.posicionEnElemento(evento.pos):
+                        self.elementoClic = elemento
+            if evento.type == MOUSEBUTTONUP:
+                for elemento in self.elementosGUI:
+                    if elemento.posicionEnElemento(evento.pos):
+                        if (elemento == self.elementoClic):
+                            elemento.accion()
 
         if pygame.mouse.get_rel() != (0, 0):
             self.mouse_is_visible = True
@@ -95,99 +188,197 @@ class Menu(object):
 
         self.set_mouse_visibility()
 
-    # METODO SOBRECARGADO
-    def handle_selection(self):
-        pass
+    def set_mouse_visibility(self):
+        if self.mouse_is_visible:
+            pygame.mouse.set_visible(True)
+        else:
+            pygame.mouse.set_visible(False)
 
-class MenuItem(Menu):
-    def __init__(self, text, font=None, font_size=30,
-                 font_color=WHITE, (pos_x, pos_y)=(0, 0)):
-        self.value = text   
-        self.text = Text(self.value,font_size,font,font_color)
-        self.label = self.text.render
-        self.width = self.label.get_rect().width
-        self.height = self.label.get_rect().height
-        self.pos_x = pos_x
-        self.pos_y = pos_y
-        self.position = pos_x, pos_y
+    def dibujar(self, pantalla):
+        # Dibujamos primero la imagen de fondo
+        pantalla.blit(self.imagen, self.imagen.get_rect())
 
-# DETERMINA SI EL ITEM EL SELECCIONADO POR EL RATON
+        mpos = pygame.mouse.get_pos()   # captura posicion del raton
+        pantalla.blit(self.title.render,(10,20)) #TITLE
+        for item in self.elementosGUI:
+            if self.mouse_is_visible:
+                self.set_mouse_selection(item, mpos)
+            pantalla.blit(item.imagen_texto, item.rect)
+
+        # Después las animaciones
+        for animacion in self.animaciones:
+            animacion.dibujar(pantalla)
+        # Después los botones
+        for elemento in self.elementosGUI:
+            elemento.dibujar(pantalla)
+
+    def set_mouse_selection(self, item, mpos):  
+        if item.is_mouse_selection(mpos):
+            item.set_font_color(RED)
+        else:
+            item.set_font_color(WHITE)
+
     def is_mouse_selection(self, (posx, posy)):
-        if (posx >= self.pos_x and posx <= self.pos_x + self.width) and \
-            (posy >= self.pos_y and posy <= self.pos_y + self.height):
+        if (posx >= self.rect.left and posx <= self.rect.left + self.width) and \
+            (posy >= self.rect.bottom and posy <= self.rect.bottom + self.height):
                 return True
         return False
+
+    def set_keyboard_selection(self, key):
+        for item in self.elementosGUI:
+            item.set_font_color(WHITE)
  
-    def set_position(self, x, y):
-        self.position = (x, y)
-        self.pos_x = x
-        self.pos_y = y
+        if self.cur_item is None:
+            self.cur_item = 0
+        else:
+            if key == pygame.K_UP and \
+                    self.cur_item > 0:
+                self.cur_item -= 1
+            elif key == pygame.K_UP and \
+                    self.cur_item == 0:
+                self.cur_item = len(self.items) - 1
+            elif key == pygame.K_DOWN and \
+                    self.cur_item < len(self.items) - 1:
+                self.cur_item += 1
+            elif key == pygame.K_DOWN and \
+                    self.cur_item == len(self.items) - 1:
+                self.cur_item = 0
  
-    def set_font_color(self, color):
-        self.text.set_color(color)
-        self.label = self.text.render
+        self.items[self.cur_item].set_font_color(RED)
 
-class MainMenu(Menu):
-    def __init__(self,screen,title,items):
-        Menu.__init__(self,screen,title,items)
-        self.active = True
-        self.background = GestorRecursos.CargarImagen("Intro.jpg", -1)
+        if key == pygame.K_SPACE or key == pygame.K_RETURN:
+            text = self.items[self.cur_item].value
+            self.action = text
 
-    def run(self):
-        while self.active==True:
-            self.screen.blit(self.background, (0,0)) 
-            self.check_events()
-            self.handle_selection()
-            self.draw()
-            pygame.display.flip()
-            
-    def handle_selection(self):
-        if self.action == MENU_OPTIONS[0]:
-            self.action = None
-            NoMenu = MenuDificultad(self.screen,"Dificultad",MENU_DIFFICULTY)
-            NoMenu.run()
-        if self.action == MENU_OPTIONS[1]:
-            # Creamos la fase
-            fase = Fase()
-            # Se dibuja en pantalla
-            fase.dibujar(screen)
-            pygame.display.flip()
-        '''if self.action == MENU_OPTIONS[2]:
-            #print(3)'''
-        if self.action == MENU_OPTIONS[3]:
-            pygame.quit()
-            sys.exit()
+    
 
+class PantallaInicialGUI(PantallaGUI):
+    def __init__(self, menu):
+        PantallaGUI.__init__(self, menu, 'Intro.jpg', Text(TITLE,60,FONT_MENU))
+        # Creamos los botones y los metemos en la lista
+        #botonJugar = BotonJugar(self)
+        #botonSalir = BotonSalir(self)
+        #self.elementosGUI.append(botonJugar)
+        #self.elementosGUI.append(botonSalir)
+        # Creamos el texto y lo metemos en la lista
 
-class MenuDificultad(Menu):
-    def __init__(self,screen,title,items):
-        Menu.__init__(self,screen,title,items)
-        self.active = True
-        self.background = GestorRecursos.CargarImagen("Intro.jpg", -1)
+        self.campos_texto()
+        
 
-    def run(self):
-        while self.active==True:
-            self.screen.blit(self.background, (0,0)) 
-            self.check_events()
-            self.handle_selection()
-            self.draw()
-            pygame.display.flip()
+        # La animacion del fuego
+        animacionFuego = AnimacionFuego()
+        # Aumentamos un poco el tamaño de la animacion
+        animacionFuego.scale((200,200))
+        # La situamos en su posicion
+        animacionFuego.posicionx = 70
+        animacionFuego.posiciony = 100
+        # Iniciamos la animacion
+        animacionFuego.play()
+        # Y la introducimos en la lista
+        self.animaciones.append(animacionFuego)
 
-    def handle_selection(self):
-        '''if self.action == MENU_DIFFICULTY[0]:
-            #print(1)
-        if self.action == MENU_DIFFICULTY[1]:
-            #print(2)
-        if self.action == MENU_DIFFICULTY[2]:
-            #print(3)'''
-        if self.action == MENU_DIFFICULTY[3]:
-           self.active = False
+        # La animacion del humo
+        animacionHumo = AnimacionHumo()
+        # La situamos en su posicion
+        animacionHumo.posicionx = 695
+        animacionHumo.posiciony = 420
+        # Iniciamos la animacion
+        animacionHumo.play()
+        # Y la introducimos en la lista
+        self.animaciones.append(animacionHumo)
 
-pygame.init()
-# Open a window on the screen
-screen_width=795
-screen_height= 525
-screen = pygame.display.set_mode([screen_width,screen_height], 0, 32) #CARATERISTICAS DE LA VENTANA
-pygame.display.set_caption('Game Menu')
-gm = MainMenu(screen,TITLE,MENU_OPTIONS)
-gm.run()
+        # La animacion del rayo
+        animacionRayo = AnimacionRayo()
+        # Rotamos un poco la animacion
+        animacionRayo.rotate(30)
+        # La situamos en su posicion
+        animacionRayo.posicionx = 512
+        animacionRayo.posiciony = 130
+        # Iniciamos la animacion
+        animacionRayo.play()
+        # Y la introducimos en la lista
+        self.animaciones.append(animacionRayo)
+
+    def campos_texto(self):
+        textoJugar = CampoTexto(self,'Empezar aventura',FONT_MENU,WHITE,30,20,200,self.menu.mostrarPantallaDificultad)
+        textoCargar = CampoTexto(self,'Cargar aventura',FONT_MENU,WHITE,30,20,300,self.menu.noHaceNada)
+        textoOpciones = CampoTexto(self,'Opciones',FONT_MENU,WHITE,30,20,400,self.menu.noHaceNada)
+        textoSalir = CampoTexto(self,'Salir del juego',FONT_MENU,WHITE,30,20,500,self.menu.salirPrograma)
+
+        self.elementosGUI.append(textoJugar)
+        self.elementosGUI.append(textoCargar)
+        self.elementosGUI.append(textoOpciones)
+        self.elementosGUI.append(textoSalir)
+
+#Si se necesitan más menús se copia esta clase, se modifican los campos de texto
+#  y se añade la pantalla y el método para llamarla abajo en la clase Menu
+class PantallaDificultadGUI(PantallaInicialGUI):
+    def __init__(self, menu):
+        PantallaInicialGUI.__init__(self,menu)
+
+    def campos_texto(self):
+        #CampoTexto(self,texto,nombre_fuente,tamaño_fuente,x,y,accion_a_realizar_al_pulsar)
+        textoAprendiz = CampoTexto(self,'Aprendiz enano',FONT_MENU,WHITE,30,20,200,self.menu.ejecutarJuego)
+        textoEnano = CampoTexto(self,'Enano',FONT_MENU,WHITE,30,20,300,self.menu.noHaceNada)
+        textoGuerrero = CampoTexto(self,'Guerrero enano',FONT_MENU,WHITE,30,20,400,self.menu.noHaceNada)
+        textoAtras = CampoTexto(self,'Menu Principal',FONT_MENU,WHITE,30,20,500,self.menu.mostrarPantallaInicial)
+
+        self.elementosGUI.append(textoAprendiz)
+        self.elementosGUI.append(textoEnano)
+        self.elementosGUI.append(textoGuerrero)
+        self.elementosGUI.append(textoAtras)
+# -------------------------------------------------
+# Clase Menu, la escena en sí
+
+class Menu(Escena):
+
+    def __init__(self, director):
+        # Llamamos al constructor de la clase padre
+        Escena.__init__(self, director);
+        # Creamos la lista de pantallas
+        self.listaPantallas = []
+        # Creamos las pantallas que vamos a tener
+        #   y las metemos en la lista
+        self.listaPantallas.append(PantallaInicialGUI(self))
+        self.listaPantallas.append(PantallaDificultadGUI(self))
+        # En que pantalla estamos actualmente
+        self.mostrarPantallaInicial()
+
+    def update(self, *args):
+        return
+
+    def eventos(self, lista_eventos):
+        # Se mira si se quiere salir de esta escena
+        for evento in lista_eventos:
+            # Si se quiere salir, se le indica al director
+            if evento.type == KEYDOWN:
+                if evento.key == K_ESCAPE:
+                    self.salirPrograma()
+            elif evento.type == pygame.QUIT:
+                self.director.salirPrograma()
+
+        # Se pasa la lista de eventos a la pantalla actual
+        self.listaPantallas[self.pantallaActual].eventos(lista_eventos)
+
+    def dibujar(self, pantalla):
+        self.listaPantallas[self.pantallaActual].dibujar(pantalla)
+
+    #--------------------------------------
+    # Metodos propios del menu
+
+    def salirPrograma(self):
+        self.director.salirPrograma()
+
+    def ejecutarJuego(self):
+        fase = Fase(self.director)
+        self.director.apilarEscena(fase)
+
+    def mostrarPantallaInicial(self):
+        self.pantallaActual = 0
+
+    def mostrarPantallaDificultad(self):
+        self.pantallaActual = 1
+
+    def noHaceNada(self):
+        #Solo está para evitar crash mientras no tenemos las opciones
+        pass
