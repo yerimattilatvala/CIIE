@@ -298,17 +298,16 @@ class Sniper(NoJugador):
 
     # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
     # La implementacion de la inteligencia segun este personaje particular
-    def mover_cpu(self, jugador1, jugador2):
+    def mover_cpu(self, jugador1):
 
         # Movemos solo a los enemigos que esten en la pantalla
         if self.rect.left>0 and self.rect.right<ANCHO_PANTALLA and self.rect.bottom>0 and self.rect.top<ALTO_PANTALLA:
 
             # Por ejemplo, intentara acercarse al jugador mas cercano en el eje x
             # Miramos cual es el jugador mas cercano
-            if abs(jugador1.posicion[0]-self.posicion[0])<abs(jugador2.posicion[0]-self.posicion[0]):
-                jugadorMasCercano = jugador1
-            else:
-                jugadorMasCercano = jugador2
+
+            jugadorMasCercano = jugador1
+
             # Y nos movemos andando hacia el
             if jugadorMasCercano.posicion[0]<self.posicion[0]:
                 Personaje.mover(self,IZQUIERDA)
