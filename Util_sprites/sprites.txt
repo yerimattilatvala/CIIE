@@ -1,0 +1,10 @@
+.sprite {
+	background: url('imgs/DnDToD_Dwarf.png') no-repeat -287px -893px;
+	width: 63px;
+	height: 67px;
+}
+.sprite {
+	background: url('imgs/DnDToD_Dwarf.png') no-repeat -211px -1024px;
+	width: 71px;
+	height: 64px;
+}
