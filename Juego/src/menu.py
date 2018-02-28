@@ -153,6 +153,7 @@ class PantallaGUI:
     def __init__(self, menu, nombreImagen,titulo):
         self.menu = menu
         self.title = titulo
+        self.cur_item = None
         # Se carga la imagen de fondo
         self.imagen = GestorRecursos.CargarImagen(nombreImagen)
         self.imagen = pygame.transform.scale(self.imagen, (ANCHO_PANTALLA, ALTO_PANTALLA))
@@ -231,23 +232,23 @@ class PantallaGUI:
         if self.cur_item is None:
             self.cur_item = 0
         else:
-            if key == pygame.K_UP and \
+            if key == K_UP and \
                     self.cur_item > 0:
                 self.cur_item -= 1
-            elif key == pygame.K_UP and \
+            elif key == K_UP and \
                     self.cur_item == 0:
-                self.cur_item = len(self.items) - 1
-            elif key == pygame.K_DOWN and \
-                    self.cur_item < len(self.items) - 1:
+                self.cur_item = len(self.elementosGUI) - 1
+            elif key == K_DOWN and \
+                    self.cur_item < len(self.elementosGUI) - 1:
                 self.cur_item += 1
-            elif key == pygame.K_DOWN and \
-                    self.cur_item == len(self.items) - 1:
+            elif key == K_DOWN and \
+                    self.cur_item == len(self.elementosGUI) - 1:
                 self.cur_item = 0
  
-        self.items[self.cur_item].set_font_color(RED)
+        self.elementosGUI[self.cur_item].set_font_color(RED)
 
-        if key == pygame.K_SPACE or key == pygame.K_RETURN:
-            text = self.items[self.cur_item].value
+        if key == K_SPACE or key == K_RETURN:
+            text = self.elementosGUI[self.cur_item].accion()
             self.action = text
 
     

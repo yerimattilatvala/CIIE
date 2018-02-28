@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import pygame,os
 from pygame.locals import * 
-from globals import *
+from values import *
 
 
 class Text():
