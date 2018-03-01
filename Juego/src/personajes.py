@@ -17,11 +17,17 @@ IZQUIERDA = 1
 DERECHA = 2
 ARRIBA = 3
 ABAJO = 4
+ATACAR = 5
 
 #Posturas
 SPRITE_QUIETO = 0
 SPRITE_ANDANDO = 1
 SPRITE_SALTANDO = 2
+SPRITE_ATACANDO = 3
+SPRITE_ATACANDO_EN_SALTO = 4
+
+#Tiempos que duran las animaciones
+DURACION_ATACAR = 10
 
 # Velocidades de los distintos personajes
 VELOCIDAD_JUGADOR = 0.2 # Pixeles por milisegundo
@@ -50,6 +56,8 @@ class MiSprite(pygame.sprite.Sprite):
     "Los Sprites que tendra este juego"
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
+        self.retardoAccion = 0
+        self.atacando = False
         self.posicion = (0, 0)
         self.velocidad = (0, 0)
         self.scroll   = (0, 0)
@@ -111,7 +119,7 @@ class Personaje(MiSprite):
         self.numImagenPostura = 0;
         cont = 0;
         self.coordenadasHoja = [];
-        for linea in range(0, 3):
+        for linea in range(0, 5):
             self.coordenadasHoja.append([])
             tmp = self.coordenadasHoja[linea]
             for postura in range(1, numImagenes[linea]+1):
@@ -158,7 +166,7 @@ class Personaje(MiSprite):
             # Si ha pasado, actualizamos la postura
             self.numImagenPostura += 1
             if self.numImagenPostura >= len(self.coordenadasHoja[self.numPostura]):
-                self.numImagenPostura = 0;
+                self.numImagenPostura = 0
             if self.numImagenPostura < 0:
                 self.numImagenPostura = len(self.coordenadasHoja[self.numPostura])-1
             self.image = self.hoja.subsurface(self.coordenadasHoja[self.numPostura][self.numImagenPostura])
@@ -173,6 +181,8 @@ class Personaje(MiSprite):
 
     def update(self, grupoPlataformas, tiempo):
 
+        #Inicializamos la postura nueva
+        posturaNueva = self.numPostura 
         # Las velocidades a las que iba hasta este momento
         (velocidadx, velocidady) = self.velocidad
 
@@ -190,30 +200,77 @@ class Personaje(MiSprite):
 
             # Si no estamos en el aire
             if self.numPostura != SPRITE_SALTANDO:
-                # La postura actual sera estar caminando
-                self.numPostura = SPRITE_ANDANDO
+                #if self.atacando:
+                #    self.numPostura = SPRITE_ATACANDO
+                 #   self.retardoAccion = DURACION_ATACAR
+                #else:
+                    # La postura actual sera estar caminando
+                posturaNueva = SPRITE_ANDANDO
                 # Ademas, si no estamos encima de ninguna plataforma, caeremos
                 if pygame.sprite.spritecollideany(self, grupoPlataformas) == None:
-                    self.numPostura = SPRITE_SALTANDO
+                    posturaNueva = SPRITE_SALTANDO
+
+
+    
 
         # Si queremos saltar
         elif self.movimiento == ARRIBA:
             # La postura actual sera estar saltando
-            self.numPostura = SPRITE_SALTANDO
+            posturaNueva = SPRITE_SALTANDO
             # Le imprimimos una velocidad en el eje y
             velocidady = -self.velocidadSalto
+            #Cancelamos el ataque
+            self.atacando = False
+            self.retardoAccion = 0
 
         # Si no se ha pulsado ninguna tecla
         elif self.movimiento == QUIETO:
             # Si no estamos saltando, la postura actual será estar quieto
             if not self.numPostura == SPRITE_SALTANDO:
-                self.numPostura = SPRITE_QUIETO
+                posturaNueva = SPRITE_QUIETO
             velocidadx = 0
+        
+        
+        if self.movimiento != ATACAR: 
+            if self.retardoAccion <= 0:
+                self.atacando = False
 
+        #Para atacar en otras posiciones
+        if self.atacando:
+            if self.retardoAccion <= 0:
+                #print(self.retardoAccion)
+                posturaNueva = SPRITE_ATACANDO
+                self.retardoAccion = DURACION_ATACAR*3.5
+            else:
+                posturaNueva = SPRITE_ATACANDO 
 
+        #Para salir del modo ataque si estamos haciendo cualquier cosa
+        if self.retardoAccion > 0:
+            self.retardoAccion -= 1
+            #print(self.retardoAccion)
+        else:
+            self.atacando = False
 
         # Además, si estamos en el aire
-        if self.numPostura == SPRITE_SALTANDO:
+        if self.numPostura == SPRITE_SALTANDO or self.numPostura == SPRITE_ATACANDO_EN_SALTO:
+
+            #Para atacar en otras posiciones
+            if self.atacando:
+                if self.retardoAccion <= 0:
+                    #print(self.retardoAccion)
+                    posturaNueva = SPRITE_ATACANDO_EN_SALTO
+                    self.retardoAccion = DURACION_ATACAR*2.5
+                else:
+                    posturaNueva = SPRITE_ATACANDO_EN_SALTO
+            elif self.numPostura == SPRITE_ATACANDO_EN_SALTO:
+                posturaNueva = SPRITE_SALTANDO
+
+            #Para salir del modo ataque si estamos haciendo cualquier cosa
+            if self.retardoAccion > 0:
+                self.retardoAccion -= 1
+                #print(self.retardoAccion)
+            else:
+                self.atacando = False
 
             # Miramos a ver si hay que parar de caer: si hemos llegado a una plataforma
             #  Para ello, miramos si hay colision con alguna plataforma del grupo
@@ -226,13 +283,16 @@ class Personaje(MiSprite):
                 #  para poder detectar cuando se cae de ella
                 self.establecerPosicion((self.posicion[0], plataforma.posicion[1]-plataforma.rect.height+1))
                 # Lo ponemos como quieto
-                self.numPostura = SPRITE_QUIETO
+                posturaNueva = SPRITE_QUIETO
                 # Y estará quieto en el eje y
                 velocidady = 0
 
             # Si no caemos en una plataforma, aplicamos el efecto de la gravedad
             else:
                 velocidady += GRAVEDAD * tiempo
+
+        # Asignamos la postura auxiliar
+        self.numPostura = posturaNueva
 
         # Actualizamos la imagen a mostrar
         self.actualizarPostura()
@@ -255,10 +315,12 @@ class Jugador(Personaje):
     "Cualquier personaje del juego"
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        Personaje.__init__(self,'Enano.png','coordEnano.txt', [4, 11, 1], VELOCIDAD_JUGADOR, VELOCIDAD_SALTO_JUGADOR, RETARDO_ANIMACION_JUGADOR);
+        self.vida = 100
+        self.inmuneFrames = 0
+        Personaje.__init__(self,'Enano.png','coordEnano.txt', [4, 11, 1, 7, 3], VELOCIDAD_JUGADOR, VELOCIDAD_SALTO_JUGADOR, RETARDO_ANIMACION_JUGADOR);
 
 
-    def mover(self, teclasPulsadas, arriba, abajo, izquierda, derecha):
+    def mover(self, teclasPulsadas, arriba, abajo, izquierda, derecha, atacar):
         # Indicamos la acción a realizar segun la tecla pulsada para el jugador
         if teclasPulsadas[arriba]:
             Personaje.mover(self,ARRIBA)
@@ -266,8 +328,23 @@ class Jugador(Personaje):
             Personaje.mover(self,IZQUIERDA)
         elif teclasPulsadas[derecha]:
             Personaje.mover(self,DERECHA)
+        elif teclasPulsadas[atacar]:
+            self.atacando = True
+            Personaje.mover(self,ATACAR)
         else:
             Personaje.mover(self,QUIETO)
+        if self.inmuneFrames > 0:
+            self.inmuneFrames -= 1
+
+    def restarVida(self,dano):
+        if self.inmuneFrames <= 0:
+            self.vida = self.vida - dano
+            print(self.vida)
+            if self.vida < 0:
+                return True
+            self.inmuneFrames = 20
+
+        #print(self.vida)
 
 
 # -------------------------------------------------
@@ -293,8 +370,9 @@ class NoJugador(Personaje):
 class Sniper(NoJugador):
     "El enemigo 'Sniper'"
     def __init__(self):
+        self.dano = 5
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        NoJugador.__init__(self,'Sniper.png','coordSniper.txt', [5, 10, 6], VELOCIDAD_SNIPER, VELOCIDAD_SALTO_SNIPER, RETARDO_ANIMACION_SNIPER);
+        NoJugador.__init__(self,'Sniper.png','coordSniper.txt', [5, 10, 6, 0, 0], VELOCIDAD_SNIPER, VELOCIDAD_SALTO_SNIPER, RETARDO_ANIMACION_SNIPER);
 
     # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
     # La implementacion de la inteligencia segun este personaje particular

@@ -236,9 +236,15 @@ class Fase(Escena):
         # Comprobamos si hay colision entre algun jugador y algun enemigo
         # Se comprueba la colision entre ambos grupos
         # Si la hay, indicamos que se ha finalizado la fase
-        if pygame.sprite.groupcollide(self.grupoJugadores, self.grupoEnemigos, False, False)!={}:
+        collide = pygame.sprite.groupcollide(self.grupoEnemigos, self.grupoJugadores, False, False)
+        #collide contine los sprites del primer grupo con los que ha colisionado
+        if collide!={}:
+            for sprite in collide:
+                salir = self.jugador1.restarVida(sprite.dano)
+                if salir:
+                    self.director.salirEscena()
             # Se le dice al director que salga de esta escena y ejecute la siguiente en la pila
-            self.director.salirEscena()
+            #self.director.salirEscena()
 
         # Actualizamos el scroll
         self.actualizarScroll(self.jugador1)
@@ -272,7 +278,7 @@ class Fase(Escena):
 
         # Indicamos la acción a realizar segun la tecla pulsada para cada jugador
         teclasPulsadas = pygame.key.get_pressed()
-        self.jugador1.mover(teclasPulsadas, K_UP, K_DOWN, K_LEFT, K_RIGHT)
+        self.jugador1.mover(teclasPulsadas, K_UP, K_DOWN, K_LEFT, K_RIGHT, K_SPACE)
 
 # -------------------------------------------------
 # Clase Plataforma
