@@ -29,6 +29,18 @@ SPRITE_ATACANDO_EN_SALTO = 4
 #Tiempos que duran las animaciones
 DURACION_ATACAR = 10
 
+#Dano personajes
+VIDA_JUGADOR = 1000
+VIDA_SNIPER = 100
+
+#Dano personajes
+DANO_JUGADOR = 40
+DANO_SNIPER = 15
+
+#Frames de invencibilidad despues de ser atacados
+INVULNERABLE_JUGADOR = 20
+INVULNERABLE_SNIPER = 10
+
 # Velocidades de los distintos personajes
 VELOCIDAD_JUGADOR = 0.2 # Pixeles por milisegundo
 VELOCIDAD_SALTO_JUGADOR = 0.3 # Pixeles por milisegundo
@@ -99,10 +111,16 @@ class Personaje(MiSprite):
     #  Numero de imagenes en cada postura
     #  Velocidad de caminar y de salto
     #  Retardo para mostrar la animacion del personaje
-    def __init__(self, archivoImagen, archivoCoordenadas, numImagenes, velocidadCarrera, velocidadSalto, retardoAnimacion):
+    def __init__(self, archivoImagen, archivoCoordenadas, numImagenes, velocidadCarrera, velocidadSalto, retardoAnimacion, vida, dano, iFrames):
 
         # Primero invocamos al constructor de la clase padre
         MiSprite.__init__(self);
+
+        #vida y dano
+        self.vida = vida
+        self.dano = dano
+        self.iFrames = iFrames
+        self.currentIFrames = 0
 
         # Se carga la hoja
         self.hoja = GestorRecursos.CargarImagen(archivoImagen,-1)
@@ -150,7 +168,7 @@ class Personaje(MiSprite):
     def mover(self, movimiento):
         if movimiento == ARRIBA:
             # Si estamos en el aire y el personaje quiere saltar, ignoramos este movimiento
-            if self.numPostura == SPRITE_SALTANDO:
+            if self.numPostura == SPRITE_SALTANDO or self.numPostura == SPRITE_ATACANDO_EN_SALTO:
                 self.movimiento = QUIETO
             else:
                 self.movimiento = ARRIBA
@@ -232,8 +250,9 @@ class Personaje(MiSprite):
         
         
         if self.movimiento != ATACAR: 
-            if self.retardoAccion <= 0:
+            #if self.retardoAccion <= 0:
                 self.atacando = False
+                self.retardoAccion = 0
 
         #Para atacar en otras posiciones
         if self.atacando:
@@ -291,6 +310,11 @@ class Personaje(MiSprite):
             else:
                 velocidady += GRAVEDAD * tiempo
 
+        if posturaNueva != SPRITE_ATACANDO_EN_SALTO:
+            if self.atacando:
+                velocidadx = 0
+
+
         # Asignamos la postura auxiliar
         self.numPostura = posturaNueva
 
@@ -315,10 +339,7 @@ class Jugador(Personaje):
     "Cualquier personaje del juego"
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        self.vida = 100
-        self.inmuneFrames = 0
-        Personaje.__init__(self,'Enano.png','coordEnano.txt', [4, 11, 1, 7, 3], VELOCIDAD_JUGADOR, VELOCIDAD_SALTO_JUGADOR, RETARDO_ANIMACION_JUGADOR);
-
+        Personaje.__init__(self,'Enano.png','coordEnano.txt', [4, 11, 1, 7, 3], VELOCIDAD_JUGADOR, VELOCIDAD_SALTO_JUGADOR, RETARDO_ANIMACION_JUGADOR,VIDA_JUGADOR,DANO_JUGADOR,INVULNERABLE_JUGADOR);
 
     def mover(self, teclasPulsadas, arriba, abajo, izquierda, derecha, atacar):
         # Indicamos la acción a realizar segun la tecla pulsada para el jugador
@@ -333,18 +354,25 @@ class Jugador(Personaje):
             Personaje.mover(self,ATACAR)
         else:
             Personaje.mover(self,QUIETO)
-        if self.inmuneFrames > 0:
-            self.inmuneFrames -= 1
+        if self.currentIFrames > 0:
+            self.currentIFrames -= 1
 
-    def restarVida(self,dano):
-        if self.inmuneFrames <= 0:
-            self.vida = self.vida - dano
-            print(self.vida)
-            if self.vida < 0:
-                return True
-            self.inmuneFrames = 20
+    def restarVida(self,enemigo):
+        if self.atacando:
+            #Hacemos dano al enemigo
+            if enemigo.currentIFrames <= 0:
+                enemigo.vida -= self.dano
+                print(enemigo.vida)
+                enemigo.currentIFrames = self.iFrames
+        else:
+            #Si no nos acaban de pegar restamos vida
+            if self.currentIFrames <= 0:
+                self.vida = self.vida - enemigo.dano
+                print(self.vida)
+                if self.vida <= 0:
+                    return True
+                self.currentIFrames = self.iFrames
 
-        #print(self.vida)
 
 
 # -------------------------------------------------
@@ -352,9 +380,9 @@ class Jugador(Personaje):
 
 class NoJugador(Personaje):
     "El resto de personajes no jugadores"
-    def __init__(self, archivoImagen, archivoCoordenadas, numImagenes, velocidad, velocidadSalto, retardoAnimacion):
+    def __init__(self, archivoImagen, archivoCoordenadas, numImagenes, velocidad, velocidadSalto, retardoAnimacion, vida, dano, iFrames):
         # Primero invocamos al constructor de la clase padre con los parametros pasados
-        Personaje.__init__(self, archivoImagen, archivoCoordenadas, numImagenes, velocidad, velocidadSalto, retardoAnimacion);
+        Personaje.__init__(self, archivoImagen, archivoCoordenadas, numImagenes, velocidad, velocidadSalto, retardoAnimacion, vida, dano, iFrames);
 
     # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
     # La implementacion por defecto, este metodo deberia de ser implementado en las clases inferiores
@@ -370,13 +398,15 @@ class NoJugador(Personaje):
 class Sniper(NoJugador):
     "El enemigo 'Sniper'"
     def __init__(self):
-        self.dano = 5
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        NoJugador.__init__(self,'Sniper.png','coordSniper.txt', [5, 10, 6, 0, 0], VELOCIDAD_SNIPER, VELOCIDAD_SALTO_SNIPER, RETARDO_ANIMACION_SNIPER);
+        NoJugador.__init__(self,'Sniper.png','coordSniper.txt', [5, 10, 6, 0, 0], VELOCIDAD_SNIPER, VELOCIDAD_SALTO_SNIPER, RETARDO_ANIMACION_SNIPER,VIDA_SNIPER,DANO_SNIPER,INVULNERABLE_SNIPER);
 
     # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
     # La implementacion de la inteligencia segun este personaje particular
     def mover_cpu(self, jugador1):
+        #Restamos iFrames
+        if self.currentIFrames > 0:
+            self.currentIFrames -= 1
 
         # Movemos solo a los enemigos que esten en la pantalla
         if self.rect.left>0 and self.rect.right<ANCHO_PANTALLA and self.rect.bottom>0 and self.rect.top<ALTO_PANTALLA:

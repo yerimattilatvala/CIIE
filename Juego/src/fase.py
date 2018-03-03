@@ -72,7 +72,7 @@ class Fase(Escena):
         #  En este caso, solo los personajes, pero podría haber más (proyectiles, etc.)
         self.grupoSpritesDinamicos = pygame.sprite.Group( self.jugador1, enemigo1 )
         # Creamos otro grupo con todos los Sprites
-        self.grupoSprites = pygame.sprite.Group( self.jugador1, enemigo1, plataformaSuelo, plataformaCasa )
+        self.grupoSprites = pygame.sprite.Group( self.grupoJugadores, self.grupoEnemigos, self.grupoPlataformas )
 
         # Creamos las animaciones de fuego,
         #  las que estan detras del decorado, y delante
@@ -240,9 +240,15 @@ class Fase(Escena):
         #collide contine los sprites del primer grupo con los que ha colisionado
         if collide!={}:
             for sprite in collide:
-                salir = self.jugador1.restarVida(sprite.dano)
+                salir = self.jugador1.restarVida(sprite)
                 if salir:
                     self.director.salirEscena()
+
+                #Miramos si hay que matar enemigos
+                self.grupoEnemigos = [enemy for enemy in self.grupoEnemigos if enemy.vida > 0]
+                #Como esta ahora mismo para que se deje de dibujar tenemos que sacarlo de aquí tambien
+                self.grupoSprites = pygame.sprite.Group( self.grupoJugadores, self.grupoEnemigos, self.grupoPlataformas )
+
             # Se le dice al director que salga de esta escena y ejecute la siguiente en la pila
             #self.director.salirEscena()
 
