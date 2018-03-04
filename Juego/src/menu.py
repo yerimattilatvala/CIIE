@@ -92,7 +92,7 @@ class Boton(ElementoGUI):
         pantalla.blit(self.imagen, self.rect)
 
     
-
+'''
 class BotonJugar(Boton):
     def __init__(self, pantalla):
         Boton.__init__(self, pantalla, 'boton_verde.png', (580,530))
@@ -104,7 +104,7 @@ class BotonSalir(Boton):
         Boton.__init__(self, pantalla, 'boton_rojo.png', (580,560))
     def accion(self):
         self.pantalla.menu.salirPrograma()
-
+'''
 
 # -------------------------------------------------
 # Clase TextoGUI y los distintos textos
@@ -269,7 +269,7 @@ class PantallaInicialGUI(PantallaGUI):
         # La animacion del fuego
         animacionFuego = AnimacionFuego()
         # Aumentamos un poco el tamaño de la animacion
-        animacionFuego.scale((200,200))
+        animacionFuego.scale((100,200))
         # La situamos en su posicion
         animacionFuego.posicionx = 70
         animacionFuego.posiciony = 100

@@ -2,7 +2,7 @@
 from os import path 
 
 DATA_PY = path.abspath(path.dirname(__file__))
-IMAGE_DIR = path.normpath(path.join(DATA_PY, '..', 'images/')) 
+IMAGE_DIR = path.normpath(path.join(DATA_PY, '..', 'imagenes/')) 
 FONT_DIR = path.normpath(path.join(DATA_PY, '..', 'fonts/'))
 MENU_OPTIONS = ["Empezar aventura", "Cargar aventura", "Opciones", "Salir del juego"]
 MENU_DIFFICULTY = ["Aprendiz enano","Enano","Guerrero enano","Menu Principal"]

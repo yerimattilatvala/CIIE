@@ -15,7 +15,7 @@ from animaciones import *
 VELOCIDAD_SOL = 0.1 # Pixeles por milisegundo
 
 # Los bordes de la pantalla para hacer scroll horizontal
-MINIMO_X_JUGADOR = 250
+MINIMO_X_JUGADOR = 80
 MAXIMO_X_JUGADOR = ANCHO_PANTALLA - MINIMO_X_JUGADOR
 
 # -------------------------------------------------
@@ -57,7 +57,7 @@ class Fase(Escena):
         # La plataforma que conforma todo el suelo
         plataformaSuelo = Plataforma(pygame.Rect(0, 550, 1200, 15))
         # La plataforma del techo del edificio
-        plataformaCasa = Plataforma(pygame.Rect(870, 417, 200, 10))
+        plataformaCasa = Plataforma(pygame.Rect(890, 417, 160, 10))
         # y el grupo con las mismas
         self.grupoPlataformas = pygame.sprite.Group( plataformaSuelo, plataformaCasa )
 
@@ -92,6 +92,7 @@ class Fase(Escena):
             # y la anadimos a la lista de animaciones detras
             self.animacionesDetras.append(animacionFuego)
 
+        '''
         self.animacionesDelante = []
         for i in range(11):
             # La animacion del fuego
@@ -106,6 +107,7 @@ class Fase(Escena):
             animacionFuego.nextFrame(i)
             # y la anadimos a la lista de animaciones delante
             self.animacionesDelante.append(animacionFuego)
+        '''
 
 
         
@@ -273,9 +275,10 @@ class Fase(Escena):
         # Luego los Sprites
         self.grupoSprites.draw(pantalla)
         # Y por ultimo, dibujamos las animaciones por encima del decorado
+        '''
         for animacion in self.animacionesDelante:
             animacion.dibujar(pantalla)
-
+        '''
 
     def eventos(self, lista_eventos):
         # Miramos a ver si hay algun evento de salir del programa
@@ -286,7 +289,7 @@ class Fase(Escena):
 
         # Indicamos la acción a realizar segun la tecla pulsada para cada jugador
         teclasPulsadas = pygame.key.get_pressed()
-        self.jugador1.mover(teclasPulsadas, K_UP, K_DOWN, K_LEFT, K_RIGHT, K_SPACE)
+        self.jugador1.mover(teclasPulsadas, K_w, K_s, K_a, K_d, K_SPACE)
 
 # -------------------------------------------------
 # Clase Plataforma

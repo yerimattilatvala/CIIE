@@ -1,19 +1,5 @@
-# Pyganim (pyganim.py, ver 1)
+# Pyganim (pyganim.py)
 # A sprite animation module for Pygame.
-#
-# By Al Sweigart al@inventwithpython.com
-# http://inventwithpython.com/pyganim
-# Released under a "Simplified BSD" license
-#
-# There's a tutorial (and sample code) on how to use this library at http://inventwithpython.com/pyganim
-# NOTE: This module requires Pygame to be installed to use. Download it from http://pygame.org
-#
-# This should be compatible with both Python 2 and Python 3. Please email any
-# bug reports to Al at al@inventwithpython.com
-#
-
-
-# TODO: Feature idea: if the same image file is specified, re-use the Surface object. (Make this optional though.)
 
 import pygame, time
 
