@@ -25,12 +25,15 @@ SPRITE_ANDANDO = 1
 SPRITE_SALTANDO = 2
 SPRITE_ATACANDO = 3
 SPRITE_ATACANDO_EN_SALTO = 4
+SPRITE_MUERTE = 5
 
 #Tiempos que duran las animaciones
+DURACION_MUERTE_SNIPER = 55
+DURACION_MUERTE_JUGADOR = 35
 DURACION_ATACAR = 10
 
 #Dano personajes
-VIDA_JUGADOR = 1000
+VIDA_JUGADOR = 100
 VIDA_SNIPER = 100
 
 #Dano personajes
@@ -111,7 +114,7 @@ class Personaje(MiSprite):
     #  Numero de imagenes en cada postura
     #  Velocidad de caminar y de salto
     #  Retardo para mostrar la animacion del personaje
-    def __init__(self, archivoImagen, archivoCoordenadas, numImagenes, velocidadCarrera, velocidadSalto, retardoAnimacion, vida, dano, iFrames):
+    def __init__(self, archivoImagen, archivoCoordenadas, numImagenes, velocidadCarrera, velocidadSalto, retardoAnimacion, vida, dano, iFrames, duracionMuerte):
 
         # Primero invocamos al constructor de la clase padre
         MiSprite.__init__(self);
@@ -121,6 +124,8 @@ class Personaje(MiSprite):
         self.dano = dano
         self.iFrames = iFrames
         self.currentIFrames = 0
+        self.duracionMuerte = duracionMuerte
+        self.muerto = False
 
         # Se carga la hoja
         self.hoja = GestorRecursos.CargarImagen(archivoImagen,-1)
@@ -137,7 +142,7 @@ class Personaje(MiSprite):
         self.numImagenPostura = 0;
         cont = 0;
         self.coordenadasHoja = [];
-        for linea in range(0, 5):
+        for linea in range(0, 6):
             self.coordenadasHoja.append([])
             tmp = self.coordenadasHoja[linea]
             for postura in range(1, numImagenes[linea]+1):
@@ -200,89 +205,77 @@ class Personaje(MiSprite):
     def update(self, grupoPlataformas, tiempo):
 
         #Inicializamos la postura nueva
-        posturaNueva = self.numPostura 
-        # Las velocidades a las que iba hasta este momento
-        (velocidadx, velocidady) = self.velocidad
+        posturaNueva = self.numPostura
 
-        # Si vamos a la izquierda o a la derecha        
-        if (self.movimiento == IZQUIERDA) or (self.movimiento == DERECHA):
-            # Esta mirando hacia ese lado
-            self.mirando = self.movimiento
-
-            # Si vamos a la izquierda, le ponemos velocidad en esa dirección
-            if self.movimiento == IZQUIERDA:
-                velocidadx = -self.velocidadCarrera
-            # Si vamos a la derecha, le ponemos velocidad en esa dirección
-            else:
-                velocidadx = self.velocidadCarrera
-
-            # Si no estamos en el aire
-            if self.numPostura != SPRITE_SALTANDO:
-                #if self.atacando:
-                #    self.numPostura = SPRITE_ATACANDO
-                 #   self.retardoAccion = DURACION_ATACAR
-                #else:
-                    # La postura actual sera estar caminando
-                posturaNueva = SPRITE_ANDANDO
-                # Ademas, si no estamos encima de ninguna plataforma, caeremos
-                if pygame.sprite.spritecollideany(self, grupoPlataformas) == None:
-                    posturaNueva = SPRITE_SALTANDO
-
-
-    
-
-        # Si queremos saltar
-        elif self.movimiento == ARRIBA:
-            # La postura actual sera estar saltando
-            posturaNueva = SPRITE_SALTANDO
-            # Le imprimimos una velocidad en el eje y
-            velocidady = -self.velocidadSalto
-            #Cancelamos el ataque
-            self.atacando = False
-            self.retardoAccion = 0
-
-        # Si no se ha pulsado ninguna tecla
-        elif self.movimiento == QUIETO:
-            # Si no estamos saltando, la postura actual será estar quieto
-            if not self.numPostura == SPRITE_SALTANDO:
-                posturaNueva = SPRITE_QUIETO
+        if posturaNueva == SPRITE_MUERTE:
+            if self.duracionMuerte == 0:
+                self.muerto = True
+            self.duracionMuerte -= 1
             velocidadx = 0
+            velocidady = 0
+        else:
+            # Las velocidades a las que iba hasta este momento
+            (velocidadx, velocidady) = self.velocidad
+
+            # Si vamos a la izquierda o a la derecha        
+            if (self.movimiento == IZQUIERDA) or (self.movimiento == DERECHA):
+                # Esta mirando hacia ese lado
+                self.mirando = self.movimiento
+
+                # Si vamos a la izquierda, le ponemos velocidad en esa dirección
+                if self.movimiento == IZQUIERDA:
+                    velocidadx = -self.velocidadCarrera
+                # Si vamos a la derecha, le ponemos velocidad en esa dirección
+                else:
+                    velocidadx = self.velocidadCarrera
+
+                # Si no estamos en el aire
+                if self.numPostura != SPRITE_SALTANDO:
+                    #if self.atacando:
+                    #    self.numPostura = SPRITE_ATACANDO
+                    #   self.retardoAccion = DURACION_ATACAR
+                    #else:
+                        # La postura actual sera estar caminando
+                    posturaNueva = SPRITE_ANDANDO
+                    # Ademas, si no estamos encima de ninguna plataforma, caeremos
+                    if pygame.sprite.spritecollideany(self, grupoPlataformas) == None:
+                        posturaNueva = SPRITE_SALTANDO
+
+
         
-        
-        if self.movimiento != ATACAR: 
-            #if self.retardoAccion <= 0:
+
+            # Si queremos saltar
+            elif self.movimiento == ARRIBA:
+                # La postura actual sera estar saltando
+                posturaNueva = SPRITE_SALTANDO
+                # Le imprimimos una velocidad en el eje y
+                velocidady = -self.velocidadSalto
+                #Cancelamos el ataque
                 self.atacando = False
                 self.retardoAccion = 0
 
-        #Para atacar en otras posiciones
-        if self.atacando:
-            if self.retardoAccion <= 0:
-                #print(self.retardoAccion)
-                posturaNueva = SPRITE_ATACANDO
-                self.retardoAccion = DURACION_ATACAR*3.5
-            else:
-                posturaNueva = SPRITE_ATACANDO 
-
-        #Para salir del modo ataque si estamos haciendo cualquier cosa
-        if self.retardoAccion > 0:
-            self.retardoAccion -= 1
-            #print(self.retardoAccion)
-        else:
-            self.atacando = False
-
-        # Además, si estamos en el aire
-        if self.numPostura == SPRITE_SALTANDO or self.numPostura == SPRITE_ATACANDO_EN_SALTO:
+            # Si no se ha pulsado ninguna tecla
+            elif self.movimiento == QUIETO:
+                # Si no estamos saltando, la postura actual será estar quieto
+                if not self.numPostura == SPRITE_SALTANDO:
+                    posturaNueva = SPRITE_QUIETO
+                velocidadx = 0
+            
+            
+            if self.movimiento != ATACAR: 
+                #if self.retardoAccion <= 0:
+                    self.atacando = False
+                    self.retardoAccion = 0
 
             #Para atacar en otras posiciones
             if self.atacando:
                 if self.retardoAccion <= 0:
                     #print(self.retardoAccion)
-                    posturaNueva = SPRITE_ATACANDO_EN_SALTO
-                    self.retardoAccion = DURACION_ATACAR*2.5
+                    print("hey")
+                    posturaNueva = SPRITE_ATACANDO
+                    self.retardoAccion = DURACION_ATACAR*3.5
                 else:
-                    posturaNueva = SPRITE_ATACANDO_EN_SALTO
-            elif self.numPostura == SPRITE_ATACANDO_EN_SALTO:
-                posturaNueva = SPRITE_SALTANDO
+                    posturaNueva = SPRITE_ATACANDO 
 
             #Para salir del modo ataque si estamos haciendo cualquier cosa
             if self.retardoAccion > 0:
@@ -291,28 +284,49 @@ class Personaje(MiSprite):
             else:
                 self.atacando = False
 
-            # Miramos a ver si hay que parar de caer: si hemos llegado a una plataforma
-            #  Para ello, miramos si hay colision con alguna plataforma del grupo
-            plataforma = pygame.sprite.spritecollideany(self, grupoPlataformas)
-            #  Ademas, esa colision solo nos interesa cuando estamos cayendo
-            #  y solo es efectiva cuando caemos encima, no de lado, es decir,
-            #  cuando nuestra posicion inferior esta por encima de la parte de abajo de la plataforma
-            if (plataforma != None) and (velocidady>0) and (plataforma.rect.bottom>self.rect.bottom):
-                # Lo situamos con la parte de abajo un pixel colisionando con la plataforma
-                #  para poder detectar cuando se cae de ella
-                self.establecerPosicion((self.posicion[0], plataforma.posicion[1]-plataforma.rect.height+1))
-                # Lo ponemos como quieto
-                posturaNueva = SPRITE_QUIETO
-                # Y estará quieto en el eje y
-                velocidady = 0
+            # Además, si estamos en el aire
+            if self.numPostura == SPRITE_SALTANDO or self.numPostura == SPRITE_ATACANDO_EN_SALTO:
 
-            # Si no caemos en una plataforma, aplicamos el efecto de la gravedad
-            else:
-                velocidady += GRAVEDAD * tiempo
+                #Para atacar en otras posiciones
+                if self.atacando:
+                    if self.retardoAccion <= 0:
+                        #print(self.retardoAccion)
+                        posturaNueva = SPRITE_ATACANDO_EN_SALTO
+                        self.retardoAccion = DURACION_ATACAR*2.5
+                    else:
+                        posturaNueva = SPRITE_ATACANDO_EN_SALTO
+                elif self.numPostura == SPRITE_ATACANDO_EN_SALTO:
+                    posturaNueva = SPRITE_SALTANDO
 
-        if posturaNueva != SPRITE_ATACANDO_EN_SALTO:
-            if self.atacando:
-                velocidadx = 0
+                #Para salir del modo ataque si estamos haciendo cualquier cosa
+                if self.retardoAccion > 0:
+                    self.retardoAccion -= 1
+                    #print(self.retardoAccion)
+                else:
+                    self.atacando = False
+
+                # Miramos a ver si hay que parar de caer: si hemos llegado a una plataforma
+                #  Para ello, miramos si hay colision con alguna plataforma del grupo
+                plataforma = pygame.sprite.spritecollideany(self, grupoPlataformas)
+                #  Ademas, esa colision solo nos interesa cuando estamos cayendo
+                #  y solo es efectiva cuando caemos encima, no de lado, es decir,
+                #  cuando nuestra posicion inferior esta por encima de la parte de abajo de la plataforma
+                if (plataforma != None) and (velocidady>0) and (plataforma.rect.bottom>self.rect.bottom):
+                    # Lo situamos con la parte de abajo un pixel colisionando con la plataforma
+                    #  para poder detectar cuando se cae de ella
+                    self.establecerPosicion((self.posicion[0], plataforma.posicion[1]-plataforma.rect.height+1))
+                    # Lo ponemos como quieto
+                    posturaNueva = SPRITE_QUIETO
+                    # Y estará quieto en el eje y
+                    velocidady = 0
+
+                # Si no caemos en una plataforma, aplicamos el efecto de la gravedad
+                else:
+                    velocidady += GRAVEDAD * tiempo
+
+            if posturaNueva != SPRITE_ATACANDO_EN_SALTO:
+                if self.atacando:
+                    velocidadx = 0
 
 
         # Asignamos la postura auxiliar
@@ -339,7 +353,7 @@ class Jugador(Personaje):
     "Cualquier personaje del juego"
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        Personaje.__init__(self,'Enano.png','coordEnano.txt', [4, 11, 1, 7, 3], VELOCIDAD_JUGADOR, VELOCIDAD_SALTO_JUGADOR, RETARDO_ANIMACION_JUGADOR,VIDA_JUGADOR,DANO_JUGADOR,INVULNERABLE_JUGADOR);
+        Personaje.__init__(self,'Enano.png','coordEnano.txt', [4, 11, 1, 7, 3, 7], VELOCIDAD_JUGADOR, VELOCIDAD_SALTO_JUGADOR, RETARDO_ANIMACION_JUGADOR,VIDA_JUGADOR,DANO_JUGADOR,INVULNERABLE_JUGADOR,DURACION_MUERTE_JUGADOR);
 
     def mover(self, teclasPulsadas, arriba, abajo, izquierda, derecha, atacar):
         # Indicamos la acción a realizar segun la tecla pulsada para el jugador
@@ -363,14 +377,16 @@ class Jugador(Personaje):
             if enemigo.currentIFrames <= 0:
                 enemigo.vida -= self.dano
                 print(enemigo.vida)
-                enemigo.currentIFrames = self.iFrames
+                if enemigo.vida <= 0:
+                    enemigo.numPostura = SPRITE_MUERTE
+                enemigo.currentIFrames = enemigo.iFrames
         else:
             #Si no nos acaban de pegar restamos vida
             if self.currentIFrames <= 0:
                 self.vida = self.vida - enemigo.dano
                 print(self.vida)
                 if self.vida <= 0:
-                    return True
+                    self.numPostura = SPRITE_MUERTE
                 self.currentIFrames = self.iFrames
 
 
@@ -380,9 +396,9 @@ class Jugador(Personaje):
 
 class NoJugador(Personaje):
     "El resto de personajes no jugadores"
-    def __init__(self, archivoImagen, archivoCoordenadas, numImagenes, velocidad, velocidadSalto, retardoAnimacion, vida, dano, iFrames):
+    def __init__(self, archivoImagen, archivoCoordenadas, numImagenes, velocidad, velocidadSalto, retardoAnimacion, vida, dano, iFrames, duracionMuerte):
         # Primero invocamos al constructor de la clase padre con los parametros pasados
-        Personaje.__init__(self, archivoImagen, archivoCoordenadas, numImagenes, velocidad, velocidadSalto, retardoAnimacion, vida, dano, iFrames);
+        Personaje.__init__(self, archivoImagen, archivoCoordenadas, numImagenes, velocidad, velocidadSalto, retardoAnimacion, vida, dano, iFrames, duracionMuerte);
 
     # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
     # La implementacion por defecto, este metodo deberia de ser implementado en las clases inferiores
@@ -399,7 +415,7 @@ class Sniper(NoJugador):
     "El enemigo 'Sniper'"
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        NoJugador.__init__(self,'Sniper.png','coordSniper.txt', [5, 10, 6, 0, 0], VELOCIDAD_SNIPER, VELOCIDAD_SALTO_SNIPER, RETARDO_ANIMACION_SNIPER,VIDA_SNIPER,DANO_SNIPER,INVULNERABLE_SNIPER);
+        NoJugador.__init__(self,'Sniper.png','coordSniper.txt', [5, 10, 6, 0, 0, 11], VELOCIDAD_SNIPER, VELOCIDAD_SALTO_SNIPER, RETARDO_ANIMACION_SNIPER,VIDA_SNIPER,DANO_SNIPER,INVULNERABLE_SNIPER,DURACION_MUERTE_SNIPER);
 
     # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
     # La implementacion de la inteligencia segun este personaje particular
