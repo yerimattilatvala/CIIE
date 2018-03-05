@@ -13,3 +13,13 @@ TITLE = "TITULO DEL JUEGO"
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 BLACK = (0, 0, 0)
+
+CERVEZA_0 = 'cerveza_0.png'
+CERVEZA_1 = 'cerveza_1.png'
+CERVEZA_2 = 'cerveza_2.png'
+CERVEZA_3 = 'cerveza_3.png'
+CERVEZA_4 = 'cerveza_4.png'
+CERVEZA_5 = 'cerveza_5.png'
+CERVEZA_6 = 'cerveza_6.png'
+CERVEZA_7 = 'cerveza_7.png'
+CERVEZA_8 = 'cerveza_8.png'

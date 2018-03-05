@@ -5,6 +5,7 @@ from escena import *
 from personajes import *
 from pygame.locals import *
 from animaciones import *
+from hud import *
 
 # -------------------------------------------------
 # -------------------------------------------------
@@ -52,6 +53,10 @@ class Fase(Escena):
 
         # Ponemos a los jugadores en sus posiciones iniciales
         self.jugador1.establecerPosicion((200, 551))
+
+        # Ponemos el hud
+        self.hud = Hud()
+        self.grupoHud = pygame.sprite.Group(self.hud)
 
         # Creamos las plataformas del decorado
         # La plataforma que conforma todo el suelo
@@ -244,6 +249,9 @@ class Fase(Escena):
             for sprite in collide:
                 self.jugador1.restarVida(sprite)
 
+        #Actualizamos el Hud
+        self.grupoHud.update(self.jugador1)
+
         #Si estamos muerto nos vamos a la pantalla principal
         if self.jugador1.muerto:
             self.director.salirEscena()
@@ -274,6 +282,8 @@ class Fase(Escena):
         self.decorado.dibujar(pantalla)
         # Luego los Sprites
         self.grupoSprites.draw(pantalla)
+        # El hud
+        self.grupoHud.draw(pantalla)
         # Y por ultimo, dibujamos las animaciones por encima del decorado
         '''
         for animacion in self.animacionesDelante:

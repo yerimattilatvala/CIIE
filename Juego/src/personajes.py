@@ -33,12 +33,12 @@ DURACION_MUERTE_JUGADOR = 35
 DURACION_ATACAR = 10
 
 #Dano personajes
-VIDA_JUGADOR = 100
+VIDA_JUGADOR = 8
 VIDA_SNIPER = 100
 
 #Dano personajes
 DANO_JUGADOR = 40
-DANO_SNIPER = 15
+DANO_SNIPER = 1
 
 #Frames de invencibilidad despues de ser atacados
 INVULNERABLE_JUGADOR = 20
