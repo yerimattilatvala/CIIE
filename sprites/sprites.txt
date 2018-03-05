@@ -1,0 +1,188 @@
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -1416px -18px;
+	width: 130px;
+	height: 61px;
+}
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -1269px -17px;
+	width: 130px;
+	height: 62px;
+}
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -1120px -17px;
+	width: 130px;
+	height: 62px;
+}
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -973px -17px;
+	width: 131px;
+	height: 62px;
+}
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -823px -17px;
+	width: 131px;
+	height: 62px;
+}
+
+
+
+
+
+
+
+
+
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -1417px -111px;
+	width: 132px;
+	height: 62px;
+}
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -1276px -110px;
+	width: 127px;
+	height: 63px;
+}
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -1142px -112px;
+	width: 119px;
+	height: 61px;
+}
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -1004px -111px;
+	width: 122px;
+	height: 62px;
+}
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -857px -111px;
+	width: 127px;
+	height: 62px;
+}
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -715px -112px;
+	width: 131px;
+	height: 61px;
+}
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -571px -113px;
+	width: 128px;
+	height: 60px;
+}
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -433px -110px;
+	width: 123px;
+	height: 63px;
+}
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -293px -110px;
+	width: 121px;
+	height: 63px;
+}
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -148px -112px;
+	width: 126px;
+	height: 61px;
+}
+
+
+
+
+
+
+
+
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -1430px -219px;
+	width: 120px;
+	height: 56px;
+}
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -1286px -221px;
+	width: 120px;
+	height: 54px;
+}
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -1145px -221px;
+	width: 120px;
+	height: 54px;
+}
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -999px -218px;
+	width: 124px;
+	height: 57px;
+}
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -824px -218px;
+	width: 160px;
+	height: 57px;
+}
+
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -676px -218px;
+	width: 124px;
+	height: 57px;
+}
+
+
+
+
+
+
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -1426px -355px;
+	width: 122px;
+	height: 51px;
+}
+
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -1282px -326px;
+	width: 118px;
+	height: 80px;
+}
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -873px -321px;
+	width: 154px;
+	height: 75px;
+}
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -720px -352px;
+	width: 130px;
+	height: 54px;
+}
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -562px -344px;
+	width: 129px;
+	height: 62px;
+}
+
+
+
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -1437px -576px;
+	width: 114px;
+	height: 51px;
+}
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -1300px -558px;
+	width: 110px;
+	height: 69px;
+}
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -1186px -550px;
+	width: 88px;
+	height: 79px;
+}
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -1032px -560px;
+	width: 127px;
+	height: 58px;
+}
+.sprite {
+	background: url('imgs/Owlbear.png') no-repeat -866px -587px;
+	width: 150px;
+	height: 36px;
+}
+
+
+
+
+
