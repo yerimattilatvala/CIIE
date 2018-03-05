@@ -1,7 +1,4 @@
 Pendiente:
 
--Conseguir repetición mapa. 
--Meter bosses aleatorios semilla
 -Guardar el juego y cargarlo desde ultimo punto // Encontrado: http://www.learnpygame.com/2015/08/game-saving-new-levels-and-pickles.html
 -Menu de opciones
--Poder atacar con raton y movimiento wasd
