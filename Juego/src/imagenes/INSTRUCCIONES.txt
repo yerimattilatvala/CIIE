@@ -1,0 +1,18 @@
+IMAGEN INICIAL MIRANDO A LA IZQUIERDA EL BICHO
+
+faseXFondo.png
+faseXBoss.png
+faseXEnemigo.png
+faseXObstaculo.png
+faseXEnemigo2.png
+faseXPremio.png
+Coleccionable.png
+Vida.png
+Enano.png
+
+FASE 1:ELFOS
+FASE 2:ORCOS
+FASE 3:GIGANTES
+FASE 4:NAGAS
+FASE 5:HUMANOS
+FASE 6:GATOS
