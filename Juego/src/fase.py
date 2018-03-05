@@ -60,22 +60,29 @@ class Fase(Escena):
 
         # Creamos las plataformas del decorado
         # La plataforma que conforma todo el suelo
-        plataformaSuelo = Plataforma(pygame.Rect(0, 550, 1200, 15))
+        plataformaSuelo = Plataforma(pygame.Rect(0, 550, 5000, 15))
         # La plataforma del techo del edificio
-        plataformaCasa = Plataforma(pygame.Rect(890, 417, 160, 10))
+        #plataformaCasa = Plataforma(pygame.Rect(890, 417, 160, 10))
+        plataformaCasa1 = Plataforma(pygame.Rect(0, 417, 300, 10))
+        plataformaCasa2 = Plataforma(pygame.Rect(3010, 417, 250, 10))
+        plataformaCasa3 = Plataforma(pygame.Rect(3400, 417, 200, 10))
+        
         # y el grupo con las mismas
-        self.grupoPlataformas = pygame.sprite.Group( plataformaSuelo, plataformaCasa )
+        self.grupoPlataformas = pygame.sprite.Group( plataformaSuelo, plataformaCasa1,plataformaCasa2,plataformaCasa3 )
 
         # Y los enemigos que tendran en este decorado
         enemigo1 = Sniper()
-        enemigo1.establecerPosicion((1000, 418))
-
+        enemigo1.establecerPosicion((1000, 551))
+        enemigo2 = Sniper()
+        enemigo2.establecerPosicion((2500, 551))
+        enemigo3 = Sniper()
+        enemigo3.establecerPosicion((3100, 418))
         # Creamos un grupo con los enemigos
-        self.grupoEnemigos = pygame.sprite.Group( enemigo1 )
+        self.grupoEnemigos = pygame.sprite.Group( enemigo1, enemigo2,enemigo3 )
 
         # Creamos un grupo con los Sprites que se mueven
         #  En este caso, solo los personajes, pero podría haber más (proyectiles, etc.)
-        self.grupoSpritesDinamicos = pygame.sprite.Group( self.jugador1, enemigo1 )
+        self.grupoSpritesDinamicos = pygame.sprite.Group( self.jugador1, enemigo1, enemigo2,enemigo3 )
         # Creamos otro grupo con todos los Sprites
         self.grupoSprites = pygame.sprite.Group( self.grupoJugadores, self.grupoEnemigos, self.grupoPlataformas )
 
@@ -314,7 +321,7 @@ class Plataforma(MiSprite):
         # Y lo situamos de forma global en esas coordenadas
         self.establecerPosicion((self.rect.left, self.rect.bottom))
         # En el caso particular de este juego, las plataformas no se van a ver, asi que no se carga ninguna imagen
-        self.image = pygame.Surface((0, 0))
+        self.image = pygame.Surface((0, 0),1)
 
 
 # -------------------------------------------------
@@ -353,8 +360,8 @@ class Cielo:
 
 class Decorado:
     def __init__(self):
-        self.imagen = GestorRecursos.CargarImagen('decorado.png', -1)
-        self.imagen = pygame.transform.scale(self.imagen, (1200, 300))
+        self.imagen = GestorRecursos.CargarImagen('decorado5.png', -1)
+        self.imagen = pygame.transform.scale(self.imagen, (5000, 300))
 
         self.rect = self.imagen.get_rect()
         self.rect.bottom = ALTO_PANTALLA
