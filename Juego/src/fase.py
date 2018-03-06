@@ -23,7 +23,7 @@ MAXIMO_X_JUGADOR = ANCHO_PANTALLA - MINIMO_X_JUGADOR
 # Clase Fase
 
 class Fase(Escena):
-    def __init__(self, director):
+    def __init__(self, director, img_decorado,scale_decorado,pos_jugador,num_enemigos,tipo_enemigo,pos_enemigos,plataformas):
 
         # Habria que pasarle como parámetro el número de fase, a partir del cual se cargue
         #  un fichero donde este la configuracion de esa fase en concreto, con cosas como
@@ -36,9 +36,51 @@ class Fase(Escena):
         # De esta forma, se podrian tener muchas fases distintas con esta clase
 
         # Primero invocamos al constructor de la clase padre
+        '''
+            img_decorado = 'image.png'
+            scale_decorado = (width,heigh)
+            pos_jugador = (x,y)
+            num_enemigos = 1,2,3....>0
+            tipo_enemigos = 'sniper'...'bestia'
+            pos_enemigos = [(x,y),(x,y),....]
+            plataformas = [Plataforma1,Plataforma2,.....]
+        '''
         Escena.__init__(self, director)
-
         # Creamos el decorado y el fondo
+        self.fondo = Cielo()
+        self.decorado = Decorado(img_decorado,scale_decorado)
+        # Que parte del decorado estamos visualizando
+        self.scrollx = 0
+        # Creamos los sprites de los jugadores
+        self.jugador1 = Jugador()
+        self.grupoJugadores = pygame.sprite.Group( self.jugador1 )
+        # Ponemos a los jugadores en sus posiciones iniciales
+        self.jugador1.establecerPosicion(pos_jugador)
+        # Ponemos el hud
+        #self.hud = Hud()
+        #self.grupoHud = pygame.sprite.Group(self.hud)
+
+        self.grupoPlataformas = pygame.sprite.Group()
+        for x in plataformas:
+            self.grupoPlataformas.add(x)
+
+        # Creamos un grupo con los Sprites que se mueven
+        #  En este caso, solo los personajes, pero podría haber más (proyectiles, etc.)
+        self.grupoSpritesDinamicos = pygame.sprite.Group( self.jugador1)
+        enemigos = self.crearEnemigos(num_enemigos,tipo_enemigo)
+        if not (enemigos is None):
+            self.grupoEnemigos = pygame.sprite.Group()
+            for i, val in enumerate(enemigos):
+                val.establecerPosicion(pos_enemigos[i])
+                self.grupoEnemigos.add(val)
+                self.grupoSpritesDinamicos.add(val)
+            # Creamos otro grupo con todos los Sprites
+            self.grupoSprites = pygame.sprite.Group( self.grupoJugadores, self.grupoEnemigos, self.grupoPlataformas ) 
+        else:
+            # Creamos otro grupo con todos los Sprites
+            self.grupoSprites = pygame.sprite.Group( self.grupoJugadores, self.grupoPlataformas ) 
+
+        '''# Creamos el decorado y el fondo
         self.decorado = Decorado()
         self.fondo = Cielo()
 
@@ -85,7 +127,7 @@ class Fase(Escena):
         self.grupoSpritesDinamicos = pygame.sprite.Group( self.jugador1, enemigo1, enemigo2,enemigo3 )
         # Creamos otro grupo con todos los Sprites
         self.grupoSprites = pygame.sprite.Group( self.grupoJugadores, self.grupoEnemigos, self.grupoPlataformas )
-
+        '''
         # Creamos las animaciones de fuego,
         #  las que estan detras del decorado, y delante
 
@@ -121,7 +163,17 @@ class Fase(Escena):
             self.animacionesDelante.append(animacionFuego)
         '''
 
-
+    # n = numeroEnemigos
+    # type(obvio)
+    #problema -> un caso para cada enemigo -> obliganos a modificar a clase
+    def crearEnemigos(self,n,type):
+        l = None
+        if n>0:
+            l = []
+            for x in xrange(n):
+                if type == 'sniper':
+                    l.append(Sniper())
+        return l
         
     # Devuelve True o False según se ha tenido que desplazar el scroll
     def actualizarScrollOrdenados(self, jugador):
@@ -257,7 +309,7 @@ class Fase(Escena):
                 self.jugador1.restarVida(sprite)
 
         #Actualizamos el Hud
-        self.grupoHud.update(self.jugador1)
+        #self.grupoHud.update(self.jugador1)
 
         #Si estamos muerto nos vamos a la pantalla principal
         if self.jugador1.muerto:
@@ -290,7 +342,7 @@ class Fase(Escena):
         # Luego los Sprites
         self.grupoSprites.draw(pantalla)
         # El hud
-        self.grupoHud.draw(pantalla)
+        #self.grupoHud.draw(pantalla)
         # Y por ultimo, dibujamos las animaciones por encima del decorado
         '''
         for animacion in self.animacionesDelante:
@@ -321,9 +373,7 @@ class Plataforma(MiSprite):
         # Y lo situamos de forma global en esas coordenadas
         self.establecerPosicion((self.rect.left, self.rect.bottom))
         # En el caso particular de este juego, las plataformas no se van a ver, asi que no se carga ninguna imagen
-        self.image = pygame.Surface((0, 0),1)
-
-
+        self.image = pygame.Surface((0, 0))
 # -------------------------------------------------
 # Clase Cielo
 
@@ -359,9 +409,9 @@ class Cielo:
 # Clase Decorado
 
 class Decorado:
-    def __init__(self):
-        self.imagen = GestorRecursos.CargarImagen('decorado5.png', -1)
-        self.imagen = pygame.transform.scale(self.imagen, (5000, 300))
+    def __init__(self,image,scale_value):
+        self.imagen = GestorRecursos.CargarImagen(image, -1)
+        self.imagen = pygame.transform.scale(self.imagen, (scale_value[0], scale_value[1]))
 
         self.rect = self.imagen.get_rect()
         self.rect.bottom = ALTO_PANTALLA

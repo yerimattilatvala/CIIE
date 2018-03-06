@@ -371,7 +371,7 @@ class Menu(Escena):
         self.director.salirPrograma()
 
     def ejecutarJuego(self):
-        fase = Fase(self.director)
+        fase = Fase(self.director,FASE0_FONDO,FASE0_FONDO_SCALE,FASE0_POS_JUGADOR,3,'sniper',FASE0_ENEMIGOS_POS,FASE0_PLATAFORMAS)
         self.director.apilarEscena(fase)
 
     def mostrarPantallaInicial(self):
