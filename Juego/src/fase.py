@@ -57,12 +57,12 @@ class Fase(Escena):
         # Ponemos a los jugadores en sus posiciones iniciales
         self.jugador1.establecerPosicion(pos_jugador)
         # Ponemos el hud
-        #self.hud = Hud()
-        #self.grupoHud = pygame.sprite.Group(self.hud)
+        self.hud = Hud()
+        self.grupoHud = pygame.sprite.Group(self.hud)
 
         self.grupoPlataformas = pygame.sprite.Group()
         for x in plataformas:
-            self.grupoPlataformas.add(x)
+            self.grupoPlataformas.add(Plataforma(pygame.Rect(x)))
 
         # Creamos un grupo con los Sprites que se mueven
         #  En este caso, solo los personajes, pero podría haber más (proyectiles, etc.)
@@ -79,6 +79,10 @@ class Fase(Escena):
         else:
             # Creamos otro grupo con todos los Sprites
             self.grupoSprites = pygame.sprite.Group( self.grupoJugadores, self.grupoPlataformas ) 
+
+        # Ponemos el hud
+        #self.hud = Hud()
+        #self.grupoHud = pygame.sprite.Group(self.hud)
 
         '''# Creamos el decorado y el fondo
         self.decorado = Decorado()
@@ -309,7 +313,7 @@ class Fase(Escena):
                 self.jugador1.restarVida(sprite)
 
         #Actualizamos el Hud
-        #self.grupoHud.update(self.jugador1)
+        self.grupoHud.update(self.jugador1)
 
         #Si estamos muerto nos vamos a la pantalla principal
         if self.jugador1.muerto:
@@ -343,6 +347,8 @@ class Fase(Escena):
         self.grupoSprites.draw(pantalla)
         # El hud
         #self.grupoHud.draw(pantalla)
+        for sprite in self.grupoHud:
+            sprite.draw(pantalla)
         # Y por ultimo, dibujamos las animaciones por encima del decorado
         '''
         for animacion in self.animacionesDelante:
