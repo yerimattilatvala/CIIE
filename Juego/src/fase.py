@@ -406,7 +406,7 @@ class Cielo:
             ratio = 2 * ((self.rect.width + ANCHO_PANTALLA) - self.posicionx) / (self.rect.width + ANCHO_PANTALLA)
         else:
             ratio = 2 * self.posicionx / (self.rect.width + ANCHO_PANTALLA)
-        self.colorCielo = (100*ratio, 200*ratio, 255)
+        self.colorCielo = (0*ratio, 0*ratio, 0)
         
     def dibujar(self,pantalla):
         # Dibujamos el color del cielo

@@ -319,15 +319,19 @@ class PantallaDificultadGUI(PantallaInicialGUI):
 
     def campos_texto(self):
         #CampoTexto(self,texto,nombre_fuente,tamaño_fuente,x,y,accion_a_realizar_al_pulsar)
-        textoAprendiz = CampoTexto(self,'Aprendiz enano',FONT_MENU,WHITE,30,20,200,self.menu.ejecutarJuego)
-        textoEnano = CampoTexto(self,'Enano',FONT_MENU,WHITE,30,20,300,self.menu.noHaceNada)
-        textoGuerrero = CampoTexto(self,'Guerrero enano',FONT_MENU,WHITE,30,20,400,self.menu.noHaceNada)
-        textoAtras = CampoTexto(self,'Menu Principal',FONT_MENU,WHITE,30,20,500,self.menu.mostrarPantallaInicial)
+        textFase0 = CampoTexto(self,'Fase Test',FONT_MENU,WHITE,30,20,200,self.menu.ejecutarJuego)
+        textFase1 = CampoTexto(self,'Ruben',FONT_MENU,WHITE,30,20,250,self.menu.ejecutarFase1)
+        textFase2 = CampoTexto(self,'Isa',FONT_MENU,WHITE,30,20,300,self.menu.noHaceNada)
+        textFase3 = CampoTexto(self,'Yeray',FONT_MENU,WHITE,30,20,350,self.menu.noHaceNada)
+        textFase4 =CampoTexto(self,'Dani',FONT_MENU,WHITE,30,20,400,self.menu.noHaceNada)
+        textMenu = CampoTexto(self,'Menu Principal',FONT_MENU,WHITE,30,20,500,self.menu.mostrarPantallaInicial)
 
-        self.elementosGUI.append(textoAprendiz)
-        self.elementosGUI.append(textoEnano)
-        self.elementosGUI.append(textoGuerrero)
-        self.elementosGUI.append(textoAtras)
+        self.elementosGUI.append(textFase0)
+        self.elementosGUI.append(textFase1)
+        self.elementosGUI.append(textFase2)
+        self.elementosGUI.append(textFase3)
+        self.elementosGUI.append(textFase4)
+        self.elementosGUI.append(textMenu)
 # -------------------------------------------------
 # Clase Menu, la escena en sí
 
@@ -373,6 +377,11 @@ class Menu(Escena):
     def ejecutarJuego(self):
         fase = Fase(self.director,FASE0_FONDO,FASE0_FONDO_SCALE,FASE0_POS_JUGADOR,3,'sniper',FASE0_ENEMIGOS_POS,FASE0_PLATAFORMAS)
         self.director.apilarEscena(fase)
+		
+    def ejecutarFase1(self):
+        fase = Fase(self.director,FASE1_FONDO,FASE1_FONDO_SCALE,FASE1_POS_JUGADOR,3,'sniper',FASE1_ENEMIGOS_POS,FASE1_PLATAFORMAS)
+        self.director.apilarEscena(fase)
+
 
     def mostrarPantallaInicial(self):
         self.pantallaActual = 0
