@@ -3,6 +3,7 @@ from pygame.locals import *
 from gestorRecursos import *
 from values import *
 from escena import *
+from personajes import MAX_VIDA_JUGADOR
 
 class Hud(pygame.sprite.Sprite):
 
@@ -16,19 +17,28 @@ class Hud(pygame.sprite.Sprite):
         self.scaley = 50
 
         self.image0 = pygame.transform.scale(GestorRecursos.CargarImagen(CERVEZA_0,-1),(self.scalex,self.scaley)).convert_alpha()
-        self.image1 = pygame.transform.scale(GestorRecursos.CargarImagen('cerveza_11.png',-1),(self.scalex,self.scaley)).convert_alpha()
-        self.image2 = pygame.transform.scale(GestorRecursos.CargarImagen('cerveza_22.png',-1),(self.scalex,self.scaley)).convert_alpha()
-        self.image3 = pygame.transform.scale(GestorRecursos.CargarImagen('cerveza_33.png',-1),(self.scalex,self.scaley)).convert_alpha()
-        self.image4 = pygame.transform.scale(GestorRecursos.CargarImagen('cerveza_44.png',-1),(self.scalex,self.scaley)).convert_alpha()
+        self.image1 = pygame.transform.scale(GestorRecursos.CargarImagen('cerveza_1.png',-1),(self.scalex,self.scaley)).convert_alpha()
+        self.image2 = pygame.transform.scale(GestorRecursos.CargarImagen('cerveza_2.png',-1),(self.scalex,self.scaley)).convert_alpha()
+        self.image3 = pygame.transform.scale(GestorRecursos.CargarImagen('cerveza_3.png',-1),(self.scalex,self.scaley)).convert_alpha()
+        self.image4 = pygame.transform.scale(GestorRecursos.CargarImagen('cerveza_4.png',-1),(self.scalex,self.scaley)).convert_alpha()
 
     def update(self,jugador):
         self.vida = jugador.vida
 
     def draw(self,pantalla):
+        auxVida = MAX_VIDA_JUGADOR
+        auxCounter = 1
+        while auxVida > 0:
+            self.blit_alpha(pantalla,self.image1,(self.scalex * auxCounter,self.topPadding),64)
+            #pantalla.blit(self.image1,(self.scalex * auxCounter,self.topPadding))
+            auxCounter += 1
+            auxVida -= 4
+
         auxVida = self.vida
         auxCounter = 1
 
         while auxVida >= 4:
+            #self.blit_alpha(pantalla,self.image1,(self.scalex * auxCounter,self.topPadding),128)
             pantalla.blit(self.image1,(self.scalex * auxCounter,self.topPadding))
             auxCounter += 1
             auxVida -= 4
@@ -41,6 +51,15 @@ class Hud(pygame.sprite.Sprite):
             pantalla.blit(self.image4,(self.scalex * auxCounter,self.topPadding))
         else:
             pantalla.blit(self.image0,(self.scalex * auxCounter,self.topPadding))
+
+    def blit_alpha(self,target, source, location, opacity):
+        x = location[0]
+        y = location[1]
+        temp = pygame.Surface((source.get_width(), source.get_height())).convert()
+        temp.blit(target, (-x, -y))
+        temp.blit(source, (0, 0))
+        temp.set_alpha(opacity)        
+        target.blit(temp, location)
 
 
 
