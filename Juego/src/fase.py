@@ -16,7 +16,7 @@ from hud import *
 VELOCIDAD_SOL = 0.1 # Pixeles por milisegundo
 
 # Los bordes de la pantalla para hacer scroll horizontal
-MINIMO_X_JUGADOR = 80
+MINIMO_X_JUGADOR = 350
 MAXIMO_X_JUGADOR = ANCHO_PANTALLA - MINIMO_X_JUGADOR
 
 # -------------------------------------------------

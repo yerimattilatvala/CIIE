@@ -12,8 +12,8 @@ class Hud(pygame.sprite.Sprite):
 
         self.topPadding = 70
 
-        self.scalex = 50
-        self.scaley = 50
+        self.scalex = 100
+        self.scaley = 100
 
         self.image0 = pygame.transform.scale(GestorRecursos.CargarImagen(CERVEZA_0,-1),(self.scalex,self.scaley)).convert_alpha()
         self.image1 = pygame.transform.scale(GestorRecursos.CargarImagen(CERVEZA_1,-1),(self.scalex,self.scaley)).convert_alpha()
