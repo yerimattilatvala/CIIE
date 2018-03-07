@@ -23,7 +23,7 @@ MAXIMO_X_JUGADOR = ANCHO_PANTALLA - MINIMO_X_JUGADOR
 # Clase Fase
 
 class Fase(Escena):
-    def __init__(self, director, img_decorado,scale_decorado,pos_jugador,num_enemigos,tipo_enemigo,pos_enemigos,plataformas):
+    def __init__(self, director, img_decorado,scale_decorado,pos_jugador,enemigos,pos_enemigos,plataformas):
 
         # Habria que pasarle como parámetro el número de fase, a partir del cual se cargue
         #  un fichero donde este la configuracion de esa fase en concreto, con cosas como
@@ -45,6 +45,8 @@ class Fase(Escena):
             pos_enemigos = [(x,y),(x,y),....]
             plataformas = [Plataforma1,Plataforma2,.....]
         '''
+        #print(int(pos_jugador))
+        #print(type(pos_jugador))
         Escena.__init__(self, director)
         # Creamos el decorado y el fondo
         self.fondo = Cielo()
@@ -55,23 +57,27 @@ class Fase(Escena):
         self.jugador1 = Jugador()
         self.grupoJugadores = pygame.sprite.Group( self.jugador1 )
         # Ponemos a los jugadores en sus posiciones iniciales
-        self.jugador1.establecerPosicion(pos_jugador)
+        self.jugador1.establecerPosicion(convertPosValues(pos_jugador,'pos'))
         # Ponemos el hud
         self.hud = Hud()
         self.grupoHud = pygame.sprite.Group(self.hud)
-
+        #print(convertPosValues(plataformas,'plat'))
         self.grupoPlataformas = pygame.sprite.Group()
-        for x in plataformas:
+        for x in convertPosValues(plataformas,'plat'):
             self.grupoPlataformas.add(Plataforma(pygame.Rect(x)))
 
         # Creamos un grupo con los Sprites que se mueven
         #  En este caso, solo los personajes, pero podría haber más (proyectiles, etc.)
         self.grupoSpritesDinamicos = pygame.sprite.Group( self.jugador1)
-        enemigos = self.crearEnemigos(num_enemigos,tipo_enemigo)
-        if not (enemigos is None):
+        #enemigos = self.crearEnemigos(num_enemigos,tipo_enemigo)
+        enemies = convertEnemies(enemigos)
+        #print(enemies)
+        enemiesPos = convertPosValues(pos_enemigos,'enemy')
+        #print(enemiesPos)
+        if not (enemies is None):
             self.grupoEnemigos = pygame.sprite.Group()
-            for i, val in enumerate(enemigos):
-                val.establecerPosicion(pos_enemigos[i])
+            for i, val in enumerate(enemies):
+                val.establecerPosicion(enemiesPos[i])
                 self.grupoEnemigos.add(val)
                 self.grupoSpritesDinamicos.add(val)
             # Creamos otro grupo con todos los Sprites
@@ -421,7 +427,8 @@ class Cielo:
 class Decorado:
     def __init__(self,image,scale_value):
         self.imagen = GestorRecursos.CargarImagen(image, -1)
-        self.imagen = pygame.transform.scale(self.imagen, (scale_value[0], scale_value[1]))
+        values = convertPosValues(scale_value,'pos')
+        self.imagen = pygame.transform.scale(self.imagen, (values[0], values[1]))
 
         self.rect = self.imagen.get_rect()
         self.rect.bottom = ALTO_PANTALLA

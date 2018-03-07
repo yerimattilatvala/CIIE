@@ -2,6 +2,8 @@
 
 import pygame, sys, os
 from pygame.locals import *
+import importlib
+
 
 
 # -------------------------------------------------
@@ -53,3 +55,66 @@ class GestorRecursos(object):
             cls.recursos[nombre] = datos
             # Se devuelve
             return datos
+
+# text => valoresFases.txt
+# campo => FASE_NOMBRE_CAMPO=        IMPORTANTE PASALO CO IGUAL(=)
+# NOMBRE => 1,2,....
+# CAMPO => FONDO,FONDO_SCALE,POS_JUG,ENEM, ENEM_POS, PLAT_POS....LO QUE SEA
+def getValues(text,campoSolicitado): 
+    value = None
+    myfile = open(text, 'r')
+    for x in  myfile.readlines():
+        if x[0:len(campoSolicitado)] == campoSolicitado:
+            value = x[x.find(campoSolicitado)+len(campoSolicitado):len(x)-1]
+    myfile.close()
+    return value
+
+def convertPosValues(field,fieldType):
+    r = []
+    l = []
+    if fieldType == 'pos':
+        for x in field.split():
+            r.append(int(x))
+        return tuple(r)
+    elif fieldType =='enemy':
+        c = 0
+        print(field.split()[len(field.split())-1])
+        for x in field.split():
+            l.append(int(x))
+            c+=1
+            if c == 2:
+                c=0
+                r.append(tuple(l))
+                l = []
+            #print(x,c)
+            
+    elif fieldType =='plat':
+        c = 0
+        for x in field.split():
+            l.append(int(x))
+            c+=1
+            if c == 4:
+                c=0
+                r.append(tuple(l))
+                l = []
+            
+    print(r)
+    return r
+
+def str_to_class(module_name, class_name):
+    try:
+        module_ = importlib.import_module(module_name)
+        try:
+            class_ = getattr(module_, class_name)()
+        except AttributeError:
+            logging.error('Class does not exist')
+    except ImportError:
+        logging.error('Module does not exist')
+    return class_ or None
+
+def convertEnemies(enemies):
+    r = []
+    for x in enemies.split():
+        r.append(str_to_class('personajes',x))
+    print(r)
+    return r

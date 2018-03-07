@@ -375,11 +375,11 @@ class Menu(Escena):
         self.director.salirPrograma()
 
     def ejecutarJuego(self):
-        fase = Fase(self.director,FASE0_FONDO,FASE0_FONDO_SCALE,FASE0_POS_JUGADOR,3,'sniper',FASE0_ENEMIGOS_POS,FASE0_PLATAFORMAS)
+        fase = Fase(self.director,getValues(TEXT,'FASE0_FONDO='),getValues(TEXT,'FASE0_FONDO_SCALE='),getValues(TEXT,'FASE0_POS_JUGADOR='),getValues(TEXT,'FASE0_ENEMIGOS='),getValues(TEXT,'FASE0_ENEMIGOS_POS='),getValues(TEXT,'FASE0_PLATAFORMAS='))
         self.director.apilarEscena(fase)
 		
     def ejecutarFase1(self):
-        fase = Fase(self.director,FASE1_FONDO,FASE1_FONDO_SCALE,FASE1_POS_JUGADOR,3,'sniper',FASE1_ENEMIGOS_POS,FASE1_PLATAFORMAS)
+        fase = Fase(self.director,getValues(TEXT,'FASE1_FONDO='),getValues(TEXT,'FASE1_FONDO_SCALE='),getValues(TEXT,'FASE1_POS_JUGADOR='),getValues(TEXT,'FASE1_ENEMIGOS='),getValues(TEXT,'FASE1_ENEMIGOS_POS='),getValues(TEXT,'FASE1_PLATAFORMAS='))
         self.director.apilarEscena(fase)
 
 
