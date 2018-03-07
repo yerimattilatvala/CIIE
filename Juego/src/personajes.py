@@ -133,7 +133,10 @@ class Personaje(MiSprite):
         # El movimiento que esta realizando
         self.movimiento = QUIETO
         # Lado hacia el que esta mirando
-        self.mirando = IZQUIERDA
+        self.mirando = DERECHA
+        self.mirandoAnterior = self.mirando
+
+        self.padding = 0
 
         # Leemos las coordenadas de un archivo de texto
         datos = GestorRecursos.CargarArchivoCoordenadas(archivoCoordenadas)
@@ -169,7 +172,18 @@ class Personaje(MiSprite):
         self.actualizarPostura()
 
     def draw(self,pantalla):
-        pantalla.blit(self.image,(self.rect.left, self.posicion[1] - self.image.get_rect().height))
+        if self.mirandoAnterior == DERECHA:
+            if self.mirando == IZQUIERDA:
+                self.padding =  self.image.get_rect().width
+                pantalla.blit(self.image,(self.rect.left - self.image.get_rect().width + self.padding , self.posicion[1] - self.image.get_rect().height))
+            else:
+                pantalla.blit(self.image,(self.rect.left, self.posicion[1] - self.image.get_rect().height))
+        else:
+            if self.mirando == IZQUIERDA:
+                pantalla.blit(self.image,(self.rect.left - self.image.get_rect().width + self.padding , self.posicion[1] - self.image.get_rect().height))
+            else:
+                self.padding = 0
+                pantalla.blit(self.image,(self.rect.left, self.posicion[1] - self.image.get_rect().height))
 
 
     # Metodo base para realizar el movimiento: simplemente se le indica cual va a hacer, y lo almacena
@@ -223,6 +237,7 @@ class Personaje(MiSprite):
             # Si vamos a la izquierda o a la derecha        
             if (self.movimiento == IZQUIERDA) or (self.movimiento == DERECHA):
                 # Esta mirando hacia ese lado
+                self.mirandoAnterior = self.mirando
                 self.mirando = self.movimiento
 
                 # Si vamos a la izquierda, le ponemos velocidad en esa dirección
