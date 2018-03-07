@@ -75,7 +75,7 @@ class Fase(Escena):
                 self.grupoEnemigos.add(val)
                 self.grupoSpritesDinamicos.add(val)
             # Creamos otro grupo con todos los Sprites
-            self.grupoSprites = pygame.sprite.Group( self.grupoJugadores, self.grupoEnemigos, self.grupoPlataformas ) 
+            self.grupoSprites = pygame.sprite.Group( self.grupoEnemigos, self.grupoPlataformas ) 
         else:
             # Creamos otro grupo con todos los Sprites
             self.grupoSprites = pygame.sprite.Group( self.grupoJugadores, self.grupoPlataformas ) 
@@ -256,6 +256,7 @@ class Fase(Escena):
 
         # Si ambos jugadores están entre los dos límites de la pantalla, no se hace nada
         return False;
+        
 
 
     def actualizarScroll(self, jugador1):
@@ -269,6 +270,7 @@ class Fase(Escena):
             # Actualizamos la posición en pantalla de todos los Sprites según el scroll actual
             for sprite in iter(self.grupoSprites):
                 sprite.establecerPosicionPantalla((self.scrollx, 0))
+            jugador1.establecerPosicionPantalla((self.scrollx, 0))
 
             # Ademas, actualizamos el decorado para que se muestre una parte distinta
             self.decorado.update(self.scrollx)
@@ -322,7 +324,7 @@ class Fase(Escena):
         #Miramos si hay que matar enemigos
         self.grupoEnemigos = [enemy for enemy in self.grupoEnemigos if enemy.muerto == False]
         #Como esta ahora mismo para que se deje de dibujar tenemos que sacarlo de aquí tambien
-        self.grupoSprites = pygame.sprite.Group( self.grupoJugadores, self.grupoEnemigos, self.grupoPlataformas )
+        self.grupoSprites = pygame.sprite.Group(self.grupoEnemigos, self.grupoPlataformas )
 
             # Se le dice al director que salga de esta escena y ejecute la siguiente en la pila
             #self.director.salirEscena()
@@ -345,6 +347,8 @@ class Fase(Escena):
         self.decorado.dibujar(pantalla)
         # Luego los Sprites
         self.grupoSprites.draw(pantalla)
+
+        self.jugador1.draw(pantalla)
         # El hud
         #self.grupoHud.draw(pantalla)
         for sprite in self.grupoHud:

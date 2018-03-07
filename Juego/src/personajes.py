@@ -168,6 +168,9 @@ class Personaje(MiSprite):
         # Y actualizamos la postura del Sprite inicial, llamando al metodo correspondiente
         self.actualizarPostura()
 
+    def draw(self,pantalla):
+        pantalla.blit(self.image,(self.rect.left, self.posicion[1] - self.image.get_rect().height))
+
 
     # Metodo base para realizar el movimiento: simplemente se le indica cual va a hacer, y lo almacena
     def mover(self, movimiento):
@@ -270,8 +273,6 @@ class Personaje(MiSprite):
             #Para atacar en otras posiciones
             if self.atacando:
                 if self.retardoAccion <= 0:
-                    #print(self.retardoAccion)
-                    print("hey")
                     posturaNueva = SPRITE_ATACANDO
                     self.retardoAccion = DURACION_ATACAR*3.5
                 else:
@@ -314,7 +315,7 @@ class Personaje(MiSprite):
                 if (plataforma != None) and (velocidady>0) and (plataforma.rect.bottom>self.rect.bottom):
                     # Lo situamos con la parte de abajo un pixel colisionando con la plataforma
                     #  para poder detectar cuando se cae de ella
-                    self.establecerPosicion((self.posicion[0], plataforma.posicion[1]-plataforma.rect.height+1))
+                    self.establecerPosicion((self.posicion[0], plataforma.posicion[1]))
                     # Lo ponemos como quieto
                     posturaNueva = SPRITE_QUIETO
                     # Y estará quieto en el eje y
@@ -341,6 +342,9 @@ class Personaje(MiSprite):
         # Y llamamos al método de la superclase para que, según la velocidad y el tiempo
         #  calcule la nueva posición del Sprite
         MiSprite.update(self, tiempo)
+
+        #self.rect.left += Solucionar cosas
+        #self.rect.bottom -= self.image.get_rect().height
         
         return
 
