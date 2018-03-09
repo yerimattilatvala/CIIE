@@ -23,7 +23,7 @@ MAXIMO_X_JUGADOR = ANCHO_PANTALLA - MINIMO_X_JUGADOR
 # Clase Fase
 
 class Fase(Escena):
-    def __init__(self, director, img_decorado,scale_decorado,pos_jugador,enemigos,pos_enemigos,plataformas):
+    def __init__(self, director,img_decorado,scale_decorado,sky_img,sky_scale,pos_jugador,enemigos,pos_enemigos,plataformas):
 
         # Habria que pasarle como parámetro el número de fase, a partir del cual se cargue
         #  un fichero donde este la configuracion de esa fase en concreto, con cosas como
@@ -49,7 +49,7 @@ class Fase(Escena):
         #print(type(pos_jugador))
         Escena.__init__(self, director)
         # Creamos el decorado y el fondo
-        self.fondo = Cielo()
+        self.fondo = Cielo(sky_img,sky_scale)
         self.decorado = Decorado(img_decorado,scale_decorado)
         # Que parte del decorado estamos visualizando
         self.scrollx = 0
@@ -86,58 +86,6 @@ class Fase(Escena):
             # Creamos otro grupo con todos los Sprites
             self.grupoSprites = pygame.sprite.Group( self.grupoJugadores, self.grupoPlataformas ) 
 
-        # Ponemos el hud
-        #self.hud = Hud()
-        #self.grupoHud = pygame.sprite.Group(self.hud)
-
-        '''# Creamos el decorado y el fondo
-        self.decorado = Decorado()
-        self.fondo = Cielo()
-
-        # Que parte del decorado estamos visualizando
-        self.scrollx = 0
-        #  En ese caso solo hay scroll horizontal
-        #  Si ademas lo hubiese vertical, seria self.scroll = (0, 0)
-
-        # Creamos los sprites de los jugadores
-        self.jugador1 = Jugador()
-        self.grupoJugadores = pygame.sprite.Group( self.jugador1 )
-
-        # Ponemos a los jugadores en sus posiciones iniciales
-        self.jugador1.establecerPosicion((200, 551))
-
-        # Ponemos el hud
-        self.hud = Hud()
-        self.grupoHud = pygame.sprite.Group(self.hud)
-
-        # Creamos las plataformas del decorado
-        # La plataforma que conforma todo el suelo
-        plataformaSuelo = Plataforma(pygame.Rect(0, 550, 5000, 15))
-        # La plataforma del techo del edificio
-        #plataformaCasa = Plataforma(pygame.Rect(890, 417, 160, 10))
-        plataformaCasa1 = Plataforma(pygame.Rect(0, 417, 300, 10))
-        plataformaCasa2 = Plataforma(pygame.Rect(3010, 417, 250, 10))
-        plataformaCasa3 = Plataforma(pygame.Rect(3400, 417, 200, 10))
-        
-        # y el grupo con las mismas
-        self.grupoPlataformas = pygame.sprite.Group( plataformaSuelo, plataformaCasa1,plataformaCasa2,plataformaCasa3 )
-
-        # Y los enemigos que tendran en este decorado
-        enemigo1 = Sniper()
-        enemigo1.establecerPosicion((1000, 551))
-        enemigo2 = Sniper()
-        enemigo2.establecerPosicion((2500, 551))
-        enemigo3 = Sniper()
-        enemigo3.establecerPosicion((3100, 418))
-        # Creamos un grupo con los enemigos
-        self.grupoEnemigos = pygame.sprite.Group( enemigo1, enemigo2,enemigo3 )
-
-        # Creamos un grupo con los Sprites que se mueven
-        #  En este caso, solo los personajes, pero podría haber más (proyectiles, etc.)
-        self.grupoSpritesDinamicos = pygame.sprite.Group( self.jugador1, enemigo1, enemigo2,enemigo3 )
-        # Creamos otro grupo con todos los Sprites
-        self.grupoSprites = pygame.sprite.Group( self.grupoJugadores, self.grupoEnemigos, self.grupoPlataformas )
-        '''
         # Creamos las animaciones de fuego,
         #  las que estan detras del decorado, y delante
 
@@ -394,9 +342,10 @@ class Plataforma(MiSprite):
 # Clase Cielo
 
 class Cielo:
-    def __init__(self):
-        self.sol = GestorRecursos.CargarImagen('sol.png', -1)
-        self.sol = pygame.transform.scale(self.sol, (300, 200))
+    def __init__(self,image,image_scale):
+        self.sol = GestorRecursos.CargarImagen(image, -1)
+        values = convertPosValues(image_scale,'pos')
+        self.sol = pygame.transform.scale(self.sol, (values[0],values[1]))
 
         self.rect = self.sol.get_rect()
         self.posicionx = 0 # El lado izquierdo de la subimagen que se esta visualizando
