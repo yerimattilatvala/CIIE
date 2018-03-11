@@ -90,20 +90,20 @@ class Fase(Escena):
         # Creamos las animaciones de fuego,
         #  las que estan detras del decorado, y delante
 
-        self.animacionesDetras = []
-        for i in range(9):
-            # La animacion del fuego
-            animacionFuego = AnimacionFuego()
-            # Aumentamos un poco el tamaño de la animacion
-            animacionFuego.scale((400,400))
-            # La situamos en su posicion
-            animacionFuego.posicionx = 120*i - 200
-            animacionFuego.posiciony = 250
-            # Iniciamos la animacion
-            animacionFuego.play()
-            animacionFuego.nextFrame(i)
-            # y la anadimos a la lista de animaciones detras
-            self.animacionesDetras.append(animacionFuego)
+        # self.animacionesDetras = []
+        # for i in range(9):
+            # # La animacion del fuego
+            # animacionFuego = AnimacionFuego()
+            # # Aumentamos un poco el tamaño de la animacion
+            # animacionFuego.scale((400,400))
+            # # La situamos en su posicion
+            # animacionFuego.posicionx = 120*i - 200
+            # animacionFuego.posiciony = 250
+            # # Iniciamos la animacion
+            # animacionFuego.play()
+            # animacionFuego.nextFrame(i)
+            # # y la anadimos a la lista de animaciones detras
+            # self.animacionesDetras.append(animacionFuego)
 
         '''
         self.animacionesDelante = []
@@ -298,8 +298,8 @@ class Fase(Escena):
         # Ponemos primero el fondo
         self.fondo.dibujar(pantalla)
         # Despues, las animaciones que haya detras
-        for animacion in self.animacionesDetras:
-            animacion.dibujar(pantalla)
+        # for animacion in self.animacionesDetras:
+            # animacion.dibujar(pantalla)
         # Después el decorado
         self.decorado.dibujar(pantalla)
         # Luego los Sprites
