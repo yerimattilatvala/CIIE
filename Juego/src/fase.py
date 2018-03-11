@@ -370,7 +370,6 @@ class Fase_gigantes(Escena):
         # Ponemos el hud
         self.hud = Hud()
         self.grupoHud = pygame.sprite.Group(self.hud)
-        #print(convertPosValues(plataformas,'plat'))
         self.grupoPlataformas = pygame.sprite.Group()
         for x in convertPosValues(plataformas,'plat'):
             self.grupoPlataformas.add(Plataforma(pygame.Rect(x)))
@@ -407,8 +406,7 @@ class Fase_gigantes(Escena):
         if n>0:
             l = []
             for x in xrange(n):
-                if type == 'sniper':
-                    l.append(Sniper())
+                l.append(Sniper())
         return l
         
     # Devuelve True o False según se ha tenido que desplazar el scroll
@@ -588,10 +586,6 @@ class Fase_gigantes(Escena):
         # Indicamos la acción a realizar segun la tecla pulsada para cada jugador
         teclasPulsadas = pygame.key.get_pressed()
         self.jugador1.mover(teclasPulsadas, K_w, K_s, K_a, K_d, K_SPACE)
-
-
-
-
 
 
 
