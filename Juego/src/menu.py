@@ -9,6 +9,7 @@ from escena import *
 from gestorRecursos import *
 from values import *
 from fase import Fase
+from fase import Fase_gigantes
 from animaciones import AnimacionFuego, AnimacionRayo, AnimacionHumo
 
 # -------------------------------------------------
@@ -321,7 +322,7 @@ class PantallaDificultadGUI(PantallaInicialGUI):
         #CampoTexto(self,texto,nombre_fuente,tamaño_fuente,x,y,accion_a_realizar_al_pulsar)
         textFase0 = CampoTexto(self,'Fase Test',FONT_MENU,WHITE,30,20,200,self.menu.ejecutarJuego)
         textFase1 = CampoTexto(self,'Ruben',FONT_MENU,WHITE,30,20,250,self.menu.ejecutarFase1)
-        textFase2 = CampoTexto(self,'Isa',FONT_MENU,WHITE,30,20,300,self.menu.noHaceNada)
+        textFase2 = CampoTexto(self,'Isa-GIGANTES',FONT_MENU,WHITE,30,20,300,self.menu.ejecutarFase3)
         textFase3 = CampoTexto(self,'Yeray',FONT_MENU,WHITE,30,20,350,self.menu.noHaceNada)
         textFase4 =CampoTexto(self,'Dani',FONT_MENU,WHITE,30,20,400,self.menu.noHaceNada)
         textMenu = CampoTexto(self,'Menu Principal',FONT_MENU,WHITE,30,20,500,self.menu.mostrarPantallaInicial)
@@ -380,6 +381,10 @@ class Menu(Escena):
 		
     def ejecutarFase1(self):
         fase = Fase(self.director,getValues(TEXT,'FASE1_FONDO='),getValues(TEXT,'FASE1_FONDO_SCALE='),getValues(TEXT,'FASE1_CIELO='),getValues(TEXT,'FASE1_CIELO_SCALE='),getValues(TEXT,'FASE1_POS_JUGADOR='),getValues(TEXT,'FASE1_ENEMIGOS='),getValues(TEXT,'FASE1_ENEMIGOS_POS='),getValues(TEXT,'FASE1_PLATAFORMAS='))
+        self.director.apilarEscena(fase)
+
+    def ejecutarFase3(self):
+        fase = Fase_gigantes(self.director,getValues(TEXT,'FASE3_FONDO='),getValues(TEXT,'FASE3_FONDO_SCALE='),getValues(TEXT,'FASE3_POS_JUGADOR='),getValues(TEXT,'FASE3_ENEMIGOS='),getValues(TEXT,'FASE3_ENEMIGOS_POS='),getValues(TEXT,'FASE3_PLATAFORMAS='))
         self.director.apilarEscena(fase)
 
 
