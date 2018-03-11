@@ -51,6 +51,7 @@ class Fase(Escena):
         # Creamos el decorado y el fondo
         self.fondo = Cielo(sky_img,sky_scale)
         self.decorado = Decorado(img_decorado,scale_decorado)
+        self.scaleDecorado =  convertPosValues(scale_decorado,'pos')
         # Que parte del decorado estamos visualizando
         self.scrollx = 0
         # Creamos los sprites de los jugadores
@@ -153,8 +154,9 @@ class Fase(Escena):
             if self.scrollx <= 0:
                 self.scrollx = 0
 
-                # En su lugar, colocamos al jugador que esté más a la izquierda a la izquierda de todo
-                jugador.establecerPosicion((MINIMO_X_JUGADOR, jugador.posicion[1]))
+                # En su lugar, dejamos que el jugador avance hasta el borde
+                if jugador.posicion[0] < 1:
+                    jugador.establecerPosicion((1, jugador.posicion[1]))
 
                 return False; # No se ha actualizado el scroll
 
@@ -185,8 +187,9 @@ class Fase(Escena):
             if self.scrollx + ANCHO_PANTALLA >= self.decorado.rect.right:
                 self.scrollx = self.decorado.rect.right - ANCHO_PANTALLA
 
-                # En su lugar, colocamos al jugador que esté más a la derecha a la derecha de todo
-                jugador.establecerPosicion((self.scrollx+MAXIMO_X_JUGADOR-jugador.rect.width, jugador.posicion[1]))
+               # En su lugar, dejamos al jugador avanzar hasta el final de la imagen
+                if jugador.posicion[0] > self.scaleDecorado[0] -self.jugador1.image.get_rect().width:
+                    jugador.establecerPosicion((self.scaleDecorado[0] -self.jugador1.image.get_rect().width, jugador.posicion[1]))
 
                 return False; # No se ha actualizado el scroll
 

@@ -260,6 +260,23 @@ class Personaje(MiSprite):
                     if pygame.sprite.spritecollideany(self, grupoPlataformas) == None:
                         posturaNueva = SPRITE_SALTANDO
 
+                #Chocar lateralmente con las plataformas
+                plataformas = pygame.sprite.groupcollide(grupoPlataformas, pygame.sprite.Group(self), False, False)
+
+                for plataforma in plataformas:
+                    if plataforma.rect.height > 15:
+                        if plataforma != None:
+                            if self.movimiento == IZQUIERDA:
+                                if self.rect.left <= plataforma.rect.left + plataforma.rect.width and self.rect.left > plataforma.rect.left and self.posicion[1] -1 > plataforma.posicion[1]:
+                                    velocidadx = 0
+                                    if self.numPostura != SPRITE_SALTANDO:
+                                        posturaNueva = QUIETO
+                            else:
+                                if self.rect.left  >= plataforma.rect.left - self.image.get_rect().width and self.rect.left < plataforma.rect.left and self.posicion[1] -1 > plataforma.posicion[1]:
+                                    velocidadx = 0
+                                    if self.numPostura != SPRITE_SALTANDO:
+                                        posturaNueva = QUIETO
+
 
         
 
@@ -324,21 +341,26 @@ class Personaje(MiSprite):
 
                 # Miramos a ver si hay que parar de caer: si hemos llegado a una plataforma
                 #  Para ello, miramos si hay colision con alguna plataforma del grupo
-                plataforma = pygame.sprite.spritecollideany(self, grupoPlataformas)
+                plataformas = pygame.sprite.groupcollide(grupoPlataformas, pygame.sprite.Group(self), False, False)
                 #  Ademas, esa colision solo nos interesa cuando estamos cayendo
                 #  y solo es efectiva cuando caemos encima, no de lado, es decir,
                 #  cuando nuestra posicion inferior esta por encima de la parte de abajo de la plataforma
-                if (plataforma != None) and (velocidady>0) and (plataforma.rect.bottom>self.rect.bottom):
-                    # Lo situamos con la parte de abajo un pixel colisionando con la plataforma
-                    #  para poder detectar cuando se cae de ella
-                    self.establecerPosicion((self.posicion[0], plataforma.posicion[1]))
-                    # Lo ponemos como quieto
-                    posturaNueva = SPRITE_QUIETO
-                    # Y estará quieto en el eje y
-                    velocidady = 0
-
+                for plataforma in plataformas:
+                    if (velocidady>0) and (plataforma.rect.bottom>self.rect.bottom):
+                        plataforma.rect.height
+                        # Lo situamos con la parte de abajo un pixel colisionando con la plataforma
+                        #  para poder detectar cuando se cae de ella
+                        self.establecerPosicion((self.posicion[0], plataforma.posicion[1]))
+                        # Lo ponemos como quieto
+                        posturaNueva = SPRITE_QUIETO
+                        # Y estará quieto en el eje y
+                        velocidady = 0
+                        break
+                    else:
+                        velocidady += GRAVEDAD * tiempo
+                
                 # Si no caemos en una plataforma, aplicamos el efecto de la gravedad
-                else:
+                if plataformas == {}:
                     velocidady += GRAVEDAD * tiempo
 
             if posturaNueva != SPRITE_ATACANDO_EN_SALTO:
