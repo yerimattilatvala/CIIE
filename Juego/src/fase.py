@@ -406,7 +406,7 @@ class Fase_gigantes(Escena):
         if n>0:
             l = []
             for x in xrange(n):
-                l.append(Sniper())
+                l.append(Fase3Enemigo())
         return l
         
     # Devuelve True o False según se ha tenido que desplazar el scroll
