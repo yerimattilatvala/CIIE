@@ -104,35 +104,6 @@ class Fase(Escena):
             # animacionFuego.nextFrame(i)
             # # y la anadimos a la lista de animaciones detras
             # self.animacionesDetras.append(animacionFuego)
-
-        '''
-        self.animacionesDelante = []
-        for i in range(11):
-            # La animacion del fuego
-            animacionFuego = AnimacionFuego()
-            # Aumentamos un poco el tamaño de la animacion
-            animacionFuego.scale((450,450))
-            # La situamos en su posicion
-            animacionFuego.posicionx = 120*i - 200
-            animacionFuego.posiciony = 450
-            # Iniciamos la animacion
-            animacionFuego.play()
-            animacionFuego.nextFrame(i)
-            # y la anadimos a la lista de animaciones delante
-            self.animacionesDelante.append(animacionFuego)
-        '''
-
-    # n = numeroEnemigos
-    # type(obvio)
-    #problema -> un caso para cada enemigo -> obliganos a modificar a clase
-    def crearEnemigos(self,n,type):
-        l = None
-        if n>0:
-            l = []
-            for x in xrange(n):
-                if type == 'sniper':
-                    l.append(Sniper())
-        return l
         
     # Devuelve True o False según se ha tenido que desplazar el scroll
     def actualizarScrollOrdenados(self, jugador):
@@ -610,31 +581,38 @@ class Plataforma(MiSprite):
 
 class Cielo:
     def __init__(self,image,image_scale):
-        self.sol = GestorRecursos.CargarImagen(image, -1)
-        values = convertPosValues(image_scale,'pos')
-        self.sol = pygame.transform.scale(self.sol, (values[0],values[1]))
-
-        self.rect = self.sol.get_rect()
-        self.posicionx = 0 # El lado izquierdo de la subimagen que se esta visualizando
-        self.update(0)
+        if image is not None: 
+            self.sol = GestorRecursos.CargarImagen(image, -1)
+            values = convertPosValues(image_scale,'pos')
+            self.sol = pygame.transform.scale(self.sol, (values[0],values[1]))
+            self.rect = self.sol.get_rect()
+            self.posicionx = 0 # El lado izquierdo de la subimagen que se esta visualizando
+            self.update(0)
+        else:
+            self.sol = None
+            self.posicionx = 0 # El lado izquierdo de la subimagen que se esta visualizando
+            self.colorCielo = (0, 0, 0)
+            self.update(0)
 
     def update(self, tiempo):
-        self.posicionx += VELOCIDAD_SOL * tiempo
-        if (self.posicionx - self.rect.width >= ANCHO_PANTALLA):
-            self.posicionx = 0
-        self.rect.right = self.posicionx
-        # Calculamos el color del cielo
-        if self.posicionx >= ((self.rect.width + ANCHO_PANTALLA) / 2):
-            ratio = 2 * ((self.rect.width + ANCHO_PANTALLA) - self.posicionx) / (self.rect.width + ANCHO_PANTALLA)
-        else:
-            ratio = 2 * self.posicionx / (self.rect.width + ANCHO_PANTALLA)
-        self.colorCielo = (0*ratio, 0*ratio, 0)
-        
+        if self.sol is not None:
+            self.posicionx += VELOCIDAD_SOL * tiempo
+            if (self.posicionx - self.rect.width >= ANCHO_PANTALLA):
+                self.posicionx = 0
+            self.rect.right = self.posicionx
+            # Calculamos el color del cielo
+            if self.posicionx >= ((self.rect.width + ANCHO_PANTALLA) / 2):
+                ratio = 2 * ((self.rect.width + ANCHO_PANTALLA) - self.posicionx) / (self.rect.width + ANCHO_PANTALLA)
+            else:
+                ratio = 2 * self.posicionx / (self.rect.width + ANCHO_PANTALLA)
+            self.colorCielo = (0*ratio, 0*ratio, 0)
+         
     def dibujar(self,pantalla):
         # Dibujamos el color del cielo
         pantalla.fill(self.colorCielo)
-        # Y ponemos el sol
-        pantalla.blit(self.sol, self.rect)
+        if self.sol is not None:
+            # Y ponemos el sol
+            pantalla.blit(self.sol, self.rect)
 
 
 # -------------------------------------------------
@@ -645,7 +623,6 @@ class Decorado:
         self.imagen = GestorRecursos.CargarImagen(image, -1)
         values = convertPosValues(scale_value,'pos')
         self.imagen = pygame.transform.scale(self.imagen, (values[0], values[1]))
-
         self.rect = self.imagen.get_rect()
         self.rect.bottom = ALTO_PANTALLA
 
