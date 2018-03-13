@@ -78,7 +78,6 @@ def convertPosValues(field,fieldType):
         return tuple(r)
     elif fieldType =='enemy':
         c = 0
-        print(field.split()[len(field.split())-1])
         for x in field.split():
             l.append(int(x))
             c+=1
@@ -86,8 +85,6 @@ def convertPosValues(field,fieldType):
                 c=0
                 r.append(tuple(l))
                 l = []
-            #print(x,c)
-            
     elif fieldType =='plat':
         c = 0
         for x in field.split():
@@ -97,8 +94,6 @@ def convertPosValues(field,fieldType):
                 c=0
                 r.append(tuple(l))
                 l = []
-            
-    print(r)
     return r
 
 def str_to_class(module_name, class_name):
@@ -116,5 +111,4 @@ def convertEnemies(enemies):
     r = []
     for x in enemies.split():
         r.append(str_to_class('personajes',x))
-    print(r)
     return r
