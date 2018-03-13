@@ -518,5 +518,34 @@ class Fase3Enemigo(NoJugador):
         else:
             Personaje.mover(self,QUIETO)
 
+class Fase1Enemigo(NoJugador):
 
+    def __init__(self):
+        # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
+        NoJugador.__init__(self,'fase1Enemigo1.png','coordFase1Enemigo1.txt', [2, 6, 4, 7, 0, 5], VELOCIDAD_SNIPER, VELOCIDAD_SALTO_SNIPER, RETARDO_ANIMACION_SNIPER,VIDA_SNIPER,DANO_SNIPER,INVULNERABLE_SNIPER,DURACION_MUERTE_SNIPER);
+
+    # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
+    # La implementacion de la inteligencia segun este personaje particular
+    def mover_cpu(self, jugador1):
+        #Restamos iFrames
+        if self.currentIFrames > 0:
+            self.currentIFrames -= 1
+
+        # Movemos solo a los enemigos que esten en la pantalla
+        if self.rect.left>0 and self.rect.right<ANCHO_PANTALLA and self.rect.bottom>0 and self.rect.top<ALTO_PANTALLA:
+
+            # Por ejemplo, intentara acercarse al jugador mas cercano en el eje x
+            # Miramos cual es el jugador mas cercano
+
+            jugadorMasCercano = jugador1
+
+            # Y nos movemos andando hacia el
+            if jugadorMasCercano.posicion[0]<self.posicion[0]:
+                Personaje.mover(self,IZQUIERDA)
+            else:
+                Personaje.mover(self,DERECHA)
+
+        # Si este personaje no esta en pantalla, no hara nada
+        else:
+            Personaje.mover(self,QUIETO)
 
