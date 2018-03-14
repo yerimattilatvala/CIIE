@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-
+import random
+import time
 import pygame, sys, os
 from pygame.locals import *
 from escena import *
@@ -483,8 +484,8 @@ class Sniper(NoJugador):
                 Personaje.mover(self,DERECHA)
                 Personaje.mover(self, ARRIBA)
 
-            if jugadorMasCercano.image.get_rect().width<self.image.get_rect:
-                    Personaje.mover(self, ARRIBA)
+            if jugadorMasCercano.movimiento==ARRIBA:
+                Personaje.mover(self, ARRIBA)
 
         # Si este personaje no esta en pantalla, no hara nada
         else:
@@ -520,8 +521,9 @@ class Fase3Enemigo(NoJugador):
             else:
                 Personaje.mover(self,DERECHA)
 
-            
-            if jugadorMasCercano.image.get_rect().width>self.image.get_rect().width:
+           
+
+            if jugadorMasCercano.movimiento==ARRIBA:
                 Personaje.mover(self, ARRIBA)
             
             
@@ -556,6 +558,9 @@ class Fase1Enemigo(NoJugador):
                 Personaje.mover(self,IZQUIERDA)
             else:
                 Personaje.mover(self,DERECHA)
+
+            if jugadorMasCercano.movimiento==ARRIBA:
+                Personaje.mover(self, ARRIBA)
 
         # Si este personaje no esta en pantalla, no hara nada
         else:
