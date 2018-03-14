@@ -190,6 +190,7 @@ class Personaje(MiSprite):
     # Metodo base para realizar el movimiento: simplemente se le indica cual va a hacer, y lo almacena
     def mover(self, movimiento):
         if movimiento == ARRIBA:
+            self.movimiento= ARRIBA
             # Si estamos en el aire y el personaje quiere saltar, ignoramos este movimiento
             if self.numPostura == SPRITE_SALTANDO or self.numPostura == SPRITE_ATACANDO_EN_SALTO:
                 self.movimiento = QUIETO
@@ -477,8 +478,13 @@ class Sniper(NoJugador):
             # Y nos movemos andando hacia el
             if jugadorMasCercano.posicion[0]<self.posicion[0]:
                 Personaje.mover(self,IZQUIERDA)
+                Personaje.mover(self, ARRIBA)
             else:
                 Personaje.mover(self,DERECHA)
+                Personaje.mover(self, ARRIBA)
+
+            if jugadorMasCercano.image.get_rect().width<self.image.get_rect:
+                    Personaje.mover(self, ARRIBA)
 
         # Si este personaje no esta en pantalla, no hara nada
         else:
@@ -510,9 +516,15 @@ class Fase3Enemigo(NoJugador):
 
             # Y nos movemos andando hacia el
             if jugadorMasCercano.posicion[0]<self.posicion[0]:
-                Personaje.mover(self,IZQUIERDA)
+                Personaje.mover(self,IZQUIERDA)       
             else:
                 Personaje.mover(self,DERECHA)
+
+            
+            if jugadorMasCercano.image.get_rect().width>self.image.get_rect().width:
+                Personaje.mover(self, ARRIBA)
+            
+            
 
         # Si este personaje no esta en pantalla, no hara nada
         else:
