@@ -516,16 +516,17 @@ class Fase3Enemigo(NoJugador):
             jugadorMasCercano = jugador1
 
             # Y nos movemos andando hacia el
-            if jugadorMasCercano.posicion[0]<self.posicion[0]:
-                Personaje.mover(self,IZQUIERDA)       
-            else:
-                Personaje.mover(self,DERECHA)
-
-           
-
-            if jugadorMasCercano.movimiento==ARRIBA:
+            if ((jugadorMasCercano.posicion[1] < self.posicion[1]) and (jugadorMasCercano.posicion[0]<self.posicion[0]) and (abs(jugadorMasCercano.posicion[0]-self.posicion[0])<150)):
+                Personaje.mover(self, IZQUIERDA)
                 Personaje.mover(self, ARRIBA)
-            
+            elif (jugadorMasCercano.posicion[0]<self.posicion[0]):
+                Personaje.mover(self, IZQUIERDA)
+            if ((jugadorMasCercano.posicion[1] < self.posicion[1]) and (jugadorMasCercano.posicion[0]>self.posicion[0]) and (abs(jugadorMasCercano.posicion[0]-self.posicion[0])<150)):
+                Personaje.mover(self, DERECHA)
+                Personaje.mover(self, ARRIBA)                
+            elif (jugadorMasCercano.posicion[0]>self.posicion[0]):
+                Personaje.mover(self, DERECHA)
+
             
 
         # Si este personaje no esta en pantalla, no hara nada
