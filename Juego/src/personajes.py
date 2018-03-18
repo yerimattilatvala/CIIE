@@ -384,6 +384,28 @@ class Personaje(MiSprite):
         
         return
 
+    def text_objects(self,text, font):
+        textSurface = font.render(text, True, (255,255,255))
+        return textSurface, textSurface.get_rect()
+
+
+    # El mensaje no consigo se muestre despues de la animacion de muerte
+    def message_display(self,text):
+        largeText = pygame.font.Font('freesansbold.ttf',115)
+        TextSurf, TextRect = self.text_objects(text, largeText)
+        TextRect.center = ((ANCHO_PANTALLA/2),(ALTO_PANTALLA/2))
+        gameDisplay = pygame.display.set_mode((ANCHO_PANTALLA,ALTO_PANTALLA))
+        gameDisplay.blit(TextSurf, TextRect)
+
+        pygame.display.update()
+
+        #time.sleep(2)
+
+
+    def dead(self):
+        self.message_display('You died')
+
+
 
 
 # -------------------------------------------------
@@ -396,20 +418,34 @@ class Jugador(Personaje):
         Personaje.__init__(self,'Enano.png','coordEnano.txt', [4, 11, 1, 7, 3, 7], VELOCIDAD_JUGADOR, VELOCIDAD_SALTO_JUGADOR, RETARDO_ANIMACION_JUGADOR,VIDA_JUGADOR,DANO_JUGADOR,INVULNERABLE_JUGADOR,DURACION_MUERTE_JUGADOR);
 
     def mover(self, teclasPulsadas, arriba, abajo, izquierda, derecha, atacar):
-        # Indicamos la acción a realizar segun la tecla pulsada para el jugador
-        if teclasPulsadas[arriba]:
-            Personaje.mover(self,ARRIBA)
-        elif teclasPulsadas[izquierda]:
-            Personaje.mover(self,IZQUIERDA)
-        elif teclasPulsadas[derecha]:
-            Personaje.mover(self,DERECHA)
-        elif teclasPulsadas[atacar]:
-            self.atacando = True
-            Personaje.mover(self,ATACAR)
+
+        if self.rect.left>0 and self.rect.right<ANCHO_PANTALLA and self.rect.bottom>0 and self.rect.top<ALTO_PANTALLA:
+
+            # Indicamos la acción a realizar segun la tecla pulsada para el jugador
+            if teclasPulsadas[arriba]:
+                Personaje.mover(self,ARRIBA)
+            elif teclasPulsadas[izquierda]:
+                Personaje.mover(self,IZQUIERDA)
+            elif teclasPulsadas[derecha]:
+                Personaje.mover(self,DERECHA)
+            elif teclasPulsadas[atacar]:
+                self.atacando = True
+                Personaje.mover(self,ATACAR)
+            else:
+                Personaje.mover(self,QUIETO)
+            if self.currentIFrames > 0:
+                self.currentIFrames -= 1
+
+
         else:
-            Personaje.mover(self,QUIETO)
-        if self.currentIFrames > 0:
-            self.currentIFrames -= 1
+            self.vida=0
+            if self.vida <= 0:
+                self.numPostura = SPRITE_MUERTE
+                self.dead()
+            self.currentIFrames = self.iFrames
+
+
+
 
     def restarVida(self,enemigo):
         if self.atacando:
@@ -427,6 +463,7 @@ class Jugador(Personaje):
                 print(self.vida)
                 if self.vida <= 0:
                     self.numPostura = SPRITE_MUERTE
+                    self.dead()
                 self.currentIFrames = self.iFrames
 
 
@@ -541,7 +578,7 @@ class Fase3Enemigo(NoJugador):
 
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        NoJugador.__init__(self,'Fase3Enemigo.png','coordFase3Enemigo.txt', [1, 6, 2, 5, 0, 3], VELOCIDAD_SNIPER, VELOCIDAD_SALTO_SNIPER, RETARDO_ANIMACION_SNIPER,VIDA_SNIPER,DANO_SNIPER,INVULNERABLE_SNIPER,DURACION_MUERTE_SNIPER);
+        NoJugador.__init__(self,'Fase3Enemigo.png','coordFase3Enemigo.txt', [1, 6, 2, 4, 0, 3], VELOCIDAD_SNIPER, VELOCIDAD_SALTO_SNIPER, RETARDO_ANIMACION_SNIPER,VIDA_SNIPER,DANO_SNIPER,INVULNERABLE_SNIPER,DURACION_MUERTE_SNIPER);
 
     # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
     # La implementacion de la inteligencia segun este personaje particular
@@ -557,7 +594,7 @@ class Fase1Enemigo(NoJugador):
 
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        NoJugador.__init__(self,'fase1Enemigo1.png','coordFase1Enemigo1.txt', [2, 6, 4, 4, 0, 5], VELOCIDAD_SNIPER, VELOCIDAD_SALTO_SNIPER, RETARDO_ANIMACION_SNIPER,VIDA_SNIPER,DANO_SNIPER,INVULNERABLE_SNIPER,DURACION_MUERTE_SNIPER);
+        NoJugador.__init__(self,'fase1Enemigo1.png','coordFase1Enemigo1.txt', [2, 6, 4, 4, 0, 2], VELOCIDAD_SNIPER, VELOCIDAD_SALTO_SNIPER, RETARDO_ANIMACION_SNIPER,VIDA_SNIPER,DANO_SNIPER,INVULNERABLE_SNIPER,DURACION_MUERTE_SNIPER);
 
     # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
     # La implementacion de la inteligencia segun este personaje particular

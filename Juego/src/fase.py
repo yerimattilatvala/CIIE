@@ -87,23 +87,7 @@ class Fase(Escena):
             # Creamos otro grupo con todos los Sprites
             self.grupoSprites = pygame.sprite.Group( self.grupoJugadores, self.grupoPlataformas ) 
 
-        # Creamos las animaciones de fuego,
-        #  las que estan detras del decorado, y delante
-
-        # self.animacionesDetras = []
-        # for i in range(9):
-            # # La animacion del fuego
-            # animacionFuego = AnimacionFuego()
-            # # Aumentamos un poco el tamaño de la animacion
-            # animacionFuego.scale((400,400))
-            # # La situamos en su posicion
-            # animacionFuego.posicionx = 120*i - 200
-            # animacionFuego.posiciony = 250
-            # # Iniciamos la animacion
-            # animacionFuego.play()
-            # animacionFuego.nextFrame(i)
-            # # y la anadimos a la lista de animaciones detras
-            # self.animacionesDetras.append(animacionFuego)
+    
         
     # Devuelve True o False según se ha tenido que desplazar el scroll
     def actualizarScrollOrdenados(self, jugador):
@@ -557,8 +541,6 @@ class Fase_gigantes(Escena):
         # Indicamos la acción a realizar segun la tecla pulsada para cada jugador
         teclasPulsadas = pygame.key.get_pressed()
         self.jugador1.mover(teclasPulsadas, K_w, K_s, K_a, K_d, K_SPACE)
-
-
 
 
 
