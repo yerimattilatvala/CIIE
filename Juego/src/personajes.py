@@ -601,3 +601,16 @@ class Fase1Enemigo(NoJugador):
     def mover_cpu(self, jugador1):
         NoJugador.mover_cpu(self,jugador1)
 
+# -------------------------------------------------
+# Clase Fase1Boss
+# -------------------------------------------------
+class Fase1Boss(NoJugador):
+
+    def __init__(self):
+        # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
+        NoJugador.__init__(self,'fase1Boss.png','coordFase1Boss.txt', [1, 3, 4, 10, 0, 6], VELOCIDAD_SNIPER, VELOCIDAD_SALTO_SNIPER, RETARDO_ANIMACION_SNIPER,VIDA_SNIPER,DANO_SNIPER,INVULNERABLE_SNIPER,DURACION_MUERTE_SNIPER);
+
+    # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
+    # La implementacion de la inteligencia segun este personaje particular
+    def mover_cpu(self, jugador1):
+        NoJugador.mover_cpu(self,jugador1)
