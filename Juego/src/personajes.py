@@ -502,7 +502,7 @@ class NoJugador(Personaje):
                 Personaje.mover(self, IZQUIERDA)
                 Personaje.mover(self, ARRIBA)
                 self.atacando = False
-            elif (jugadorMasCercano.posicion[0]<self.posicion[0]):
+            elif (jugadorMasCercano.posicion[0]+100<self.posicion[0]):
                 Personaje.mover(self, IZQUIERDA)
                 self.atacando = False
             if ((jugadorMasCercano.posicion[1] < self.posicion[1]) and (jugadorMasCercano.posicion[0]>self.posicion[0]) and (abs(jugadorMasCercano.posicion[0]-self.posicion[0])<150)):
@@ -512,6 +512,7 @@ class NoJugador(Personaje):
             elif (jugadorMasCercano.posicion[0]>self.posicion[0]):
                 Personaje.mover(self, DERECHA)
                 self.atacando = False  
+
 
         
             # Cuando este cerca atacara
@@ -585,6 +586,20 @@ class Fase3Enemigo(NoJugador):
     def mover_cpu(self, jugador):
        NoJugador.mover_cpu(self,jugador)
 
+
+# -------------------------------------------------
+# Clase Fase3Boss
+# -------------------------------------------------
+class Fase3Boss(NoJugador):
+
+    def __init__(self):
+        # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
+        NoJugador.__init__(self,'Fase3Boss.png','coordFase3Boss.txt', [1, 7, 4, 11, 0, 3], VELOCIDAD_SNIPER, VELOCIDAD_SALTO_SNIPER, RETARDO_ANIMACION_SNIPER,VIDA_SNIPER,DANO_SNIPER,INVULNERABLE_SNIPER,DURACION_MUERTE_SNIPER);
+
+    # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
+    # La implementacion de la inteligencia segun este personaje particular
+    def mover_cpu(self, jugador):
+       NoJugador.mover_cpu(self,jugador)
 
 
 # -------------------------------------------------
