@@ -229,6 +229,7 @@ class Personaje(MiSprite):
         posturaNueva = self.numPostura
 
         if posturaNueva == SPRITE_MUERTE:
+            '''self.rect.bottom = self.posicion[1]'''
             if self.duracionMuerte == 0:
                 self.muerto = True
             self.duracionMuerte -= 1
@@ -441,6 +442,7 @@ class Jugador(Personaje):
                     enemigo.retardoAccion -= 1
                     enemigo.numPostura = SPRITE_MUERTE
                 enemigo.currentIFrames = enemigo.iFrames
+
         else:
             #Si no nos acaban de pegar restamos vida
             if self.currentIFrames <= 0:
