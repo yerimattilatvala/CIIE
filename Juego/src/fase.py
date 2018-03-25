@@ -544,11 +544,17 @@ class Fase_gigantes(Escena):
         # Decorado
         self.decorado.dibujar(pantalla)
         # Luego los Sprites
-        self.grupoSprites.draw(pantalla)
+        # Enemigo
+        for enemigo in self.grupoEnemigos:
+            enemigo.draw(pantalla)
 
+        # Plataformas
+        self.grupoPlataformas.draw(pantalla)
+
+        # Personaje
         self.jugador1.draw(pantalla)
+
         # El hud
-        #self.grupoHud.draw(pantalla)
         for sprite in self.grupoHud:
             sprite.draw(pantalla)
 
