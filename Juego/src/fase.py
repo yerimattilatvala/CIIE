@@ -602,7 +602,7 @@ class Cielo:
 
 class Decorado:
     def __init__(self,image,scale_value):
-        self.imagen = GestorRecursos.CargarImagen(image, -1)
+        self.imagen = GestorRecursos.CargarImagen(image, None)
         values = convertPosValues(scale_value,'pos')
         self.imagen = pygame.transform.scale(self.imagen, (values[0], values[1]))
         self.rect = self.imagen.get_rect()
