@@ -522,7 +522,7 @@ class NoJugador(Personaje):
             else:
                 self.atacando = False
                 if (jugadorMasCercano.posicion[1] < self.posicion[1]):
-                    Personaje.mover(self, IZQUIERDA)
+                    Personaje.mover(self, ARRIBA)
                 elif (jugadorMasCercano.posicion[0]>self.posicion[0]):
                     Personaje.mover(self, DERECHA)
 

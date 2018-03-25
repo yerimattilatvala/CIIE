@@ -23,7 +23,7 @@ MAXIMO_X_JUGADOR = ANCHO_PANTALLA - MINIMO_X_JUGADOR
 # Clase Fase
 
 class Fase(Escena):
-    def __init__(self, director,img_decorado,scale_decorado,sky_img,sky_scale,pos_jugador,enemigos,pos_enemigos,plataformas):
+    def __init__(self, director,img_decorado,scale_decorado,sky_img,sky_scale,pos_jugador,enemigos,pos_enemigos,plataformas,animaciones,pos_animaciones):
 
         # Habria que pasarle como parámetro el número de fase, a partir del cual se cargue
         #  un fichero donde este la configuracion de esa fase en concreto, con cosas como
@@ -87,6 +87,24 @@ class Fase(Escena):
             # Creamos otro grupo con todos los Sprites
             self.grupoSprites = pygame.sprite.Group( self.grupoJugadores, self.grupoPlataformas ) 
 
+        #Animaciones
+        if animaciones is not None:
+            print(animaciones)
+            animations = convertAnimations(animaciones)
+            #print(enemies)
+            animationsPos = convertPosValues(pos_animaciones,'enemy')
+            #print(enemiesPos)
+            if not (animations is None):
+                self.animaciones = []
+                for i, val in enumerate(animations):
+                    val.posicionx = animationsPos[i][0]
+                    val.posiciony = animationsPos[i][1]
+                    val.play()
+                    self.animaciones.append(val)
+            else:
+                self.animaciones = []
+        else:
+            self.animaciones = []
     
         
     # Devuelve True o False según se ha tenido que desplazar el scroll
@@ -266,6 +284,9 @@ class Fase(Escena):
         for sprite in self.grupoHud:
             sprite.draw(pantalla)
         # Y por ultimo, dibujamos las animaciones por encima del decorado
+        # Después las animaciones
+        for animacion in self.animaciones:
+            animacion.dibujar(pantalla,self.scrollx)
         '''
         for animacion in self.animacionesDelante:
             animacion.dibujar(pantalla)

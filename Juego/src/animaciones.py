@@ -14,8 +14,8 @@ class Animacion(pyganim.PygAnimation):
         self.posicionx += distanciax
         self.posiciony += distanciay
 
-    def dibujar(self, pantalla):
-        self.blit(pantalla, (self.posicionx, self.posiciony))
+    def dibujar(self, pantalla,scroll):
+        self.blit(pantalla, (self.posicionx - scroll, self.posiciony))
 
 # Las distintas animaciones que tendremos
 
@@ -59,3 +59,10 @@ class AnimacionHumo(Animacion):
                                         ('imagenes/smoke_puff_0008.png', 0.2),
                                         ('imagenes/smoke_puff_0009.png', 0.2),
                                         ('imagenes/smoke_puff_0010.png', 0.2)])
+
+# La animacion de cascada
+class AnimacionCascada(Animacion):
+    def __init__(self):
+        pyganim.PygAnimation.__init__(self,[
+                                        ('imagenes/cascada1.png', 0.2),
+                                        ('imagenes/cascada2.png', 0.2)])

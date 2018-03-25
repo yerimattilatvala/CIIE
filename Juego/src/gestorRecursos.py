@@ -112,3 +112,9 @@ def convertEnemies(enemies):
     for x in enemies.split():
         r.append(str_to_class('personajes',x))
     return r
+
+def convertAnimations(animations):
+    r = []
+    for x in animations.split():
+        r.append(str_to_class('animaciones',x))
+    return r
