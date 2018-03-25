@@ -39,7 +39,7 @@ VIDA_JUGADOR = MAX_VIDA_JUGADOR
 VIDA_SNIPER = 100
 
 #Dano personajes
-DANO_JUGADOR = 40
+DANO_JUGADOR = 20
 DANO_SNIPER = 1
 
 #Frames de invencibilidad despues de ser atacados
@@ -384,26 +384,10 @@ class Personaje(MiSprite):
         
         return
 
-    def text_objects(self,text, font):
-        textSurface = font.render(text, True, (255,255,255))
-        return textSurface, textSurface.get_rect()
 
-
-    # El mensaje no consigo se muestre despues de la animacion de muerte
-    def message_display(self,text):
-        largeText = pygame.font.Font('freesansbold.ttf',115)
-        TextSurf, TextRect = self.text_objects(text, largeText)
-        TextRect.center = ((ANCHO_PANTALLA/2),(ALTO_PANTALLA/2))
-        gameDisplay = pygame.display.set_mode((ANCHO_PANTALLA,ALTO_PANTALLA))
-        gameDisplay.blit(TextSurf, TextRect)
-
-        pygame.display.update()
-
-        #time.sleep(2)
-
-
+    # Retorno de pantalla cuando muere
     def dead(self):
-        self.message_display('You died')
+        pygame.display.update()
 
 
 
@@ -451,9 +435,10 @@ class Jugador(Personaje):
         if self.atacando:
             #Hacemos dano al enemigo
             if enemigo.currentIFrames <= 0:
-                enemigo.vida -= self.dano
-                print(enemigo.vida)
+                enemigo.vida = enemigo.vida - self.dano
+                print("enemigo vida %d" , enemigo.vida)
                 if enemigo.vida <= 0:
+                    enemigo.retardoAccion -= 1
                     enemigo.numPostura = SPRITE_MUERTE
                 enemigo.currentIFrames = enemigo.iFrames
         else:
@@ -495,35 +480,33 @@ class NoJugador(Personaje):
             # Por ejemplo, intentara acercarse al jugador mas cercano en el eje x
             # Miramos cual es el jugador mas cercano
 
-            jugadorMasCercano = jugador1
-
             # Y nos movemos andando hacia el
-            if ((jugadorMasCercano.posicion[1] < self.posicion[1]) and (jugadorMasCercano.posicion[0]<self.posicion[0]) and (abs(jugadorMasCercano.posicion[0]-self.posicion[0])<150)):
+            if ((jugador1.posicion[1] < self.posicion[1]) and (jugador1.posicion[0]<self.posicion[0]) and (abs(jugador1.posicion[0]-self.posicion[0])<150)):
                 Personaje.mover(self, IZQUIERDA)
                 Personaje.mover(self, ARRIBA)
                 self.atacando = False
-            elif (jugadorMasCercano.posicion[0]+100<self.posicion[0]):
+            elif (jugador1.posicion[0]<self.posicion[0]+40):
                 Personaje.mover(self, IZQUIERDA)
                 self.atacando = False
-            if ((jugadorMasCercano.posicion[1] < self.posicion[1]) and (jugadorMasCercano.posicion[0]>self.posicion[0]) and (abs(jugadorMasCercano.posicion[0]-self.posicion[0])<150)):
+            if ((jugador1.posicion[1] < self.posicion[1]) and (jugador1.posicion[0]>self.posicion[0]) and (abs(jugador1.posicion[0]-self.posicion[0])<150)):
                 Personaje.mover(self, DERECHA)
                 Personaje.mover(self, ARRIBA)
                 self.atacando = False                
-            elif (jugadorMasCercano.posicion[0]>self.posicion[0]):
+            elif (jugador1.posicion[0]>self.posicion[0]-40):
                 Personaje.mover(self, DERECHA)
                 self.atacando = False  
 
 
         
             # Cuando este cerca atacara
-            if abs(self.posicion[0]-jugadorMasCercano.posicion[0])<10:
+            if abs(self.posicion[0]-jugador1.posicion[0])<=40:
                 self.atacando = True
                 Personaje.mover(self,ATACAR)
             else:
                 self.atacando = False
-                if (jugadorMasCercano.posicion[1] < self.posicion[1]):
+                if (jugador1.posicion[1] < self.posicion[1]):
                     Personaje.mover(self, ARRIBA)
-                elif (jugadorMasCercano.posicion[0]>self.posicion[0]):
+                elif (jugador1.posicion[0]>self.posicion[0]):
                     Personaje.mover(self, DERECHA)
 
         # Si este personaje no esta en pantalla, no hara nada
@@ -551,20 +534,15 @@ class Sniper(NoJugador):
         # Movemos solo a los enemigos que esten en la pantalla
         if self.rect.left>0 and self.rect.right<ANCHO_PANTALLA and self.rect.bottom>0 and self.rect.top<ALTO_PANTALLA:
 
-            # Por ejemplo, intentara acercarse al jugador mas cercano en el eje x
-            # Miramos cual es el jugador mas cercano
-
-            jugadorMasCercano = jugador1
-
-            # Y nos movemos andando hacia el
-            if jugadorMasCercano.posicion[0]<self.posicion[0]:
+            # Nos movemos andando hacia el
+            if jugador1.posicion[0]<self.posicion[0]:
                 Personaje.mover(self,IZQUIERDA)
                 Personaje.mover(self, ARRIBA)
             else:
                 Personaje.mover(self,DERECHA)
                 Personaje.mover(self, ARRIBA)
 
-            if jugadorMasCercano.movimiento==ARRIBA:
+            if jugador1.movimiento==ARRIBA:
                 Personaje.mover(self, ARRIBA)
 
         # Si este personaje no esta en pantalla, no hara nada
