@@ -6,6 +6,7 @@ from personajes import *
 from pygame.locals import *
 from animaciones import *
 from hud import *
+from pociones import *
 
 # -------------------------------------------------
 # -------------------------------------------------
@@ -23,7 +24,7 @@ MAXIMO_X_JUGADOR = ANCHO_PANTALLA - MINIMO_X_JUGADOR
 # Clase Fase
 
 class Fase(Escena):
-    def __init__(self, director,img_decorado,scale_decorado,sky_img,sky_scale,pos_jugador,enemigos,pos_enemigos,plataformas,animaciones,pos_animaciones):
+    def __init__(self, director,img_decorado,scale_decorado,sky_img,sky_scale,pos_jugador,enemigos,pos_enemigos,plataformas,animaciones,pos_animaciones,pociones,pos_pociones):
 
         # Habria que pasarle como parámetro el número de fase, a partir del cual se cargue
         #  un fichero donde este la configuracion de esa fase en concreto, con cosas como
@@ -105,6 +106,24 @@ class Fase(Escena):
                 self.animaciones = []
         else:
             self.animaciones = []
+
+
+        #Pociones
+        if pociones is not None:
+            potions = convertPotions(pociones)
+            #print(enemies)
+            potionPos = convertPosValues(pos_pociones,'enemy')
+            #print(enemiesPos)
+            if not (potions is None):
+                self.grupoPociones = pygame.sprite.Group()  
+                for i, val in enumerate(potions):
+                    val.updatePos(potionPos[i][0],potionPos[i][1])
+                    self.grupoPociones.add(val)
+            else:
+                self.grupoPociones = pygame.sprite.Group() 
+        else:
+            self.grupoPociones = pygame.sprite.Group() 
+
     
         
     # Devuelve True o False según se ha tenido que desplazar el scroll
@@ -244,6 +263,18 @@ class Fase(Escena):
             for sprite in collide:
                 self.jugador1.restarVida(sprite)
 
+        #Pociones
+        collidePociones = pygame.sprite.groupcollide(self.grupoPociones, self.grupoJugadores, False, False)
+        #collide contine los sprites del primer grupo con los que ha colisionado
+        if collidePociones!={}:
+            for sprite in collidePociones:
+                sprite.collect(self.jugador1)
+                pygame.sprite.Group.remove(self.grupoPociones,sprite)
+       
+
+        #Actualizamos las pociones
+        self.grupoPociones.update(self.scrollx)
+
         #Actualizamos el Hud
         self.grupoHud.update(self.jugador1)
 
@@ -279,10 +310,18 @@ class Fase(Escena):
         self.grupoSprites.draw(pantalla)
 
         self.jugador1.draw(pantalla)
+
+        #Las pociones
+        for sprite in self.grupoPociones:
+            sprite.draw(pantalla,self.scrollx)
+
         # El hud
         #self.grupoHud.draw(pantalla)
         for sprite in self.grupoHud:
             sprite.draw(pantalla)
+
+        
+
         # Y por ultimo, dibujamos las animaciones por encima del decorado
         # Después las animaciones
         for animacion in self.animaciones:
@@ -519,6 +558,7 @@ class Fase_gigantes(Escena):
         if collide!={}:
             for sprite in collide:
                 self.jugador1.restarVida(sprite)
+
 
         #Actualizamos el Hud
         self.grupoHud.update(self.jugador1)

@@ -118,3 +118,9 @@ def convertAnimations(animations):
     for x in animations.split():
         r.append(str_to_class('animaciones',x))
     return r
+
+def convertPotions(potions):
+    r = []
+    for x in potions.split():
+        r.append(str_to_class('pociones',x))
+    return r
