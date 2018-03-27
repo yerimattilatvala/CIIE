@@ -72,7 +72,10 @@ def getValues(text,campoSolicitado):
 def convertPosValues(field,fieldType):
     r = []
     l = []
-    if fieldType == 'pos':
+    if fieldType == 'ace':
+        for x in field.split():
+            r.append(int(x))
+    elif fieldType == 'pos':
         for x in field.split():
             r.append(int(x))
         return tuple(r)
@@ -96,11 +99,14 @@ def convertPosValues(field,fieldType):
                 l = []
     return r
 
-def str_to_class(module_name, class_name):
+def str_to_class(module_name, class_name,val=None):
     try:
         module_ = importlib.import_module(module_name)
         try:
-            class_ = getattr(module_, class_name)()
+            if val is not None:
+                class_ = getattr(module_, class_name)(val)
+            else:
+                class_ = getattr(module_, class_name)()
         except AttributeError:
             logging.error('Class does not exist')
     except ImportError:
@@ -111,6 +117,14 @@ def convertEnemies(enemies):
     r = []
     for x in enemies.split():
         r.append(str_to_class('personajes',x))
+    return r
+
+def convertObst(obstacules,aceleracion):
+    r = []
+    cont = -1
+    for x in obstacules.split(): 
+        cont += 1   
+        r.append(str_to_class('personajes',x,aceleracion[cont]))
     return r
 
 def convertAnimations(animations):

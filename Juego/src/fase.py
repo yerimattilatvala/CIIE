@@ -24,7 +24,7 @@ MAXIMO_X_JUGADOR = ANCHO_PANTALLA - MINIMO_X_JUGADOR
 # Clase Fase
 
 class Fase(Escena):
-    def __init__(self, director,img_decorado,scale_decorado,sky_img,sky_scale,pos_jugador,enemigos,pos_enemigos,plataformas,animaciones,pos_animaciones,pociones,pos_pociones):
+    def __init__(self, director,img_decorado,scale_decorado,sky_img,sky_scale,pos_jugador,enemigos,pos_enemigos,plataformas,animaciones,pos_animaciones,pociones,pos_pociones,obstaculos = None,pos_obstaculos = None,velo_obsta = None):
 
         # Habria que pasarle como parámetro el número de fase, a partir del cual se cargue
         #  un fichero donde este la configuracion de esa fase en concreto, con cosas como
@@ -37,17 +37,7 @@ class Fase(Escena):
         # De esta forma, se podrian tener muchas fases distintas con esta clase
 
         # Primero invocamos al constructor de la clase padre
-        '''
-            img_decorado = 'image.png'
-            scale_decorado = (width,heigh)
-            pos_jugador = (x,y)
-            num_enemigos = 1,2,3....>0
-            tipo_enemigos = 'sniper'...'bestia'
-            pos_enemigos = [(x,y),(x,y),....]
-            plataformas = [Plataforma1,Plataforma2,.....]
-        '''
-        #print(int(pos_jugador))
-        #print(type(pos_jugador))
+
         Escena.__init__(self, director)
         # Creamos el decorado y el fondo
         self.fondo = Cielo(sky_img,sky_scale)
@@ -75,6 +65,7 @@ class Fase(Escena):
         enemies = convertEnemies(enemigos)
         #print(enemies)
         enemiesPos = convertPosValues(pos_enemigos,'enemy')
+
         #print(enemiesPos)
         if not (enemies is None):
             self.grupoEnemigos = pygame.sprite.Group()
@@ -107,7 +98,19 @@ class Fase(Escena):
         else:
             self.animaciones = []
 
-
+        #Obstaculos
+        self.obstaculos = pygame.sprite.Group()
+        if obstaculos is not None:
+            #self.obstaculo = FireBall(1,5)
+            #self.obstaculo.establecerPosicion((290,650))
+            aceleracion = convertPosValues(velo_obsta,'ace')
+            obsPos = convertPosValues(pos_obstaculos,'enemy')                
+            obstaculos = convertObst(obstaculos,aceleracion)
+            if obstaculos is not None:
+                for i, val in enumerate(obstaculos):
+                    val.establecerPosicion((obsPos[i][0],obsPos[i][1]))
+                    self.obstaculos.add(val)
+        
         #Pociones
         if pociones is not None:
             potions = convertPotions(pociones)
@@ -220,7 +223,8 @@ class Fase(Escena):
             for sprite in iter(self.grupoSprites):
                 sprite.establecerPosicionPantalla((self.scrollx, 0))
             jugador1.establecerPosicionPantalla((self.scrollx, 0))
-
+            for obs in iter(self.obstaculos):
+                obs.establecerPosicionPantalla((self.scrollx, 0))
             # Ademas, actualizamos el decorado para que se muestre una parte distinta
             self.decorado.update(self.scrollx)
 
@@ -246,6 +250,7 @@ class Fase(Escena):
         # Esta operación de update ya comprueba que los movimientos sean correctos
         #  y, si lo son, realiza el movimiento de los Sprites
         self.grupoSpritesDinamicos.update(self.grupoPlataformas, tiempo)
+        
         # Dentro del update ya se comprueba que todos los movimientos son válidos
         #  (que no choque con paredes, etc.)
 
@@ -261,6 +266,11 @@ class Fase(Escena):
         #collide contine los sprites del primer grupo con los que ha colisionado
         if collide!={}:
             for sprite in collide:
+                self.jugador1.restarVida(sprite)
+        collide1 = pygame.sprite.groupcollide(self.obstaculos, self.grupoJugadores, False, False)
+        #collide contine los sprites del primer grupo con los que ha colisionado
+        if collide1!={}:
+            for sprite in collide1:
                 self.jugador1.restarVida(sprite)
 
         #Pociones
@@ -297,6 +307,9 @@ class Fase(Escena):
         #  la posicion del sol y el color del cielo
         self.fondo.update(tiempo)
 
+        for obs in iter(self.obstaculos):
+            obs.update(tiempo)
+        
         
     def dibujar(self, pantalla):
         # Ponemos primero el fondo
@@ -310,6 +323,8 @@ class Fase(Escena):
         self.grupoSprites.draw(pantalla)
 
         self.jugador1.draw(pantalla)
+        for obs in iter(self.obstaculos):
+            obs.dibujar(pantalla)
 
         #Las pociones
         for sprite in self.grupoPociones:
@@ -516,7 +531,6 @@ class Fase_gigantes(Escena):
             for sprite in iter(self.grupoSprites):
                 sprite.establecerPosicionPantalla((self.scrollx, 0))
             jugador1.establecerPosicionPantalla((self.scrollx, 0))
-
             # Ademas, actualizamos el decorado para que se muestre una parte distinta
             self.decorado.update(self.scrollx)
 

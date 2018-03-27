@@ -102,8 +102,51 @@ class MiSprite(pygame.sprite.Sprite):
         incrementoy = self.velocidad[1]*tiempo
         self.incrementarPosicion((incrementox, incrementoy))
 
+# -------------------------------------------------
+# Clase Obstaculo
+# -------------------------------------------------
+#class Obstaculo(pygame.sprite.Sprite):
+class Obstaculo(MiSprite):
+    def __init__(self,archivoImagen,dano):
+        MiSprite.__init__(self)
+        self.dano = dano
+        # Se carga la hoja
+        self.image = GestorRecursos.CargarImagen(archivoImagen,-1)
+        self.image = self.image.convert_alpha()
+        self.rect = self.image.get_rect()
 
+    def dibujar(self,pantalla):
+        pantalla.blit(self.image,self.rect)
 
+class FireBall(Obstaculo):
+    def __init__(self,aceleracion):
+        Obstaculo.__init__(self,'fireball.png',1)
+        self.image1 = GestorRecursos.CargarImagen('fireball.png',-1)
+        self.image1 = self.image1.convert_alpha()
+        self.image2 = GestorRecursos.CargarImagen('fireballAbajo.png',-1)
+        self.image2 = self.image2.convert_alpha()
+        self.bajar = False
+        self.subir = True
+        self.aceleracion = -aceleracion
+
+    def update(self, tiempo):
+        incrementox = self.velocidad[0]*tiempo
+        incrementoy = 0
+        if self.posicion[1] >= ALTO_PANTALLA:
+            self.image = self.image1
+            self.bajar = False
+            self.subir = True
+        elif self.posicion[1]<= 100:
+            self.bajar = True
+            self.subir = False
+            self.image = self.image2
+        if self.subir == True :
+            incrementoy = self.aceleracion
+        if self.bajar == True :
+            incrementoy = -self.aceleracion
+        self.incrementarPosicion((incrementox, incrementoy))
+        
+        
 # -------------------------------------------------
 # Clases Personaje
 # -------------------------------------------------
