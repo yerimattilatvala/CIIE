@@ -113,7 +113,8 @@ class Obstaculo(MiSprite):
         # Se carga la hoja
         self.image = GestorRecursos.CargarImagen(archivoImagen,-1)
         self.image = self.image.convert_alpha()
-        self.rect = self.image.get_rect()
+        #self.rect = self.image.get_rect()
+        self.rect = pygame.Rect(100,100,40,40)
 
     def dibujar(self,pantalla):
         pantalla.blit(self.image,self.rect)
@@ -128,6 +129,7 @@ class FireBall(Obstaculo):
         self.bajar = False
         self.subir = True
         self.aceleracion = -aceleracion
+        self.currentIFrames = 100
 
     def update(self, tiempo):
         incrementox = self.velocidad[0]*tiempo
@@ -480,7 +482,7 @@ class Jugador(Personaje):
             #Hacemos dano al enemigo
             if enemigo.currentIFrames <= 0:
                 enemigo.vida = enemigo.vida - self.dano
-                print("enemigo vida %d" , enemigo.vida)
+                #print("enemigo vida %d" , enemigo.vida)
                 if enemigo.vida <= 0:
                     enemigo.retardoAccion -= 1
                     enemigo.numPostura = SPRITE_MUERTE
@@ -490,7 +492,7 @@ class Jugador(Personaje):
             #Si no nos acaban de pegar restamos vida
             if self.currentIFrames <= 0:
                 self.vida = self.vida - enemigo.dano
-                print(self.vida)
+                #print(self.vida)
                 if self.vida <= 0:
                     self.numPostura = SPRITE_MUERTE
                     self.dead()
@@ -661,6 +663,20 @@ class Fase5Enemigo(NoJugador):
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         NoJugador.__init__(self,'fase5Enemigo.png','coordFase5Enemigo.txt', [3, 6, 2, 3, 2, 4], VELOCIDAD_SNIPER, VELOCIDAD_SALTO_SNIPER, RETARDO_ANIMACION_SNIPER,VIDA_SNIPER,DANO_SNIPER,INVULNERABLE_SNIPER,DURACION_MUERTE_SNIPER);
+
+    # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
+    # La implementacion de la inteligencia segun este personaje particular
+    def mover_cpu(self, jugador1):
+        NoJugador.mover_cpu(self,jugador1)
+
+# -------------------------------------------------
+# Clase Fase2Enemigo
+# -------------------------------------------------
+class Fase2Enemigo(NoJugador):
+
+    def __init__(self):
+        # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
+        NoJugador.__init__(self,'fase2Enemigo1.png','coordFase2Enemigo1.txt', [1,3,3,1,1,1], VELOCIDAD_SNIPER, VELOCIDAD_SALTO_SNIPER, RETARDO_ANIMACION_SNIPER,VIDA_SNIPER,DANO_SNIPER,INVULNERABLE_SNIPER,DURACION_MUERTE_SNIPER);
 
     # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
     # La implementacion de la inteligencia segun este personaje particular

@@ -1,196 +1,35 @@
 .sprite {
-	background: url('imgs/BearVariant.png') no-repeat -6px -11px;
-	width: 73px;
-	height: 96px;
+	background: url('imgs/crocoleinbig.png') no-repeat -259px -100px;
+	width: 123px;
+	height: 39px;
 }
 
 .sprite {
-	background: url('imgs/BearVariant.png') no-repeat -90px -10px;
-	width: 70px;
-	height: 97px;
+	background: url('imgs/crocoleinbig.png') no-repeat -131px -103px;
+	width: 124px;
+	height: 39px;
 }
 
 .sprite {
-	background: url('imgs/BearVariant.png') no-repeat -172px -11px;
-	width: 73px;
-	height: 96px;
-}
-.sprite {
-	background: url('imgs/BearVariant.png') no-repeat -258px -12px;
-	width: 77px;
-	height: 95px;
-}
-.sprite {
-	background: url('imgs/BearVariant.png') no-repeat -347px -12px;
-	width: 77px;
-	height: 95px;
-}
-
-
-
-
-.sprite {
-	background: url('imgs/BearVariant.png') no-repeat -463px -12px;
-	width: 76px;
-	height: 95px;
-}
-.sprite {
-	background: url('imgs/BearVariant.png') no-repeat -547px -11px;
-	width: 80px;
-	height: 96px;
-}
-.sprite {
-	background: url('imgs/BearVariant.png') no-repeat -635px -13px;
-	width: 82px;
-	height: 94px;
-}
-.sprite {
-	background: url('imgs/BearVariant.png') no-repeat -728px -14px;
-	width: 82px;
-	height: 93px;
-}
-.sprite {
-	background: url('imgs/BearVariant.png') no-repeat -820px -12px;
-	width: 78px;
-	height: 95px;
-}
-.sprite {
-	background: url('imgs/BearVariant.png') no-repeat -910px -12px;
-	width: 76px;
-	height: 95px;
-}
-
-
-
-
-
-
-
-.sprite {
-	background: url('imgs/BearVariant.png') no-repeat -21px -138px;
-	width: 78px;
-	height: 95px;
-}
-.sprite {
-	background: url('imgs/BearVariant.png') no-repeat -108px -138px;
-	width: 106px;
-	height: 95px;
-}
-.sprite {
-	background: url('imgs/BearVariant.png') no-repeat -220px -116px;
-	width: 100px;
-	height: 117px;
-}
-.sprite {
-	background: url('imgs/BearVariant.png') no-repeat -331px -137px;
-	width: 114px;
-	height: 95px;
-}
-.sprite {
-	background: url('imgs/BearVariant.png') no-repeat -465px -138px;
-	width: 99px;
-	height: 94px;
-}
-.sprite {
-	background: url('imgs/BearVariant.png') no-repeat -585px -140px;
-	width: 98px;
-	height: 95px;
-}
-.sprite {
-	background: url('imgs/BearVariant.png') no-repeat -713px -142px;
-	width: 83px;
-	height: 91px;
+	background: url('imgs/crocoleinbig.png') no-repeat 0 -97px;
+	width: 128px;
+	height: 45px;
 }
 
 .sprite {
-	background: url('imgs/BearVariant.png') no-repeat -812px -141px;
-	width: 83px;
-	height: 92px;
-}
-
-
-
-
-.sprite {
-	background: url('imgs/BearVariant.png') no-repeat -4px -255px;
-	width: 106px;
-	height: 95px;
-}
-.sprite {
-	background: url('imgs/BearVariant.png') no-repeat -130px -275px;
-	width: 125px;
-	height: 76px;
-}
-
-.sprite {
-	background: url('imgs/BearVariant.png') no-repeat -271px -275px;
-	width: 118px;
-	height: 76px;
-}
-.sprite {
-	background: url('imgs/BearVariant.png') no-repeat -404px -272px;
-	width: 120px;
-	height: 79px;
-}
-.sprite {
-	background: url('imgs/BearVariant.png') no-repeat -533px -275px;
-	width: 121px;
-	height: 77px;
-}
-
-
-
-
-
-
-.sprite {
-	background: url('imgs/BearVariant.png') no-repeat -27px -516px;
-	width: 91px;
-	height: 86px;
-}
-
-.sprite {
-	background: url('imgs/BearVariant.png') no-repeat -137px -493px;
-	width: 76px;
-	height: 109px;
-}
-
-.sprite {
-	background: url('imgs/BearVariant.png') no-repeat -331px -510px;
-	width: 83px;
-	height: 92px;
-}
-
-.sprite {
-	background: url('imgs/BearVariant.png') no-repeat -539px -547px;
-	width: 85px;
-	height: 55px;
-}
-.sprite {
-	background: url('imgs/BearVariant.png') no-repeat -228px -556px;
-	width: 93px;
-	height: 46px;
-}
-.sprite {
-	background: url('imgs/BearVariant.png') no-repeat -437px -556px;
-	width: 93px;
+	background: url('imgs/crocoleinbig.png') no-repeat 0 -172px;
+	width: 128px;
 	height: 46px;
 }
 
 .sprite {
-	background: url('imgs/BearVariant.png') no-repeat -461px -661px;
-	width: 80px;
-	height: 30px;
+	background: url('imgs/crocoleinbig.png') no-repeat -131px -178px;
+	width: 124px;
+	height: 40px;
 }
 
 .sprite {
-	background: url('imgs/BearVariant.png') no-repeat -561px -628px;
-	width: 62px;
-	height: 96px;
+	background: url('imgs/crocoleinbig.png') no-repeat -259px -175px;
+	width: 123px;
+	height: 40px;
 }
-.sprite {
-	background: url('imgs/BearVariant.png') no-repeat -640px -623px;
-	width: 22px;
-	height: 89px;
-}
-
