@@ -195,7 +195,7 @@ class Fuego(Objeto):
 class BolasPinchos(Objeto):
     def __init__(self,aceleracion,limit):
         Objeto.__init__(self,None)
-        self.dano = 10
+        self.dano = 20
         self.currentIFrames = 100
         self.scalex = 60
         self.scaley = 60
@@ -851,9 +851,80 @@ class Fase2Boss(NoJugador):
 
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        NoJugador.__init__(self,'fase2Boss.gif','coordFase2Boss.txt', [1,6,3,3,1,1], VELOCIDAD_SNIPER, VELOCIDAD_SALTO_SNIPER, RETARDO_ANIMACION_SNIPER,VIDA_SNIPER,int(VIDA_JUGADOR/3),INVULNERABLE_SNIPER,DURACION_MUERTE_SNIPER,True,80,112);
-    # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
-    # La implementacion de la inteligencia segun este personaje particular
+        NoJugador.__init__(self,'fase2Boss.gif','coordFase2Boss.txt', [1,6,3,3,1,1], 0.15, VELOCIDAD_SALTO_SNIPER, 10,1500,int(VIDA_JUGADOR/3),INVULNERABLE_SNIPER,DURACION_MUERTE_SNIPER,True,80,112);
+        self.mirando = IZQUIERDA
+        self.sufrir = False
+        self.vidaIni = self.vida
+        self.limite1 = 370
+        self.limite2 = 580
+        self.limite3 = 200
+        self.parar = False
+        self.derecha = False
+        self.izquierda = True
+        self.derecha1 = False
+        self.izquierda1 = True
+        self.cerca = False
+        self.lejos = True
+
     def mover_cpu(self, jugador1):
-        #NoJugador.mover_cpu(self,jugador1)
-        return
+        #Restamos iFrames
+        if self.currentIFrames > 0:
+            self.currentIFrames -= 1
+
+        # Movemos solo a los enemigos que esten en la pantalla
+        if self.rect.left>0 and self.rect.right<ANCHO_PANTALLA and self.rect.bottom>0 and self.rect.top<ALTO_PANTALLA:
+
+            if self.parar == False and self.vida <= self.vidaIni-50:
+                self.lejos = False
+                self.atacando = False
+                self.cerca = False
+                self.sufrir = True
+                self.derecha = False
+                self.izquierda = False
+
+            if abs(self.posicion[0]-jugador1.posicion[0])<=90 and abs(self.posicion[1]-jugador1.posicion[1])<=90 :
+                self.cerca = True
+                self.lejos = False
+                self.atacando = True
+
+            if self.parar == False and abs(self.posicion[0]-jugador1.posicion[0])>=150:
+                self.atacando = False
+                self.cerca = False
+                self.lejos = True
+
+            if self.posicion[0] <= self.limite3:
+                self.parar = True
+                self.sufrir = False
+                
+
+            if self.parar:
+                '''self.lejos = False
+                self.sufrir = False
+                if self.posicion[0]>=self.limite5:
+                    self.izquierda1 = True
+                    self.derecha1= False
+                elif self.posicion[0]<=self.limite4:
+                    self.derecha1 = True
+                    self.izquierda1 = False'''
+                self.mirando = DERECHA
+                Personaje.mover(self,QUIETO)
+
+            if self.parar == False and self.lejos:
+                if self.posicion[0]>=self.limite2:
+                    self.izquierda = True
+                    self.derecha = False
+                elif self.posicion[0]<=self.limite1:
+                    self.derecha = True
+                    self.izquierda = False
+
+            if self.derecha :
+                Personaje.mover(self,DERECHA)
+            elif self.izquierda:
+                Personaje.mover(self,IZQUIERDA)
+
+            if self.atacando:
+                Personaje.mover(self,ATACAR)
+            
+            if self.parar == False and self.sufrir:
+                Personaje.mover(self,IZQUIERDA)
+
