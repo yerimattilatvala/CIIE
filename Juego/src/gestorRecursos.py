@@ -138,3 +138,11 @@ def convertPotions(potions):
     for x in potions.split():
         r.append(str_to_class('pociones',x))
     return r
+
+def convertObjects(enemies,action):
+    r = []
+    cont = -1
+    for x in enemies.split():
+        cont += 1
+        r.append(str_to_class('personajes',x,bool(action[cont])))
+    return r
