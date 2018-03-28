@@ -20,12 +20,12 @@ class PocionCerveza(pygame.sprite.Sprite):
         self.currentImage = 0
 
         self.images = []
-        self.images.append(pygame.transform.scale(GestorRecursos.CargarImagen('cerveza_item/0.png',-1),(self.scalex,self.scaley)).convert_alpha())
-        self.images.append(pygame.transform.scale(GestorRecursos.CargarImagen('cerveza_item/1.png',-1),(self.scalex,self.scaley)).convert_alpha())
-        self.images.append(pygame.transform.scale(GestorRecursos.CargarImagen('cerveza_item/2.png',-1),(self.scalex,self.scaley)).convert_alpha())
-        self.images.append(pygame.transform.scale(GestorRecursos.CargarImagen('cerveza_item/3.png',-1),(self.scalex,self.scaley)).convert_alpha())
-        self.images.append(pygame.transform.scale(GestorRecursos.CargarImagen('cerveza_item/4.png',-1),(self.scalex,self.scaley)).convert_alpha())
-        self.images.append(pygame.transform.scale(GestorRecursos.CargarImagen('cerveza_item/5.png',-1),(self.scalex,self.scaley)).convert_alpha())
+        self.images.append(pygame.transform.scale(GestorRecursos.CargarImagen('cerveza_item/0.png', -1),(self.scalex,self.scaley)).convert_alpha())
+        self.images.append(pygame.transform.scale(GestorRecursos.CargarImagen('cerveza_item/1.png', -1),(self.scalex,self.scaley)).convert_alpha())
+        self.images.append(pygame.transform.scale(GestorRecursos.CargarImagen('cerveza_item/2.png', -1),(self.scalex,self.scaley)).convert_alpha())
+        self.images.append(pygame.transform.scale(GestorRecursos.CargarImagen('cerveza_item/3.png', -1),(self.scalex,self.scaley)).convert_alpha())
+        self.images.append(pygame.transform.scale(GestorRecursos.CargarImagen('cerveza_item/4.png', -1),(self.scalex,self.scaley)).convert_alpha())
+        self.images.append(pygame.transform.scale(GestorRecursos.CargarImagen('cerveza_item/5.png', -1),(self.scalex,self.scaley)).convert_alpha())
 
         self.rect = pygame.Rect(self.posX,self.posY,85,112)
     

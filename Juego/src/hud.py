@@ -17,10 +17,10 @@ class Hud(pygame.sprite.Sprite):
         self.scaley = 50
 
         self.image0 = pygame.transform.scale(GestorRecursos.CargarImagen(CERVEZA_0,-1),(self.scalex,self.scaley)).convert_alpha()
-        self.image1 = pygame.transform.scale(GestorRecursos.CargarImagen('cerveza_1.png',-1),(self.scalex,self.scaley)).convert_alpha()
-        self.image2 = pygame.transform.scale(GestorRecursos.CargarImagen('cerveza_2.png',-1),(self.scalex,self.scaley)).convert_alpha()
-        self.image3 = pygame.transform.scale(GestorRecursos.CargarImagen('cerveza_3.png',-1),(self.scalex,self.scaley)).convert_alpha()
-        self.image4 = pygame.transform.scale(GestorRecursos.CargarImagen('cerveza_4.png',-1),(self.scalex,self.scaley)).convert_alpha()
+        self.image1 = pygame.transform.scale(GestorRecursos.CargarImagen(CERVEZA_1,-1),(self.scalex,self.scaley)).convert_alpha()
+        self.image2 = pygame.transform.scale(GestorRecursos.CargarImagen(CERVEZA_2,-1),(self.scalex,self.scaley)).convert_alpha()
+        self.image3 = pygame.transform.scale(GestorRecursos.CargarImagen(CERVEZA_3,-1),(self.scalex,self.scaley)).convert_alpha()
+        self.image4 = pygame.transform.scale(GestorRecursos.CargarImagen(CERVEZA_4,-1),(self.scalex,self.scaley)).convert_alpha()
 
     def update(self,jugador):
         self.vida = jugador.vida

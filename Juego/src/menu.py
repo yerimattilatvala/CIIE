@@ -9,7 +9,6 @@ from escena import *
 from gestorRecursos import *
 from values import *
 from fase import Fase
-from fase import Fase_gigantes
 from animaciones import AnimacionFuego, AnimacionRayo, AnimacionHumo
 
 # -------------------------------------------------
@@ -324,7 +323,7 @@ class PantallaDificultadGUI(PantallaInicialGUI):
         textFase1 = CampoTexto(self,'Ruben',FONT_MENU,WHITE,30,20,250,self.menu.ejecutarFase1)
         textFase2 = CampoTexto(self,'Isa-GIGANTES',FONT_MENU,WHITE,30,20,300,self.menu.ejecutarFase3)
         textFase3 = CampoTexto(self,'Yeray',FONT_MENU,WHITE,30,20,350,self.menu.ejecutarFase2)
-        textFase4 = CampoTexto(self,'Nagas',FONT_MENU,WHITE,30,20,400,self.menu.ejecutarFase4)
+        #textFase4 = CampoTexto(self,'Nagas',FONT_MENU,WHITE,30,20,400,self.menu.ejecutarFase4)
         textFase5 =CampoTexto(self,'Dani',FONT_MENU,WHITE,30,20,450,self.menu.ejecutarFase5)
         textMenu = CampoTexto(self,'Menu Principal',FONT_MENU,WHITE,30,20,500,self.menu.mostrarPantallaInicial)
 
@@ -332,7 +331,7 @@ class PantallaDificultadGUI(PantallaInicialGUI):
         self.elementosGUI.append(textFase1)
         self.elementosGUI.append(textFase2)
         self.elementosGUI.append(textFase3)
-        self.elementosGUI.append(textFase4)
+        #self.elementosGUI.append(textFase4)
         self.elementosGUI.append(textFase5)
         self.elementosGUI.append(textMenu)
 # -------------------------------------------------
@@ -390,11 +389,11 @@ class Menu(Escena):
         self.director.apilarEscena(fase)
 
     def ejecutarFase3(self):
-        fase = Fase_gigantes(self.director,getValues(TEXT,'FASE3_FONDO='),getValues(TEXT,'FASE3_FONDO_SCALE='),getValues(TEXT,'FASE3_POS_JUGADOR='),getValues(TEXT,'FASE3_ENEMIGOS='),getValues(TEXT,'FASE3_ENEMIGOS_POS='),getValues(TEXT,'FASE3_PLATAFORMAS='))
+        fase = Fase(self.director,getValues(TEXT,'FASE3_FONDO='),getValues(TEXT,'FASE3_FONDO_SCALE='),None, None, getValues(TEXT,'FASE3_POS_JUGADOR='),getValues(TEXT,'FASE3_ENEMIGOS='),getValues(TEXT,'FASE3_ENEMIGOS_POS='),getValues(TEXT,'FASE3_PLATAFORMAS='), None,None,None,None)
         self.director.apilarEscena(fase)
 
     def ejecutarFase4(self):
-        fase = Fase_gigantes(self.director,getValues(TEXT,'FASE4_FONDO='),getValues(TEXT,'FASE4_FONDO_SCALE='),getValues(TEXT,'FASE4_POS_JUGADOR='),getValues(TEXT,'FASE4_ENEMIGOS='),getValues(TEXT,'FASE4_ENEMIGOS_POS='),getValues(TEXT,'FASE4_PLATAFORMAS='))
+        fase = Fase(self.director,getValues(TEXT,'FASE4_FONDO='),getValues(TEXT,'FASE4_FONDO_SCALE='), None, None, getValues(TEXT,'FASE4_POS_JUGADOR='),getValues(TEXT,'FASE4_ENEMIGOS='),getValues(TEXT,'FASE4_ENEMIGOS_POS='),getValues(TEXT,'FASE4_PLATAFORMAS='), None, None, None, None)
         self.director.apilarEscena(fase)
 
     def ejecutarFase5(self):
