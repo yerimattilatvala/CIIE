@@ -831,7 +831,7 @@ class Fase2Enemigo(NoJugador):
 
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        NoJugador.__init__(self,'fase2Enemigo1.png','coordFase2Enemigo1.txt', [1,3,3,1,1,1], VELOCIDAD_ENEMIGO, VELOCIDAD_SALTO_ENEMIGO, RETARDO_ANIMACION_ENEMIGO,VIDA_ENEMIGO,DANO_ENEMIGO,INVULNERABLE_ENEMIGO,DURACION_MUERTE_ENEMIGO,False,None,None);
+        NoJugador.__init__(self,'fase2Enemigo1.png','coordFase2Enemigo1.txt', [1,3,3,2,2,1], VELOCIDAD_ENEMIGO, VELOCIDAD_SALTO_ENEMIGO, RETARDO_ANIMACION_ENEMIGO,VIDA_ENEMIGO,DANO_ENEMIGO,INVULNERABLE_ENEMIGO,DURACION_MUERTE_ENEMIGO,False,None,None);
         #self.images.append(pygame.transform.scale(GestorRecursos.CargarImagen('cerveza_item/0.png',-1),(self.scalex,self.scaley)).convert_alpha())
 
     # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
@@ -846,20 +846,18 @@ class Fase2Boss(NoJugador):
 
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        NoJugador.__init__(self,'fase2Boss.gif','coordFase2Boss.txt', [1,6,3,3,1,1], 0.15, VELOCIDAD_SALTO_ENEMIGO, 10,1500,int(VIDA_JUGADOR/3),INVULNERABLE_ENEMIGO,DURACION_MUERTE_ENEMIGO,True,80,112);
+        NoJugador.__init__(self,'fase2Boss.gif','coordFase2Boss.txt', [1,6,3,3,1,1], 0.15, VELOCIDAD_SALTO_ENEMIGO, 10,2000,int(VIDA_JUGADOR/4),INVULNERABLE_ENEMIGO,DURACION_MUERTE_ENEMIGO,True,80,112);
         self.mirando = IZQUIERDA
+        self.Pelear = True
         self.sufrir = False
         self.vidaIni = self.vida
         self.limite1 = 370
         self.limite2 = 580
         self.limite3 = 200
-        self.parar = False
+        self.atacando = False
         self.derecha = False
         self.izquierda = True
-        self.derecha1 = False
-        self.izquierda1 = True
-        self.cerca = False
-        self.lejos = True
+        self.parar = False
 
     def mover_cpu(self, jugador1):
         #Restamos iFrames
@@ -869,57 +867,51 @@ class Fase2Boss(NoJugador):
         # Movemos solo a los enemigos que esten en la pantalla
         if self.rect.left>0 and self.rect.right<ANCHO_PANTALLA and self.rect.bottom>0 and self.rect.top<ALTO_PANTALLA:
 
-            if self.parar == False and self.vida <= self.vidaIni-50:
-                self.lejos = False
-                self.atacando = False
-                self.cerca = False
-                self.sufrir = True
-                self.derecha = False
-                self.izquierda = False
+            if self.parar == False:
+                if jugador1.posicion[1] <= 200:
+                    self.Pelear = False
 
-            if abs(self.posicion[0]-jugador1.posicion[0])<=90 and abs(self.posicion[1]-jugador1.posicion[1])<=90 :
-                self.cerca = True
-                self.lejos = False
-                self.atacando = True
+                if abs(self.posicion[0]-jugador1.posicion[0])<=90 and abs(self.posicion[1]-jugador1.posicion[1])<=90:
+                    self.atacando = True
+                else:
+                    self.atacando = False
 
-            if self.parar == False and abs(self.posicion[0]-jugador1.posicion[0])>=150:
-                self.atacando = False
-                self.cerca = False
-                self.lejos = True
+                if self.sufrir == False and self.Pelear == False and abs(self.posicion[0]-jugador1.posicion[0])>=250:
+                    self.Pelear = True
 
-            if self.posicion[0] <= self.limite3:
-                self.parar = True
-                self.sufrir = False
-                
-
-            if self.parar:
-                '''self.lejos = False
-                self.sufrir = False
-                if self.posicion[0]>=self.limite5:
-                    self.izquierda1 = True
-                    self.derecha1= False
-                elif self.posicion[0]<=self.limite4:
-                    self.derecha1 = True
-                    self.izquierda1 = False'''
-                self.mirando = DERECHA
-                Personaje.mover(self,QUIETO)
-
-            if self.parar == False and self.lejos:
-                if self.posicion[0]>=self.limite2:
-                    self.izquierda = True
+                if self.vida <= self.vidaIni-50:
+                    self.sufrir = True
+                    self.Pelear = False
                     self.derecha = False
-                elif self.posicion[0]<=self.limite1:
-                    self.derecha = True
                     self.izquierda = False
 
-            if self.derecha :
-                Personaje.mover(self,DERECHA)
-            elif self.izquierda:
-                Personaje.mover(self,IZQUIERDA)
+                if self.Pelear:
+                    if jugador1.posicion[0]<=self.posicion[0]:
+                        Personaje.mover(self,IZQUIERDA)
+                    elif jugador1.posicion[0]>=self.posicion[0]:
+                        Personaje.mover(self,DERECHA)
+                else:
+                    self.atacando = False
+                    if self.posicion[0]>=self.limite2:
+                        self.izquierda = True
+                        self.derecha = False
+                    elif self.posicion[0]<=self.limite1:
+                        self.derecha = True
+                        self.izquierda = False
 
-            if self.atacando:
-                Personaje.mover(self,ATACAR)
-            
-            if self.parar == False and self.sufrir:
-                Personaje.mover(self,IZQUIERDA)
+                if self.sufrir == False and self.Pelear == False and self.derecha :
+                    Personaje.mover(self,DERECHA)
+                elif self.sufrir == False and self.Pelear == False and self.izquierda:
+                    Personaje.mover(self,IZQUIERDA)
 
+                if self.Pelear and self.atacando:
+                    Personaje.mover(self,ATACAR)
+
+                if self.sufrir:
+                    if self.posicion[0]>self.limite3:
+                        Personaje.mover(self,IZQUIERDA)
+                    else:
+                        self.parar = True
+            else:
+                self.mirando = DERECHA
+                Personaje.mover(self,QUIETO)
