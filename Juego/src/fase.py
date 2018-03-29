@@ -322,7 +322,10 @@ class Fase(Escena):
         # Después el decorado
         self.decorado.dibujar(pantalla)
         # Luego los Sprites
-        self.grupoSprites.draw(pantalla)
+        self.grupoPlataformas.draw(pantalla)
+
+        for enemigo in self.grupoEnemigos:
+            enemigo.draw(pantalla)
 
         #Jugador
         self.jugador1.draw(pantalla)
