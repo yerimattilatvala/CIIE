@@ -915,6 +915,7 @@ class Fase2Boss(NoJugador):
 
                 if self.sufrir:
                     if self.posicion[0]>self.limite3:
+                        Personaje.mover(jugador1,QUIETO)
                         Personaje.mover(self,IZQUIERDA)
                     else:
                         self.parar = True
