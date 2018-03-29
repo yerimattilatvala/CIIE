@@ -24,7 +24,7 @@ MAXIMO_X_JUGADOR = ANCHO_PANTALLA - MINIMO_X_JUGADOR
 # Clase Fase
 
 class Fase(Escena):
-    def __init__(self, director,img_decorado,scale_decorado,sky_img,sky_scale,pos_jugador,enemigos,pos_enemigos,plataformas,animaciones,pos_animaciones,pociones,pos_pociones,obstaculos,pos_obstaculos ,velo_obsta,objetos,pos_objetos,object_action):
+    def __init__(self, director, numeroFase, max_distance, img_decorado,scale_decorado,sky_img,sky_scale,pos_jugador,enemigos,pos_enemigos,plataformas,animaciones,pos_animaciones,pociones,pos_pociones,obstaculos,pos_obstaculos ,velo_obsta,objetos,pos_objetos,object_action, isBoss):
 
         # Primero invocamos al constructor de la clase padre
         Escena.__init__(self, director)
@@ -37,6 +37,11 @@ class Fase(Escena):
         # Que parte del decorado estamos visualizando, scroll horizontal
         self.scrollx = 0
        
+       # Datos fase
+        self.numeroFase = numeroFase
+        self.max_distance = max_distance
+        self.isBoss = isBoss
+        print(self.isBoss)
 
         # Creamos los sprites de los jugadores
         self.jugador1 = Jugador()
@@ -355,6 +360,34 @@ class Fase(Escena):
         # Indicamos la acción a realizar segun la tecla pulsada para cada jugador
         teclasPulsadas = pygame.key.get_pressed()
         self.jugador1.mover(teclasPulsadas, K_w, K_s, K_a, K_d, K_SPACE)
+
+        
+        #Cambiar a escena
+        if (self.jugador1.posicion[0]>self.max_distance) and not (self.isBoss):
+            #Esto para todos
+            if (self.numeroFase == 2):
+                fase = Fase(self.director, 2, getValues(TEXT,'MAX_DISTANCE_2BOSS='), getValues(TEXT,'FASE2BOSS_FONDO='),getValues(TEXT,'FASE2BOSS_FONDO_SCALE='),getValues(TEXT,'FASE2BOSS_CIELO='),getValues(TEXT,'FASE2BOSS_CIELO_SCALE='),getValues(TEXT,'FASE2BOSS_POS_JUGADOR='),getValues(TEXT,'FASE2BOSS_ENEMIGOS='),getValues(TEXT,'FASE2BOSS_ENEMIGOS_POS='),getValues(TEXT,'FASE2BOSS_PLATAFORMAS='),None,None,None,None,None,None,None,getValues(TEXT,'FASE2BOSS_OBJETOS='),getValues(TEXT,'FASE2BOSS_OBJETOS_POS='),getValues(TEXT,'FASE2BOSS_OBJETOS_ACTION='), True)
+                self.director.cambiarEscena(fase)
+                
+
+        if (self.jugador1.posicion[0]>self.max_distance) and self.isBoss:
+            if (self.numeroFase == 2):
+                fase = Fase(self.director, 3, getValues(TEXT,'MAX_DISTANCE_3='), getValues(TEXT,'FASE3_FONDO='),getValues(TEXT,'FASE3_FONDO_SCALE='),None, None, getValues(TEXT,'FASE3_POS_JUGADOR='),getValues(TEXT,'FASE3_ENEMIGOS='),getValues(TEXT,'FASE3_ENEMIGOS_POS='),getValues(TEXT,'FASE3_PLATAFORMAS='),None,None,None,None,None,None,None,None,None,None, False)
+                self.director.cambiarEscena(fase)
+
+
+
+            '''
+            if (self.numeroFase == 3):
+                # Ejecutar Jefe
+                #faseBoss = Fase(self.director, self.numeroFase, getValues(TEXT,'MAX_DISTANCE='))    
+
+                #EjecutarSiguienteFase
+                #fase = Fase(self.director, self.numeroFase+1, getValues(TEXT,'MAX_DISTANCE='),getValues(TEXT,'FASE4_FONDO='),getValues(TEXT,'FASE4_FONDO_SCALE='), None, None, getValues(TEXT,'FASE4_POS_JUGADOR='),getValues(TEXT,'FASE4_ENEMIGOS='),getValues(TEXT,'FASE4_ENEMIGOS_POS='),getValues(TEXT,'FASE4_PLATAFORMAS='),None,None,None,None,None,None,None,None,None,None)
+                #self.director.cambiarEscena(fase)
+            '''
+
+        
 
 
 # -------------------------------------------------
