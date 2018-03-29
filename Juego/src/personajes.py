@@ -119,6 +119,7 @@ class Objeto(MiSprite):
 class FireBall(Objeto):
     def __init__(self,aceleracion):
         Objeto.__init__(self,None)
+        self.movimiento = ATACAR
         self.image1 = GestorRecursos.CargarImagen('fireball.png',-1)
         self.image1 = self.image1.convert_alpha()
         self.image = self.image1
@@ -154,6 +155,7 @@ class FireBall(Objeto):
 class Fuego(Objeto):
     def __init__(self):
         Objeto.__init__(self,None)
+        self.movimiento = ATACAR
         self.dano = 10
         self.currentIFrames = 100
         self.retardoAnimacion = 10
@@ -194,6 +196,7 @@ class Fuego(Objeto):
 class BolasPinchos(Objeto):
     def __init__(self,aceleracion,limit):
         Objeto.__init__(self,None)
+        self.movimiento = ATACAR
         self.dano = 20
         self.currentIFrames = 100
         self.scalex = 60
@@ -644,14 +647,15 @@ class Jugador(Personaje):
                 enemigo.currentIFrames = enemigo.iFrames
 
         else:
-            #Si no nos acaban de pegar restamos vida
-            if self.currentIFrames <= 0:
-                self.vida = self.vida - enemigo.dano
-                #print(self.vida)
-                if self.vida <= 0:
-                    self.numPostura = SPRITE_MUERTE
-                    self.dead()
-                self.currentIFrames = self.iFrames
+            if enemigo.movimiento == ATACAR:
+                #Si no nos acaban de pegar restamos vida
+                if self.currentIFrames <= 0:
+                    self.vida = self.vida - enemigo.dano
+                    #print(self.vida)
+                    if self.vida <= 0:
+                        self.numPostura = SPRITE_MUERTE
+                        self.dead()
+                    self.currentIFrames = self.iFrames
 
 
 
@@ -870,6 +874,8 @@ class Fase2Boss(NoJugador):
             if self.parar == False:
                 if jugador1.posicion[1] <= 200:
                     self.Pelear = False
+                if self.posicion[0]<=0:
+                    self.parar = True
 
                 if abs(self.posicion[0]-jugador1.posicion[0])<=90 and abs(self.posicion[1]-jugador1.posicion[1])<=90:
                     self.atacando = True
@@ -915,3 +921,5 @@ class Fase2Boss(NoJugador):
             else:
                 self.mirando = DERECHA
                 Personaje.mover(self,QUIETO)
+                if abs(self.posicion[0]-jugador1.posicion[0])<=90 and abs(self.posicion[1]-jugador1.posicion[1])<=90:
+                    Personaje.mover(self,ATACAR)
