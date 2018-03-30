@@ -406,7 +406,8 @@ class Menu(Escena):
         self.director.apilarEscena(fase)
 
     def ejecutarFase5(self):
-        fase = Fase(self.director, 5, getValues(TEXT,'MAX_DISTANCE_5='), getValues(TEXT,'FASE5_FONDO='),getValues(TEXT,'FASE5_FONDO_SCALE='),getValues(TEXT,'FASE5_CIELO='),getValues(TEXT,'FASE5_CIELO_SCALE='),getValues(TEXT,'FASE5_POS_JUGADOR='),getValues(TEXT,'FASE5_ENEMIGOS='),getValues(TEXT,'FASE5_ENEMIGOS_POS='),getValues(TEXT,'FASE5_PLATAFORMAS='),getValues(TEXT,'FASE5_ANIMACIONES='),getValues(TEXT,'FASE5_POS_ANIMACIONES='),getValues(TEXT,'FASE5_POCIONES='),getValues(TEXT,'FASE5_POS_POCIONES='),None,None,None,None,None,None, False)
+        #fase = Fase(self.director, 5, getValues(TEXT,'MAX_DISTANCE_5='), getValues(TEXT,'FASE5_FONDO='),getValues(TEXT,'FASE5_FONDO_SCALE='),getValues(TEXT,'FASE5_CIELO='),getValues(TEXT,'FASE5_CIELO_SCALE='),getValues(TEXT,'FASE5_POS_JUGADOR='),getValues(TEXT,'FASE5_ENEMIGOS='),getValues(TEXT,'FASE5_ENEMIGOS_POS='),getValues(TEXT,'FASE5_PLATAFORMAS='),getValues(TEXT,'FASE5_ANIMACIONES='),getValues(TEXT,'FASE5_POS_ANIMACIONES='),getValues(TEXT,'FASE5_POCIONES='),getValues(TEXT,'FASE5_POS_POCIONES='),None,None,None,None,None,None, False)
+        fase = Fase(self.director, 5,1499,getValues(TEXT,'FASE5BOSS_FONDO='),getValues(TEXT,'FASE5BOSS_FONDO_SCALE='),getValues(TEXT,'FASE5BOSS_CIELO='),getValues(TEXT,'FASE5BOSS_CIELO_SCALE='),getValues(TEXT,'FASE5BOSS_POS_JUGADOR='),getValues(TEXT,'FASE5BOSS_ENEMIGOS='),getValues(TEXT,'FASE5BOSS_ENEMIGOS_POS='),getValues(TEXT,'FASE5BOSS_PLATAFORMAS='),None,None,None,None,None,None,None,None,None,None,True)
         self.director.apilarEscena(fase)
 
 
