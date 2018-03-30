@@ -103,14 +103,12 @@ class MiSprite(pygame.sprite.Sprite):
 
 # -------------------------------------------------
 # Clase Obstaculo
-# -------------------------------------------------
-#class Obstaculo(pygame.sprite.Sprite):
+# -------------------------------------------------:
 class Objeto(MiSprite):
     def __init__(self,image):
         MiSprite.__init__(self)
         # Se carga la hoja
         self.image = image
-        #self.rect = self.image.get_rect()
         self.rect = pygame.Rect(100,100,10,10)
 
     def dibujar(self,pantalla):
@@ -151,6 +149,52 @@ class FireBall(Objeto):
         
     def dibujar(self,pantalla):
         pantalla.blit(self.image,self.rect)
+
+class Ice(Objeto):
+    def __init__(self,aceleracion):
+        Objeto.__init__(self,None)
+        self.movimiento = ATACAR
+        #Con esta no
+        #self.image1 = GestorRecursos.CargarImagen('ObsGigantes222.png',-1)
+        #Con esta hace daño
+        self.image1 = GestorRecursos.CargarImagen('fireball.png',-1)
+        self.image1 = self.image1.convert_alpha()
+        self.image = self.image1
+        self.dano = 8
+        self.currentIFrames = 100
+        self.retardoAnimacion = 10
+        self.bajar = True
+        self.suelo = False
+        self.aceleracion = -aceleracion
+        self.currentImage = 0
+        self.visible = True
+
+    def update(self, tiempo):
+        incrementox = self.velocidad[0]*tiempo
+        incrementoy = 0
+        if self.posicion[1] < 600:
+            self.bajar = True
+            self.subir = False
+        elif self.posicion[1] > 600:
+            self.bajar= False
+            self.subir = False
+            self.establecerPosicion((self.posicion[0], self.posicion[1]-610))
+        if self.subir == True :
+            incrementoy = self.aceleracion
+        if self.bajar == True :
+            incrementoy = -self.aceleracion
+        self.incrementarPosicion((incrementox, incrementoy))
+        
+    def dibujar(self,pantalla):
+        if self.visible:
+            pantalla.blit(self.image,self.rect)
+
+    def sacarVida(self,enemigo):
+        # No ataca a los enemigos
+        if enemigo.vida <=0:
+            enemigo.numPostura = SPRITE_MUERTE
+
+
 
 class Fuego(Objeto):
     def __init__(self):
@@ -253,6 +297,9 @@ class BolasPinchos(Objeto):
         enemigo.vida = enemigo.vida-self.dano
         if enemigo.vida <=0:
             enemigo.numPostura = SPRITE_MUERTE
+
+
+
 
 class Palanca(Objeto):
     def __init__(self,action):
@@ -778,7 +825,7 @@ class Fase3Boss(NoJugador):
 
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        NoJugador.__init__(self,'Fase3Boss.png','coordFase3Boss.txt', [1, 7, 4, 11, 0, 3], VELOCIDAD_ENEMIGO, VELOCIDAD_SALTO_ENEMIGO, RETARDO_ANIMACION_ENEMIGO,VIDA_ENEMIGO, DANO_ENEMIGO,INVULNERABLE_ENEMIGO,DURACION_MUERTE_ENEMIGO,False,None,None);
+        NoJugador.__init__(self,'Fase3Boss.png','coordFase3Boss.txt', [1, 7, 4, 11, 1, 3], VELOCIDAD_ENEMIGO, VELOCIDAD_SALTO_ENEMIGO, RETARDO_ANIMACION_ENEMIGO,VIDA_ENEMIGO, DANO_ENEMIGO,INVULNERABLE_ENEMIGO,DURACION_MUERTE_ENEMIGO,False,None,None);
 
     # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
     # La implementacion de la inteligencia segun este personaje particular

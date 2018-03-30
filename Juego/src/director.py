@@ -101,7 +101,6 @@ class Director():
                 raise Exception('No se que tipo de escena es')
             '''
 
-
     def salirEscena(self):
         self.pararEscena()
         # Eliminamos la escena actual de la pila (si la hay)
