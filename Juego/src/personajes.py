@@ -55,6 +55,15 @@ VELOCIDAD_ENEMIGO = 0.12 # Pixeles por milisegundo
 VELOCIDAD_SALTO_ENEMIGO = 0.28 # Pixeles por milisegundo
 RETARDO_ANIMACION_ENEMIGO = 5 # updates que durará cada imagen del personaje
                              # debería de ser un valor distinto para cada postura
+
+VELOCIDAD_FASE5BOSSLOBO = 0.07 # Pixeles por milisegundo
+VELOCIDAD_SALTO_FASE5BOSSLOBO = 0.4 # Pixeles por milisegundo
+RETARDO_ANIMACION_FASE5BOSSLOBO = 10 # updates que durará cada imagen del personaje
+
+VELOCIDAD_FASE5BOSSREINA = 0.18 # Pixeles por milisegundo
+VELOCIDAD_SALTO_FASE5BOSSREINA = 0.28 # Pixeles por milisegundo
+RETARDO_ANIMACION_FASE5BOSSREINA = 5 # updates que durará cada imagen del personaje
+
 # El Sniper camina un poco más lento que el jugador, y salta menos
 
 GRAVEDAD = 0.0003 # Píxeles / ms2
@@ -1028,3 +1037,104 @@ class Fase2Boss(NoJugador):
                 else:
                     self.mirando = DERECHA
                     Personaje.mover(self,QUIETO)
+
+
+# -------------------------------------------------
+# Clase Fase5BossLobo
+# -------------------------------------------------
+class Fase5BossLobo(NoJugador):
+
+    def __init__(self):
+        # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
+        NoJugador.__init__(self,'fase5BossLobo.png','coordFase5BossLobo.txt', [6,6,1,2,2,7], VELOCIDAD_FASE5BOSSLOBO, VELOCIDAD_SALTO_FASE5BOSSLOBO, RETARDO_ANIMACION_FASE5BOSSLOBO,1500,int(VIDA_JUGADOR/3),INVULNERABLE_ENEMIGO,DURACION_MUERTE_ENEMIGO,False,None,None);
+        self.visto = False
+
+    # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
+    # La implementacion de la inteligencia segun este personaje particular
+    def mover_cpu(self, jugador1):
+        # Por defecto un enemigo no hace nada
+        #  (se podria programar, por ejemplo, que disparase al jugador por defecto)
+
+        #Restamos iFrames
+        if self.currentIFrames > 0:
+            self.currentIFrames -= 1
+
+        # Movemos solo a los enemigos que esten en la pantalla
+        if self.rect.left>0 and self.rect.right<ANCHO_PANTALLA and self.rect.bottom>0 and self.rect.top<ALTO_PANTALLA or self.visto:
+
+            #Una vez que veamos al boss nos persigue siempre, da igual si sale de nuestra pantalla
+            self.visto = True
+
+            # Por ejemplo, intentara acercarse al jugador mas cercano en el eje x
+            # Miramos cual es el jugador mas cercano
+
+            # Y nos movemos andando hacia el
+            if (jugador1.posicion[0] < self.posicion[0]):
+                Personaje.mover(self, IZQUIERDA)
+                #Personaje.mover(self, ARRIBA)
+                self.atacando = False
+            elif (jugador1.posicion[0]>self.posicion[0]):
+                Personaje.mover(self, DERECHA)
+                self.atacando = False              
+
+
+            # Cuando este cerca atacara
+            collide = pygame.sprite.groupcollide(pygame.sprite.Group(jugador1),pygame.sprite.Group(self), False, False)
+            #collide contine los sprites del primer grupo con los que ha colisionado
+            if collide!={}:
+                self.atacando = True
+                Personaje.mover(self,ATACAR)
+
+        # Si este personaje no esta en pantalla, no hara nada
+        else:
+            Personaje.mover(self,QUIETO)
+
+# -------------------------------------------------
+# Clase Fase5BossReina
+# -------------------------------------------------
+class Fase5BossReina(NoJugador):
+
+    def __init__(self):
+        # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
+        NoJugador.__init__(self,'fase5BossReina.png','coordFase5BossReina.txt', [1,1,1,2,2,2], VELOCIDAD_FASE5BOSSREINA, VELOCIDAD_SALTO_FASE5BOSSREINA, RETARDO_ANIMACION_FASE5BOSSREINA,1500,int(VIDA_JUGADOR/3),INVULNERABLE_ENEMIGO,DURACION_MUERTE_ENEMIGO,False,None,None);
+        self.visto = False
+
+    # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
+    # La implementacion de la inteligencia segun este personaje particular
+    def mover_cpu(self, jugador1):
+        # Por defecto un enemigo no hace nada
+        #  (se podria programar, por ejemplo, que disparase al jugador por defecto)
+
+        #Restamos iFrames
+        if self.currentIFrames > 0:
+            self.currentIFrames -= 1
+
+        # Movemos solo a los enemigos que esten en la pantalla
+        if self.rect.left>0 and self.rect.right<ANCHO_PANTALLA and self.rect.bottom>0 and self.rect.top<ALTO_PANTALLA or self.visto:
+
+            #Una vez que veamos al boss nos persigue siempre, da igual si sale de nuestra pantalla
+            self.visto = True
+
+            # Por ejemplo, intentara acercarse al jugador mas cercano en el eje x
+            # Miramos cual es el jugador mas cercano
+
+            # Y nos movemos andando hacia el
+            if (jugador1.posicion[0] < self.posicion[0]):
+                Personaje.mover(self, IZQUIERDA)
+                #Personaje.mover(self, ARRIBA)
+                self.atacando = False
+            elif (jugador1.posicion[0]>self.posicion[0]):
+                Personaje.mover(self, DERECHA)
+                self.atacando = False              
+
+
+            # Cuando este cerca atacara
+            collide = pygame.sprite.groupcollide(pygame.sprite.Group(jugador1),pygame.sprite.Group(self), False, False)
+            #collide contine los sprites del primer grupo con los que ha colisionado
+            if collide!={}:
+                self.atacando = True
+                Personaje.mover(self,ATACAR)
+
+        # Si este personaje no esta en pantalla, no hara nada
+        else:
+            Personaje.mover(self,QUIETO)
