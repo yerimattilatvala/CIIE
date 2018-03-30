@@ -850,7 +850,7 @@ class Fase2Boss(NoJugador):
 
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        NoJugador.__init__(self,'fase2Boss.gif','coordFase2Boss.txt', [1,6,3,3,1,1], 0.15, VELOCIDAD_SALTO_ENEMIGO, 10,2000,int(VIDA_JUGADOR/4),INVULNERABLE_ENEMIGO,DURACION_MUERTE_ENEMIGO,True,80,112);
+        NoJugador.__init__(self,'fase2Boss.gif','coordFase2Boss.txt', [1,6,3,3,1,1], 0.15, VELOCIDAD_SALTO_ENEMIGO, 5,2000,int(VIDA_JUGADOR/4),INVULNERABLE_ENEMIGO,DURACION_MUERTE_ENEMIGO,True,80,112);
         self.mirando = IZQUIERDA
         self.Pelear = True
         self.sufrir = False
@@ -877,7 +877,7 @@ class Fase2Boss(NoJugador):
                 if self.posicion[0]<=0:
                     self.parar = True
 
-                if abs(self.posicion[0]-jugador1.posicion[0])<=90 and abs(self.posicion[1]-jugador1.posicion[1])<=90:
+                if abs(self.posicion[0]-jugador1.posicion[0])<=40 and abs(self.posicion[1]-jugador1.posicion[1])<=90:
                     self.atacando = True
                 else:
                     self.atacando = False
@@ -920,7 +920,8 @@ class Fase2Boss(NoJugador):
                     else:
                         self.parar = True
             else:
-                self.mirando = DERECHA
-                Personaje.mover(self,QUIETO)
-                if abs(self.posicion[0]-jugador1.posicion[0])<=90 and abs(self.posicion[1]-jugador1.posicion[1])<=90:
+                if abs(self.posicion[0]-jugador1.posicion[0])<=40 and abs(self.posicion[1]-jugador1.posicion[1])<=90:
                     Personaje.mover(self,ATACAR)
+                else:
+                    self.mirando = DERECHA
+                    Personaje.mover(self,QUIETO)
