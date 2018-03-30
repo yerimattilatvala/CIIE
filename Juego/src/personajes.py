@@ -51,7 +51,7 @@ VELOCIDAD_SALTO_JUGADOR = 0.3 # Pixeles por milisegundo
 RETARDO_ANIMACION_JUGADOR = 5 # updates que durará cada imagen del personaje
                               # debería de ser un valor distinto para cada postura
 
-VELOCIDAD_ENEMIGO = 0.12 # Pixeles por milisegundo
+VELOCIDAD_ENEMIGO = 0.15 # Pixeles por milisegundo
 VELOCIDAD_SALTO_ENEMIGO = 0.28 # Pixeles por milisegundo
 RETARDO_ANIMACION_ENEMIGO = 5 # updates que durará cada imagen del personaje
                              # debería de ser un valor distinto para cada postura
@@ -154,13 +154,10 @@ class Ice(Objeto):
     def __init__(self,aceleracion):
         Objeto.__init__(self,None)
         self.movimiento = ATACAR
-        #Con esta no
         self.image1 = GestorRecursos.CargarImagen('ObsGigantes222.png',-1)
-        #Con esta hace daño
-        #self.image1 = GestorRecursos.CargarImagen('fireball.png',-1)
         self.image1 = self.image1.convert_alpha()
         self.image = self.image1
-        self.dano = 8
+        self.dano = 6
         self.currentIFrames = 100
         self.retardoAnimacion = 10
         self.bajar = True
@@ -173,13 +170,13 @@ class Ice(Objeto):
         self.rect = self.image.get_rect()
         incrementox = self.velocidad[0]*tiempo
         incrementoy = 0
-        if self.posicion[1] < 600:
+        if self.posicion[1] < 550:
             self.bajar = True
             self.subir = False
-        elif self.posicion[1] > 600:
+        elif self.posicion[1] > 550:
             self.bajar= False
             self.subir = False
-            self.establecerPosicion((self.posicion[0], self.posicion[1]-610))
+            self.establecerPosicion((self.posicion[0], self.posicion[1]-530))
         if self.subir == True :
             incrementoy = self.aceleracion
         if self.bajar == True :
@@ -192,7 +189,8 @@ class Ice(Objeto):
 
     def sacarVida(self,enemigo):
         # No ataca a los enemigos
-        return
+        # Modificado, en vez de dañarlo, sanara al enemigo
+        enemigo.vida = enemigo.vida + self.dano
 
 
 
@@ -829,8 +827,49 @@ class Fase3Boss(NoJugador):
 
     # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
     # La implementacion de la inteligencia segun este personaje particular
-    def mover_cpu(self, jugador):
-       NoJugador.mover_cpu(self,jugador)
+    def mover_cpu(self, jugador1):
+        global VELOCIDAD_ENEMIGO 
+        VELOCIDAD_ENEMIGO = VELOCIDAD_ENEMIGO + 0.1
+        global VIDA_ENEMIGO 
+        VIDA_ENEMIGO = VIDA_ENEMIGO + 20
+        
+        #Restamos iFrames
+        if self.currentIFrames > 0:
+            self.currentIFrames -= 1
+
+        # Movemos solo a los enemigos que esten en la pantalla
+        if self.rect.left>0 and self.rect.right<ANCHO_PANTALLA and self.rect.bottom>0 and self.rect.top<ALTO_PANTALLA:
+
+            # Por ejemplo, intentara acercarse al jugador mas cercano en el eje x
+            # Miramos cual es el jugador mas cercano
+
+            # Y nos movemos andando hacia el
+            if (jugador1.posicion[0]<self.posicion[0]+40):
+                Personaje.mover(self, IZQUIERDA)
+                self.atacando = False               
+            elif (jugador1.posicion[0]>self.posicion[0]-40):
+                Personaje.mover(self, DERECHA)
+                self.atacando = False  
+
+        
+            # Cuando este cerca atacara
+            if abs(self.posicion[0]-jugador1.posicion[0])<=40:
+                self.atacando = True
+                Personaje.mover(self,ATACAR)
+            else:
+                self.atacando = False
+                if (jugador1.posicion[1] < self.posicion[1]):
+                    if (jugador1.posicion[0]>self.posicion[0]):
+                        Personaje.mover(self, DERECHA)
+                    else: Personaje.mover(self, IZQUIERDA)
+
+        # Si este personaje no esta en pantalla, no hara nada
+        else:
+            Personaje.mover(self,QUIETO)
+
+        VELOCIDAD_ENEMIGO = VELOCIDAD_ENEMIGO - 0.10
+        VIDA_ENEMIGO = VIDA_ENEMIGO - 20
+
 
 
 # -------------------------------------------------

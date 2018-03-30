@@ -396,9 +396,9 @@ class Menu(Escena):
         self.director.apilarEscena(fase)
 
     def ejecutarFase3(self):
-        #fase = Fase(self.director, 3, getValues(TEXT,'MAX_DISTANCE_3='), getValues(TEXT,'FASE3_FONDO='),getValues(TEXT,'FASE3_FONDO_SCALE='),None, None, getValues(TEXT,'FASE3_POS_JUGADOR='),getValues(TEXT,'FASE3_ENEMIGOS='),getValues(TEXT,'FASE3_ENEMIGOS_POS='),getValues(TEXT,'FASE3_PLATAFORMAS='),None,None,getValues(TEXT,'FASE3_POCIONES='), getValues(TEXT,'FASE3_POS_POCIONES='),None,None,None,None,None,None, False)
+        fase = Fase(self.director, 3, getValues(TEXT,'MAX_DISTANCE_3='), getValues(TEXT,'FASE3_FONDO='),getValues(TEXT,'FASE3_FONDO_SCALE='),None, None, getValues(TEXT,'FASE3_POS_JUGADOR='),getValues(TEXT,'FASE3_ENEMIGOS='),getValues(TEXT,'FASE3_ENEMIGOS_POS='),getValues(TEXT,'FASE3_PLATAFORMAS='),None,None,getValues(TEXT,'FASE3_POCIONES='), getValues(TEXT,'FASE3_POS_POCIONES='),getValues(TEXT,'FASE3_OBSTACULOS=') , getValues(TEXT,'FASE3_OBSTACULOS_POS='), getValues(TEXT,'FASE3_ACELERACION='),None,None,None, False)
         # Boss
-        fase = Fase(self.director, 3, 5000, getValues(TEXT,'FASE3BOSS_FONDO='),getValues(TEXT,'FASE3BOSS_FONDO_SCALE='),getValues(TEXT,'FASE3BOSS_CIELO='),getValues(TEXT,'FASE3BOSS_CIELO_SCALE='),getValues(TEXT,'FASE3BOSS_POS_JUGADOR='),getValues(TEXT,'FASE3BOSS_ENEMIGOS='),getValues(TEXT,'FASE3BOSS_ENEMIGOS_POS='),getValues(TEXT,'FASE3BOSS_PLATAFORMAS='),None,None,None, None, getValues(TEXT,'FASE3_OBSTACULOS_BOSS='), getValues(TEXT,'FASE3_OBSTACULOS_POS_BOSS='),getValues(TEXT,'FASE3_ACELERACION_BOSS='),None,None,None, True)
+        #fase = Fase(self.director, 3, 5000, getValues(TEXT,'FASE3BOSS_FONDO='),getValues(TEXT,'FASE3BOSS_FONDO_SCALE='),getValues(TEXT,'FASE3BOSS_CIELO='),getValues(TEXT,'FASE3BOSS_CIELO_SCALE='),getValues(TEXT,'FASE3BOSS_POS_JUGADOR='),getValues(TEXT,'FASE3BOSS_ENEMIGOS='),getValues(TEXT,'FASE3BOSS_ENEMIGOS_POS='),getValues(TEXT,'FASE3BOSS_PLATAFORMAS='),None,None,getValues(TEXT, 'FASE3_POCIONES_BOSS='), getValues(TEXT, 'FASE3_POS_POCIONES_BOSS='), getValues(TEXT,'FASE3_OBSTACULOS_BOSS='), getValues(TEXT,'FASE3_OBSTACULOS_POS_BOSS='),getValues(TEXT,'FASE3_ACELERACION_BOSS='),None,None,None, True)
         self.director.apilarEscena(fase)
 
     def ejecutarFase4(self):
@@ -412,6 +412,10 @@ class Menu(Escena):
 
     '''
     # Para una unica escena
+
+
+
+    
     def ejecutarJuego(self):
         # Creamos la escena con la animacion antes de jugar
         escena = EscenaAnimacion(self.director)
