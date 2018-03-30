@@ -201,7 +201,39 @@ class Ice(Objeto):
         # Modificado, en vez de dañarlo, sanara al enemigo
         enemigo.vida = enemigo.vida + self.dano
 
+class Arrow(Objeto):
+    def __init__(self,aceleracion):
+        Objeto.__init__(self,None)
+        self.movimiento = ATACAR
+        self.image1 = GestorRecursos.CargarImagen('fireball.png',-1)
+        self.image1 = self.image1.convert_alpha()
+        self.image = self.image1
+        self.image2 = GestorRecursos.CargarImagen('fireballAbajo.png',-1)
+        self.image2 = self.image2.convert_alpha()
+        self.der = False
+        self.izq = True
+        self.aceleracion = -aceleracion
+        self.currentIFrames = 100
+        self.dano = 5
+        self.visible = True
 
+    def update(self, tiempo):
+        incrementox = 0
+        incrementoy = self.velocidad[0]*tiempo
+        if self.posicion[0] >= ANCHO_PANTALLA:
+            self.establecerPosicion((self.posicion[0]-750, self.posicion[1]))       
+        elif self.posicion[1]<= 100:
+            self.der = True
+            self.izq = False
+            self.image = self.image2
+        if self.izq == True :
+            incrementox = self.aceleracion
+        if self.der == True :
+            incrementox = -self.aceleracion
+        self.incrementarPosicion((incrementox, incrementoy))
+        
+    def dibujar(self,pantalla):
+        pantalla.blit(self.image,self.rect)
 
 class Fuego(Objeto):
     def __init__(self):
@@ -924,14 +956,12 @@ class Fase1Boss(NoJugador):
         if self.rect.left>0 and self.rect.right<ANCHO_PANTALLA and self.rect.bottom>0 and self.rect.top<ALTO_PANTALLA:
         
             if abs(self.posicion[0]-jugador1.posicion[0])<=120 and abs(self.posicion[0]-jugador1.posicion[0])>=90 :
-                print('cerca2')
                 self.atacando= False
                 self.cerca2 = True
                 self.cerca = False
                 self.lejos = False
         
             if (abs(self.posicion[0]-jugador1.posicion[0])<=90):
-                print('CERCA')
                 self.atacando= False
                 self.cerca = True
                 self.cerca2 = False
@@ -939,7 +969,6 @@ class Fase1Boss(NoJugador):
                 self.teleport = True
 
             if abs(self.posicion[0]-jugador1.posicion[0])>=125:
-                print('LEJOS')
                 self.atacando = True
                 self.cerca = False
                 self.cerca2 = False
