@@ -386,9 +386,10 @@ class Menu(Escena):
         self.director.apilarEscena(fase)
 		
     def ejecutarFase1(self):
-        fase = Fase(self.director, 1, getValues(TEXT,'MAX_DISTANCE_1='), getValues(TEXT,'FASE1_FONDO='),getValues(TEXT,'FASE1_FONDO_SCALE='),getValues(TEXT,'FASE1_CIELO='),getValues(TEXT,'FASE1_CIELO_SCALE='),getValues(TEXT,'FASE1_POS_JUGADOR='),getValues(TEXT,'FASE1_ENEMIGOS='),getValues(TEXT,'FASE1_ENEMIGOS_POS='),getValues(TEXT,'FASE1_PLATAFORMAS='),None,None,None,None,None,None,None,None,None,None, False)
+        #fase = Fase(self.director,getValues(TEXT,'FASE1_FONDO='),getValues(TEXT,'FASE1_FONDO_SCALE='),getValues(TEXT,'FASE1_CIELO='),getValues(TEXT,'FASE1_CIELO_SCALE='),getValues(TEXT,'FASE1_POS_JUGADOR='),getValues(TEXT,'FASE1_ENEMIGOS='),getValues(TEXT,'FASE1_ENEMIGOS_POS='),getValues(TEXT,'FASE1_PLATAFORMAS='),None,None,None,None,None,None,None,None,None,None)
+        fase = Fase(self.director,1,1000,getValues(TEXT,'FASE1BOSS_FONDO='),getValues(TEXT,'FASE1BOSS_FONDO_SCALE='),getValues(TEXT,'FASE1BOSS_CIELO='),getValues(TEXT,'FASE1BOSS_CIELO_SCALE='),getValues(TEXT,'FASE1BOSS_POS_JUGADOR='),getValues(TEXT,'FASE1BOSS_ENEMIGOS='),getValues(TEXT,'FASE1BOSS_ENEMIGOS_POS='),getValues(TEXT,'FASE1BOSS_PLATAFORMAS='),None,None,None,None,None,None,None,None,None,None,True)
         self.director.apilarEscena(fase)
-
+        
     def ejecutarFase2(self):
         #fase = Fase(self.director, 2, 5400, getValues(TEXT,'FASE2_FONDO='),getValues(TEXT,'FASE2_FONDO_SCALE='),getValues(TEXT,'FASE2_CIELO='),getValues(TEXT,'FASE2_CIELO_SCALE='),getValues(TEXT,'FASE2_POS_JUGADOR='),getValues(TEXT,'FASE2_ENEMIGOS='),getValues(TEXT,'FASE2_ENEMIGOS_POS='),getValues(TEXT,'FASE2_PLATAFORMAS='),None,None,getValues(TEXT,'FASE2_POCIONES='),getValues(TEXT,'FASE2_POS_POCIONES='),getValues(TEXT,'FASE2_OBSTACULOS='),getValues(TEXT,'FASE2_OBSTACULOS_POS='),getValues(TEXT,'FASE2_ACELERACION='),None,None,None, False)
         fase = Fase(self.director, 2, 5000, getValues(TEXT,'FASE2BOSS_FONDO='),getValues(TEXT,'FASE2BOSS_FONDO_SCALE='),getValues(TEXT,'FASE2BOSS_CIELO='),getValues(TEXT,'FASE2BOSS_CIELO_SCALE='),getValues(TEXT,'FASE2BOSS_POS_JUGADOR='),getValues(TEXT,'FASE2BOSS_ENEMIGOS='),getValues(TEXT,'FASE2BOSS_ENEMIGOS_POS='),getValues(TEXT,'FASE2BOSS_PLATAFORMAS='),None,None,None,None,None,None,None,getValues(TEXT,'FASE2BOSS_OBJETOS='),getValues(TEXT,'FASE2BOSS_OBJETOS_POS='),getValues(TEXT,'FASE2BOSS_OBJETOS_ACTION='), True)

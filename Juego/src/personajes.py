@@ -847,6 +847,7 @@ class Fase1Enemigo(NoJugador):
     def mover_cpu(self, jugador1):
         NoJugador.mover_cpu(self,jugador1)
 
+        
 # -------------------------------------------------
 # Clase Fase1Boss
 # -------------------------------------------------
@@ -854,12 +855,67 @@ class Fase1Boss(NoJugador):
 
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        NoJugador.__init__(self,'fase1Boss.png','coordFase1Boss.txt', [1, 3, 4, 10, 1, 6], VELOCIDAD_ENEMIGO, VELOCIDAD_SALTO_ENEMIGO, RETARDO_ANIMACION_ENEMIGO,VIDA_ENEMIGO,DANO_ENEMIGO,INVULNERABLE_ENEMIGO,DURACION_MUERTE_ENEMIGO,False,None,None);
+        NoJugador.__init__(self,'fase1Boss.png','coordFase1Boss.txt', [1, 3, 6, 10, 1, 6], VELOCIDAD_ENEMIGO, VELOCIDAD_SALTO_ENEMIGO, 5,1500,int(VIDA_JUGADOR/4),INVULNERABLE_ENEMIGO,80,False,None,None);
+        self.mirando = IZQUIERDA
+        self.parar = False
+        self.derecha = False
+        self.izquierda = True
+        self.derecha1 = False
+        self.izquierda1 = True
+        self.cerca = False
+        self.lejos = True
+        self.atacando=False
+        self.cerca2=False
 
-    # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
-    # La implementacion de la inteligencia segun este personaje partENEMIGO
     def mover_cpu(self, jugador1):
-        NoJugador.mover_cpu(self,jugador1)
+        #Restamos iFrames
+        if self.currentIFrames > 0:
+            self.currentIFrames -= 1
+
+        # Movemos solo a los enemigos que esten en la pantalla
+        if self.rect.left>0 and self.rect.right<ANCHO_PANTALLA and self.rect.bottom>0 and self.rect.top<ALTO_PANTALLA:
+        
+            if abs(self.posicion[0]-jugador1.posicion[0])<=120 and abs(self.posicion[0]-jugador1.posicion[0])>=90 :
+                print('cerca2')
+                self.atacando= False
+                self.cerca2 = True
+                self.cerca = False
+                self.lejos = False
+        
+            if (abs(self.posicion[0]-jugador1.posicion[0])<=90):
+                print('CERCA')
+                self.atacando= False
+                self.cerca = True
+                self.cerca2 = False
+                self.lejos = False
+                self.teleport = True
+
+            if abs(self.posicion[0]-jugador1.posicion[0])>=125:
+                print('LEJOS')
+                self.atacando = True
+                self.cerca = False
+                self.cerca2 = False
+                self.lejos = True
+                self.teleport= False
+
+                
+                
+            if self.cerca2 == True and self.cerca==False:
+               Personaje.mover(self,ARRIBA)
+
+            
+            elif self.cerca == True:
+                if self.posicion[0]>=jugador1.posicion[0]:
+                    self.establecerPosicion((250,550))
+                    
+                elif self.posicion[0]<=jugador1.posicion[0]:
+                    self.establecerPosicion((750,550))
+                    
+            elif self.cerca==False and self.atacando:
+                Personaje.mover(self,ATACAR)
+            else:
+                Personaje.mover(self,QUIETO)
+            
 
 # -------------------------------------------------
 # Clase Fase5Enemigo
