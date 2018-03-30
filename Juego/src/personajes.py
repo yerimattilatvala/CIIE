@@ -155,9 +155,9 @@ class Ice(Objeto):
         Objeto.__init__(self,None)
         self.movimiento = ATACAR
         #Con esta no
-        #self.image1 = GestorRecursos.CargarImagen('ObsGigantes222.png',-1)
+        self.image1 = GestorRecursos.CargarImagen('ObsGigantes222.png',-1)
         #Con esta hace daño
-        self.image1 = GestorRecursos.CargarImagen('fireball.png',-1)
+        #self.image1 = GestorRecursos.CargarImagen('fireball.png',-1)
         self.image1 = self.image1.convert_alpha()
         self.image = self.image1
         self.dano = 8
@@ -170,6 +170,7 @@ class Ice(Objeto):
         self.visible = True
 
     def update(self, tiempo):
+        self.rect = self.image.get_rect()
         incrementox = self.velocidad[0]*tiempo
         incrementoy = 0
         if self.posicion[1] < 600:
@@ -186,13 +187,12 @@ class Ice(Objeto):
         self.incrementarPosicion((incrementox, incrementoy))
         
     def dibujar(self,pantalla):
-        if self.visible:
+        if self.visible:    
             pantalla.blit(self.image,self.rect)
 
     def sacarVida(self,enemigo):
         # No ataca a los enemigos
-        if enemigo.vida <=0:
-            enemigo.numPostura = SPRITE_MUERTE
+        return
 
 
 
@@ -953,7 +953,7 @@ class Fase2Boss(NoJugador):
 
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        NoJugador.__init__(self,'fase2Boss.gif','coordFase2Boss.txt', [1,6,3,3,1,1], 0.15, VELOCIDAD_SALTO_ENEMIGO, 5,2000,int(VIDA_JUGADOR/4),INVULNERABLE_ENEMIGO,DURACION_MUERTE_ENEMIGO,True,80,112);
+        NoJugador.__init__(self,'fase2Boss.gif','coordFase2Boss.txt', [1,6,3,3,1,1], 0.15, VELOCIDAD_SALTO_ENEMIGO, 5,2200,int(VIDA_JUGADOR/4),INVULNERABLE_ENEMIGO,DURACION_MUERTE_ENEMIGO,True,80,112);
         self.mirando = IZQUIERDA
         self.Pelear = True
         self.sufrir = False
@@ -988,7 +988,7 @@ class Fase2Boss(NoJugador):
                 if self.sufrir == False and self.Pelear == False and abs(self.posicion[0]-jugador1.posicion[0])>=250:
                     self.Pelear = True
 
-                if self.vida <= self.vidaIni-50:
+                if self.vida <= self.vidaIni-200:
                     self.sufrir = True
                     self.Pelear = False
                     self.derecha = False
