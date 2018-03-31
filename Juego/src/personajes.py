@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import pygame, sys, os
+import pygame, sys, time, os
 from pygame.locals import *
 from escena import *
 from gestorRecursos import *
@@ -55,6 +55,8 @@ VELOCIDAD_ENEMIGO = 0.15 # Pixeles por milisegundo
 VELOCIDAD_SALTO_ENEMIGO = 0.28 # Pixeles por milisegundo
 RETARDO_ANIMACION_ENEMIGO = 5 # updates que durará cada imagen del personaje
                              # debería de ser un valor distinto para cada postura
+                             
+VELOCIDAD_FASE1BOSS= 0.09
 
 VELOCIDAD_FASE5BOSSLOBO = 0.07 # Pixeles por milisegundo
 VELOCIDAD_SALTO_FASE5BOSSLOBO = 0.4 # Pixeles por milisegundo
@@ -396,6 +398,34 @@ class Palanca(Objeto):
         self.rect.bottom = posy - scrolly;
         for x in self.activeObstacules:
             x.establecerPosicionPantalla(scrollDecorado)
+            
+            
+class VenomLauncher(Objeto):
+    def __init__(self,action):
+        Objeto.__init__(self,None)
+        self.activar = False
+        self.activeObstacules = []
+        if action:
+            self.obsPos = [(100,500),(200,500), (300,500), (400,500), (500,500),(600,500),(700,500),(800,500),(900,500),]
+            for i in range(9):
+                val = Veneno(1)
+                val.visible=False
+                val.establecerPosicion((self.obsPos[i][0],self.obsPos[i][1]))
+                self.activeObstacules.append(val)
+                
+    def update(self,tiempo):
+        if self.activar:
+            for x in self.activeObstacules:
+                x.visible = True
+        else:
+            for x in self.activeObstacules:
+                x.visible = False
+        for x in self.activeObstacules:
+            x.update(tiempo)
+
+    def dibujar(self,pantalla):
+        for x in self.activeObstacules:
+            x.dibujar(pantalla)
 
 
 # -------------------------------------------------
@@ -712,7 +742,7 @@ class Jugador(Personaje):
 
     def mover(self, teclasPulsadas, arriba, abajo, izquierda, derecha, atacar):
 
-        if self.rect.left>0 and self.rect.right<ANCHO_PANTALLA and self.rect.bottom>0 and self.rect.top<ALTO_PANTALLA:
+        if self.rect.left>0 and self.rect.right<ANCHO_PANTALLA and self.rect.top<ALTO_PANTALLA:
 
             # Indicamos la acción a realizar segun la tecla pulsada para el jugador
             if teclasPulsadas[arriba]:
@@ -989,63 +1019,90 @@ class Fase1Boss(NoJugador):
 
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        NoJugador.__init__(self,'fase1Boss.png','coordFase1Boss.txt', [1, 3, 6, 10, 1, 6], VELOCIDAD_ENEMIGO, VELOCIDAD_SALTO_ENEMIGO, 5,1500,int(VIDA_JUGADOR/4),INVULNERABLE_ENEMIGO,80,False,None,None);
+        NoJugador.__init__(self,'fase1Boss.png','coordFase1Boss.txt', [5, 4, 5, 8, 5, 5], VELOCIDAD_FASE1BOSS, VELOCIDAD_SALTO_ENEMIGO, 5,1000,int(VIDA_JUGADOR/8),INVULNERABLE_ENEMIGO,30,False,None,None);
         self.mirando = IZQUIERDA
-        self.parar = False
-        self.derecha = False
-        self.izquierda = True
-        self.derecha1 = False
-        self.izquierda1 = True
-        self.cerca = False
-        self.lejos = True
+        self.vidaIni=self.vida
         self.atacando=False
-        self.cerca2=False
+        self.teleport=False
+        self.parar=False
+        self.fase1=False
+        self.fase2=False
+        self.arriba=False
+        self.bajar=False
+        self.time1=0
+        self.time2=0
+        self.timeVen=0
+
 
     def mover_cpu(self, jugador1):
         #Restamos iFrames
         if self.currentIFrames > 0:
             self.currentIFrames -= 1
 
-        # Movemos solo a los enemigos que esten en la pantalla
+       # Movemos solo a los enemigos que esten en la pantalla
         if self.rect.left>0 and self.rect.right<ANCHO_PANTALLA and self.rect.bottom>0 and self.rect.top<ALTO_PANTALLA:
-        
-            if abs(self.posicion[0]-jugador1.posicion[0])<=120 and abs(self.posicion[0]-jugador1.posicion[0])>=90 :
-                self.atacando= False
-                self.cerca2 = True
-                self.cerca = False
-                self.lejos = False
-        
-            if (abs(self.posicion[0]-jugador1.posicion[0])<=90):
-                self.atacando= False
-                self.cerca = True
-                self.cerca2 = False
-                self.lejos = False
-                self.teleport = True
 
-            if abs(self.posicion[0]-jugador1.posicion[0])>=125:
-                self.atacando = True
-                self.cerca = False
-                self.cerca2 = False
-                self.lejos = True
-                self.teleport= False
-
-                
-                
-            if self.cerca2 == True and self.cerca==False:
-               Personaje.mover(self,ARRIBA)
-
+            # Por ejemplo, intentara acercarse al jugador mas cercano en el eje x
+            # Miramos cual es el jugador mas cercano
             
-            elif self.cerca == True:
-                if self.posicion[0]>=jugador1.posicion[0]:
-                    self.establecerPosicion((250,550))
-                    
-                elif self.posicion[0]<=jugador1.posicion[0]:
-                    self.establecerPosicion((750,550))
-                    
-            elif self.cerca==False and self.atacando:
-                Personaje.mover(self,ATACAR)
+            
+            if self.arriba==True:
+                if (self.posicion[0]<700):
+                    Personaje.mover(self,DERECHA)
+                else:
+                    Personaje.mover(self,QUIETO)
+                    timeVen=(pygame.time.get_ticks()-self.timeVen)#calculate how many seconds
+                    if timeVen>=8000:
+                        self.arriba=False
+                        self.bajar=True
+                        self.time2=pygame.time.get_ticks()
+            elif self.bajar==True:
+                if (self.posicion[0]>450):
+                    Personaje.mover(self,IZQUIERDA)
+                else:
+                    Personaje.mover(self,QUIETO)
+                    timetp2=(pygame.time.get_ticks()-self.time2)#calculate how many seconds
+                    if timetp2>=3000:
+                        self.fase2=True
+                        self.bajar=False
+                        self.establecerPosicion((500,550))
+            
             else:
-                Personaje.mover(self,QUIETO)
+                if (self.fase1==False and self.fase2==False and (self.vida <= (self.vidaIni/2))):
+                    self.fase1=True
+                    self.time1=pygame.time.get_ticks() #starter tick
+                    
+                elif self.fase1==True:
+                    Personaje.mover(self,QUIETO)
+                    timetp=(pygame.time.get_ticks()-self.time1)#calculate how many seconds
+                    if timetp>=600:
+                        self.establecerPosicion((450,250))
+                        self.timeVen=pygame.time.get_ticks()
+                        self.arriba=True
+                        self.fase1=False
+                else:
+                    # Cuando este cerca atacara
+                    collide = pygame.sprite.groupcollide(pygame.sprite.Group(jugador1),pygame.sprite.Group(self), False, False)
+                    #collide contine los sprites del primer grupo con los que ha colisionado
+                
+                
+                    if (collide!={}):
+                        self.atacando = True
+                        Personaje.mover(self,ATACAR)
+                    else:             
+                        if ((jugador1.posicion[1]<self.posicion[1]) and abs(self.posicion[0]-jugador1.posicion[0])<=40):
+                            Personaje.mover(self,ARRIBA)
+                        elif ((jugador1.posicion[0]<self.posicion[0]+40) and (jugador1.posicion[1]>=self.posicion[1])):
+                            Personaje.mover(self, IZQUIERDA)
+                            self.atacando = False               
+                        elif ((jugador1.posicion[0]>self.posicion[0]-40) and (jugador1.posicion[1]>=self.posicion[1])):
+                            Personaje.mover(self, DERECHA)
+                            self.atacando = False  
+                        
+        # Si este personaje no esta en pantalla, no hara nada
+        else:
+            Personaje.mover(self,QUIETO)
+
             
 
 # -------------------------------------------------
