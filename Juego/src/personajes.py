@@ -201,39 +201,49 @@ class Ice(Objeto):
         # Modificado, en vez de dañarlo, sanara al enemigo
         enemigo.vida = enemigo.vida + self.dano
 
-class Arrow(Objeto):
+class Veneno(Objeto):
     def __init__(self,aceleracion):
         Objeto.__init__(self,None)
         self.movimiento = ATACAR
-        self.image1 = GestorRecursos.CargarImagen('fireball.png',-1)
-        self.image1 = self.image1.convert_alpha()
-        self.image = self.image1
-        self.image2 = GestorRecursos.CargarImagen('fireballAbajo.png',-1)
-        self.image2 = self.image2.convert_alpha()
-        self.der = False
-        self.izq = True
-        self.aceleracion = -aceleracion
+        self.dano = 6
         self.currentIFrames = 100
-        self.dano = 5
-        self.visible = True
+        self.retardoAnimacion = 1
+        self.currentImage = 0
+        self.images = []
+        self.images.append(pygame.image.load('imagenes/smoke_Green1.png'))
+        self.images.append(pygame.image.load('imagenes/smoke_Green2.png'))
+        self.images.append(pygame.image.load('imagenes/smoke_Green3.png'))
+        self.images.append(pygame.image.load('imagenes/smoke_Green4.png'))
+        self.images.append(pygame.image.load('imagenes/smoke_Green5.png'))
+        self.images.append(pygame.image.load('imagenes/smoke_Green6.png'))
+        self.images.append(pygame.image.load('imagenes/smoke_Green7.png'))
+        self.images.append(pygame.image.load('imagenes/smoke_Green8.png'))
+        self.images.append(pygame.image.load('imagenes/smoke_Green9.png'))
+        self.images.append(pygame.image.load('imagenes/smoke_Green10.png'))
 
+        #image = pygame.image.load(file)
+        self.image = self.images[0]
+        self.visible = True
+    
     def update(self, tiempo):
-        incrementox = 0
-        incrementoy = self.velocidad[0]*tiempo
-        if self.posicion[0] >= ANCHO_PANTALLA:
-            self.establecerPosicion((self.posicion[0]-750, self.posicion[1]))       
-        elif self.posicion[1]<= 100:
-            self.der = True
-            self.izq = False
-            self.image = self.image2
-        if self.izq == True :
-            incrementox = self.aceleracion
-        if self.der == True :
-            incrementox = -self.aceleracion
-        self.incrementarPosicion((incrementox, incrementoy))
-        
-    def dibujar(self,pantalla):
-        pantalla.blit(self.image,self.rect)
+        self.retardoAnimacion -= 1
+        if self.retardoAnimacion < 0:
+            self.retardoAnimacion = 10
+
+        if self.visible:
+            if self.retardoAnimacion <= 0:
+                self.currentImage += 1
+
+            if self.currentImage >= len(self.images):
+                self.currentImage = 0
+            self.image = self.images[self.currentImage]
+
+    def dibujar(self,pantalla):     
+        if self.visible:
+            pantalla.blit(self.image,self.rect)
+
+    def sacarVida(self,enemigo):
+        return
 
 class Fuego(Objeto):
     def __init__(self):
@@ -529,6 +539,7 @@ class Personaje(MiSprite):
             '''self.rect.bottom = self.posicion[1]'''
             if self.duracionMuerte == 0:
                 self.muerto = True
+                posturaNueva = SPRITE_QUIETO
             self.duracionMuerte -= 1
             velocidadx = 0
             velocidady = 0
