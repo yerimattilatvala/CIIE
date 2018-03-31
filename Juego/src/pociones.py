@@ -52,7 +52,7 @@ class PocionCerveza(pygame.sprite.Sprite):
         pantalla.blit(self.images[self.currentImage],(self.posX-scrollX,self.posY))
 
     def collect(self,jugador):
-        jugador.vida += 2
+        jugador.vida += 8
         if jugador.vida > MAX_VIDA_JUGADOR:
             jugador.vida = MAX_VIDA_JUGADOR
   

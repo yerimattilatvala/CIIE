@@ -9,7 +9,7 @@ class Hud(pygame.sprite.Sprite):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.vida = 80
+        self.vida = 40
 
         self.topPadding = 70
 

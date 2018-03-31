@@ -35,10 +35,10 @@ DURACION_ATACAR = 10
 #Dano personajes
 MAX_VIDA_JUGADOR = 40
 VIDA_JUGADOR = MAX_VIDA_JUGADOR
-VIDA_ENEMIGO = 100
+VIDA_ENEMIGO = 80
 
 #Dano personajes
-DANO_JUGADOR = 20
+DANO_JUGADOR = 35
 DANO_ENEMIGO = 1
 
 #Frames de invencibilidad despues de ser atacados
@@ -170,7 +170,7 @@ class Ice(Objeto):
         self.image1 = GestorRecursos.CargarImagen('ObsGigantes222.png',-1)
         self.image1 = self.image1.convert_alpha()
         self.image = self.image1
-        self.dano = 6
+        self.dano = 3
         self.currentIFrames = 100
         self.retardoAnimacion = 10
         self.bajar = True
@@ -203,13 +203,13 @@ class Ice(Objeto):
     def sacarVida(self,enemigo):
         # No ataca a los enemigos
         # Modificado, en vez de dañarlo, sanara al enemigo
-        enemigo.vida = enemigo.vida + self.dano
+        enemigo.vida = enemigo.vida + (self.dano*2)
 
 class Veneno(Objeto):
     def __init__(self,aceleracion):
         Objeto.__init__(self,None)
         self.movimiento = ATACAR
-        self.dano = 6
+        self.dano = 4
         self.currentIFrames = 100
         self.retardoAnimacion = 1
         self.currentImage = 0
@@ -253,7 +253,7 @@ class Fuego(Objeto):
     def __init__(self):
         Objeto.__init__(self,None)
         self.movimiento = ATACAR
-        self.dano = 10
+        self.dano = 8
         self.currentIFrames = 100
         self.retardoAnimacion = 10
         self.currentImage = 0
@@ -294,7 +294,7 @@ class BolasPinchos(Objeto):
     def __init__(self,aceleracion,limit):
         Objeto.__init__(self,None)
         self.movimiento = ATACAR
-        self.dano = 20
+        self.dano = 15
         self.currentIFrames = 100
         self.scalex = 60
         self.scaley = 60
