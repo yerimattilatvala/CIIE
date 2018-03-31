@@ -255,7 +255,7 @@ class Fase(Escena):
         if collide1!={}:
             for sprite in collide1:
                 if sprite.visible:
-                    self.jugador1.restarVida(sprite)
+                    self.jugador1.restarVidaObstaculo(sprite)
         
         #Obstaculos Enemigos
         collide1 = pygame.sprite.groupcollide(self.obstaculos, self.grupoEnemigos, False, False)
