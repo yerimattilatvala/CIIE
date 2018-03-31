@@ -820,7 +820,6 @@ class Jugador(Personaje):
                     if self.vida <= 0:
                         self.numPostura = SPRITE_MUERTE
                         self.dead()
-                    #self.currentIFrames = self.iFrames
                 else:
                     if (enemigo.numImagenPostura != len(enemigo.coordenadasHoja[SPRITE_ATACANDO])-1):
                         enemigo.atacado = False
@@ -831,7 +830,6 @@ class Jugador(Personaje):
                     if self.vida <= 0:
                         self.numPostura = SPRITE_MUERTE
                         self.dead()
-                    #self.currentIFrames = self.iFrames
                 else:
                     if (enemigo.numImagenPostura != len(enemigo.coordenadasHoja[SPRITE_ATACANDO_EN_SALTO])-1):
                         enemigo.atacado = False
@@ -885,9 +883,11 @@ class NoJugador(Personaje):
         
             # Cuando este cerca atacara
             if abs(self.posicion[0]-jugador1.posicion[0])<=40:
+                canal=self.sonidoAtaqueJugador.play()
                 self.atacando = True
                 Personaje.mover(self,ATACAR)
             else:
+                canal=self.sonidoAtaqueJugador.stop()
                 self.atacando = False
                 if (jugador1.posicion[1] < self.posicion[1]):
                     Personaje.mover(self, ARRIBA)
@@ -909,6 +909,10 @@ class Fase3Enemigo(NoJugador):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         NoJugador.__init__(self,'Fase3Enemigo.png','coordFase3Enemigo.txt', [1, 6, 2, 4, 1, 3], VELOCIDAD_ENEMIGO, VELOCIDAD_SALTO_ENEMIGO, RETARDO_ANIMACION_ENEMIGO,VIDA_ENEMIGO,DANO_ENEMIGO,INVULNERABLE_ENEMIGO,DURACION_MUERTE_ENEMIGO,False,None,None);
 
+        #cargamos sonido ataque
+        self.sonidoAtaqueJugador = pygame.mixer.Sound(cargarSonido('fase3Enemigo.wav'))
+
+
     # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
     # La implementacion de la inteligencia segun este personaje particular
     def mover_cpu(self, jugador):
@@ -925,6 +929,9 @@ class Fase3Boss(NoJugador):
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         NoJugador.__init__(self,'Fase3Boss.png','coordFase3Boss.txt', [1, 7, 4, 11, 1, 3], VELOCIDAD_ENEMIGO, VELOCIDAD_SALTO_ENEMIGO, RETARDO_ANIMACION_ENEMIGO,VIDA_ENEMIGO, DANO_ENEMIGO,INVULNERABLE_ENEMIGO,DURACION_MUERTE_ENEMIGO,False,None,None);
+
+        #cargamos sonido ataque
+        self.sonidoAtaqueJugador = pygame.mixer.Sound(cargarSonido('fase3Boss.wav'))
 
     # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
     # La implementacion de la inteligencia segun este personaje particular
@@ -955,9 +962,11 @@ class Fase3Boss(NoJugador):
         
             # Cuando este cerca atacara
             if abs(self.posicion[0]-jugador1.posicion[0])<=40:
+                canal=self.sonidoAtaqueJugador.play()
                 self.atacando = True
                 Personaje.mover(self,ATACAR)
             else:
+                canal=self.sonidoAtaqueJugador.stop()
                 self.atacando = False
                 if (jugador1.posicion[1] < self.posicion[1]):
                     if (jugador1.posicion[0]>self.posicion[0]):
@@ -981,6 +990,10 @@ class Fase1Enemigo(NoJugador):
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         NoJugador.__init__(self,'fase1Enemigo1.png','coordFase1Enemigo1.txt', [2, 6, 4, 4, 1, 2], VELOCIDAD_ENEMIGO, VELOCIDAD_SALTO_ENEMIGO, RETARDO_ANIMACION_ENEMIGO,VIDA_ENEMIGO,DANO_ENEMIGO,INVULNERABLE_ENEMIGO,DURACION_MUERTE_ENEMIGO,False,None,None);
+    
+        #cargamos sonido ataque
+        self.sonidoAtaqueJugador = pygame.mixer.Sound(cargarSonido('fase1Enemigo.wav'))
+
     # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
     # La implementacion de la inteligencia segun este personaje particular
     def mover_cpu(self, jugador1):
@@ -1007,6 +1020,9 @@ class Fase1Boss(NoJugador):
         self.time1=0
         self.time2=0
         self.timeVen=0
+
+        #cargamos sonido ataque
+        #self.sonidoAtaqueJugador = pygame.mixer.Sound(cargarSonido(''))
 
 
     def mover_cpu(self, jugador1):
@@ -1062,9 +1078,11 @@ class Fase1Boss(NoJugador):
                 
                 
                     if (collide!={}):
+                        #canal=self.sonidoAtaqueJugador.play()
                         self.atacando = True
                         Personaje.mover(self,ATACAR)
-                    else:             
+                    else:    
+                        #canal=self.sonidoAtaqueJugador.stop()
                         if ((jugador1.posicion[1]<self.posicion[1]) and abs(self.posicion[0]-jugador1.posicion[0])<=40):
                             Personaje.mover(self,ARRIBA)
                         elif ((jugador1.posicion[0]<self.posicion[0]+40) and (jugador1.posicion[1]>=self.posicion[1])):
@@ -1089,6 +1107,10 @@ class Fase5Enemigo(NoJugador):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         NoJugador.__init__(self,'fase5Enemigo.png','coordFase5Enemigo.txt', [3, 6, 2, 3, 2, 4], VELOCIDAD_ENEMIGO, VELOCIDAD_SALTO_ENEMIGO, RETARDO_ANIMACION_ENEMIGO,VIDA_ENEMIGO,DANO_ENEMIGO,INVULNERABLE_ENEMIGO,DURACION_MUERTE_ENEMIGO,False,None,None);
 
+        #cargamos sonido ataque
+        #self.sonidoAtaqueJugador = pygame.mixer.Sound(cargarSonido(''))
+
+
     # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
     # La implementacion de la inteligencia segun este personaje particular
     def mover_cpu(self, jugador1):
@@ -1102,7 +1124,10 @@ class Fase2Enemigo(NoJugador):
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         NoJugador.__init__(self,'fase2Enemigo1.png','coordFase2Enemigo1.txt', [1,3,3,2,2,1], VELOCIDAD_ENEMIGO, VELOCIDAD_SALTO_ENEMIGO, RETARDO_ANIMACION_ENEMIGO,VIDA_ENEMIGO,DANO_ENEMIGO,INVULNERABLE_ENEMIGO,DURACION_MUERTE_ENEMIGO,False,None,None);
-        #self.images.append(pygame.transform.scale(GestorRecursos.CargarImagen('cerveza_item/0.png',-1),(self.scalex,self.scaley)).convert_alpha())
+
+        #cargamos sonido ataque
+        #self.sonidoAtaqueJugador = pygame.mixer.Sound(cargarSonido(''))
+
 
     # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
     # La implementacion de la inteligencia segun este personaje particular
@@ -1129,6 +1154,10 @@ class Fase2Boss(NoJugador):
         self.izquierda = True
         self.parar = False
 
+        #cargamos sonido ataque
+        #self.sonidoAtaqueJugador = pygame.mixer.Sound(cargarSonido(''))
+
+
     def mover_cpu(self, jugador1):
         #Restamos iFrames
         if self.currentIFrames > 0:
@@ -1144,8 +1173,10 @@ class Fase2Boss(NoJugador):
                     self.parar = True
 
                 if abs(self.posicion[0]-jugador1.posicion[0])<=40 and abs(self.posicion[1]-jugador1.posicion[1])<=90:
+                    #canal=self.sonidoAtaqueJugador.play()
                     self.atacando = True
                 else:
+                    #canal=self.sonidoAtaqueJugador.play()
                     self.atacando = False
 
                 if self.sufrir == False and self.Pelear == False and abs(self.posicion[0]-jugador1.posicion[0])>=250:
@@ -1158,11 +1189,13 @@ class Fase2Boss(NoJugador):
                     self.izquierda = False
 
                 if self.Pelear:
+                    #canal=self.sonidoAtaqueJugador.play()
                     if jugador1.posicion[0]<=self.posicion[0]:
                         Personaje.mover(self,IZQUIERDA)
                     elif jugador1.posicion[0]>=self.posicion[0]:
                         Personaje.mover(self,DERECHA)
                 else:
+                    #canal=self.sonidoAtaqueJugador.stop()
                     self.atacando = False
                     if self.posicion[0]>=self.limite2:
                         self.izquierda = True
@@ -1177,7 +1210,9 @@ class Fase2Boss(NoJugador):
                     Personaje.mover(self,IZQUIERDA)
 
                 if self.Pelear and self.atacando:
+                    #canal=self.sonidoAtaqueJugador.play()
                     Personaje.mover(self,ATACAR)
+                #else: canal=self.sonidoAtaqueJugador.stop()
 
                 if self.sufrir:
                     if self.posicion[0]>self.limite3:
@@ -1187,8 +1222,10 @@ class Fase2Boss(NoJugador):
                         self.parar = True
             else:
                 if abs(self.posicion[0]-jugador1.posicion[0])<=40 and abs(self.posicion[1]-jugador1.posicion[1])<=90:
+                    #canal=self.sonidoAtaqueJugador.play()
                     Personaje.mover(self,ATACAR)
                 else:
+                    #canal=self.sonidoAtaqueJugador.stop()
                     self.mirando = DERECHA
                     Personaje.mover(self,QUIETO)
 
@@ -1202,6 +1239,10 @@ class Fase5BossLobo(NoJugador):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         NoJugador.__init__(self,'fase5BossLobo.png','coordFase5BossLobo.txt', [6,6,1,2,2,7], VELOCIDAD_FASE5BOSSLOBO, VELOCIDAD_SALTO_FASE5BOSSLOBO, RETARDO_ANIMACION_FASE5BOSSLOBO,1500,int(VIDA_JUGADOR/3),INVULNERABLE_ENEMIGO,DURACION_MUERTE_ENEMIGO,False,None,None);
         self.visto = False
+
+        #cargamos sonido ataque
+        #self.sonidoAtaqueJugador = pygame.mixer.Sound(cargarSonido(''))
+
 
     # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
     # La implementacion de la inteligencia segun este personaje particular
@@ -1225,7 +1266,6 @@ class Fase5BossLobo(NoJugador):
             # Y nos movemos andando hacia el
             if (jugador1.posicion[0] < self.posicion[0]):
                 Personaje.mover(self, IZQUIERDA)
-                #Personaje.mover(self, ARRIBA)
                 self.atacando = False
             elif (jugador1.posicion[0]>self.posicion[0]):
                 Personaje.mover(self, DERECHA)
@@ -1236,8 +1276,10 @@ class Fase5BossLobo(NoJugador):
             collide = pygame.sprite.groupcollide(pygame.sprite.Group(jugador1),pygame.sprite.Group(self), False, False)
             #collide contine los sprites del primer grupo con los que ha colisionado
             if collide!={}:
+                #canal=self.sonidoAtaqueJugador.play()
                 self.atacando = True
                 Personaje.mover(self,ATACAR)
+            #else: canal=self.sonidoAtaqueJugador.stop()
 
         # Si este personaje no esta en pantalla, no hara nada
         else:
@@ -1253,6 +1295,10 @@ class Fase5BossReina(NoJugador):
         NoJugador.__init__(self,'fase5BossReina.png','coordFase5BossReina.txt', [1,1,1,2,2,2], VELOCIDAD_FASE5BOSSREINA, VELOCIDAD_SALTO_FASE5BOSSREINA, RETARDO_ANIMACION_FASE5BOSSREINA,1500,int(VIDA_JUGADOR/3),INVULNERABLE_ENEMIGO,DURACION_MUERTE_ENEMIGO,False,None,None);
         self.visto = False
 
+        #cargamos sonido ataque
+        #self.sonidoAtaqueJugador = pygame.mixer.Sound(cargarSonido(''))
+
+
     # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
     # La implementacion de la inteligencia segun este personaje particular
     def mover_cpu(self, jugador1):
@@ -1275,7 +1321,6 @@ class Fase5BossReina(NoJugador):
             # Y nos movemos andando hacia el
             if (jugador1.posicion[0] < self.posicion[0]):
                 Personaje.mover(self, IZQUIERDA)
-                #Personaje.mover(self, ARRIBA)
                 self.atacando = False
             elif (jugador1.posicion[0]>self.posicion[0]):
                 Personaje.mover(self, DERECHA)
@@ -1286,8 +1331,10 @@ class Fase5BossReina(NoJugador):
             collide = pygame.sprite.groupcollide(pygame.sprite.Group(jugador1),pygame.sprite.Group(self), False, False)
             #collide contine los sprites del primer grupo con los que ha colisionado
             if collide!={}:
+                #canal=self.sonidoAtaqueJugador.play()
                 self.atacando = True
                 Personaje.mover(self,ATACAR)
+            #else: canal=self.sonidoAtaqueJugador.stop()
 
         # Si este personaje no esta en pantalla, no hara nada
         else:
