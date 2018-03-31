@@ -62,7 +62,7 @@ RETARDO_ANIMACION_FASE5BOSSLOBO = 10 # updates que durará cada imagen del perso
 
 VELOCIDAD_FASE5BOSSREINA = 0.18 # Pixeles por milisegundo
 VELOCIDAD_SALTO_FASE5BOSSREINA = 0.28 # Pixeles por milisegundo
-RETARDO_ANIMACION_FASE5BOSSREINA = 5 # updates que durará cada imagen del personaje
+RETARDO_ANIMACION_FASE5BOSSREINA = 30 # updates que durará cada imagen del personaje
 
 # El Sniper camina un poco más lento que el jugador, y salta menos
 
@@ -421,6 +421,7 @@ class Personaje(MiSprite):
         self.scaley = scaley
 
         #vida y dano
+        self.atacado = False
         self.vida = vida
         self.dano = dano
         self.iFrames = iFrames
@@ -673,6 +674,9 @@ class Personaje(MiSprite):
                 if self.atacando:
                     velocidadx = 0
 
+        #Reseteamos la frame inicial si cambiamos de postura
+        if self.numPostura != posturaNueva:
+            self.numImagenPostura = len(self.coordenadasHoja[posturaNueva])-1
 
         # Asignamos la postura auxiliar
         self.numPostura = posturaNueva
@@ -731,28 +735,67 @@ class Jugador(Personaje):
                 self.numPostura = SPRITE_MUERTE
                 self.dead()
             self.currentIFrames = self.iFrames
+    
+    def restarVidaObstaculo(self,obstaculo):
+        if self.currentIFrames <= 0:
+            self.vida -= obstaculo.dano
+            if self.vida <= 0:
+                self.numPostura = SPRITE_MUERTE
+                self.dead()
+            self.currentIFrames = self.iFrames
 
     def restarVida(self,enemigo):
+        #Pegamos solo 1 vez con la ultima de nuestras frames de atacar o atacar en salto, no hay inmunidad
         if self.atacando:
-            #Hacemos dano al enemigo
-            if enemigo.currentIFrames <= 0:
-                enemigo.vida = enemigo.vida - self.dano
-                #print("enemigo vida %d" , enemigo.vida)
-                if enemigo.vida <= 0:
-                    enemigo.retardoAccion -= 1
-                    enemigo.numPostura = SPRITE_MUERTE
-                enemigo.currentIFrames = enemigo.iFrames
+            if self.numPostura == SPRITE_ATACANDO:
+                if (self.numImagenPostura == len(self.coordenadasHoja[SPRITE_ATACANDO])-1) and not self.atacado:
+                    self.atacado = True
+                    enemigo.vida = enemigo.vida - self.dano
+                    #print("enemigo vida %d" , enemigo.vida)
+                    if enemigo.vida <= 0:
+                        enemigo.retardoAccion -= 1
+                        enemigo.numPostura = SPRITE_MUERTE
+                    #enemigo.currentIFrames = enemigo.iFrames
+                else:
+                    if self.numImagenPostura != len(self.coordenadasHoja[SPRITE_ATACANDO])-1:
+                        self.atacado = False
+            elif self.numPostura == SPRITE_ATACANDO_EN_SALTO:
+                if (self.numImagenPostura == len(self.coordenadasHoja[SPRITE_ATACANDO_EN_SALTO])-1) and not self.atacado:
+                    self.atacado = True
+                    enemigo.vida = enemigo.vida - self.dano
+                    #print("enemigo vida %d" , enemigo.vida)
+                    if enemigo.vida <= 0:
+                        enemigo.retardoAccion -= 1
+                        enemigo.numPostura = SPRITE_MUERTE
+                    #enemigo.currentIFrames = enemigo.iFrames
+                else:
+                    if self.numImagenPostura != len(self.coordenadasHoja[SPRITE_ATACANDO_EN_SALTO])-1:
+                        self.atacado = False
 
-        else:
-            if enemigo.movimiento == ATACAR:
-                #Si no nos acaban de pegar restamos vida
-                if self.currentIFrames <= 0:
+        
+        if enemigo.atacando:
+            if enemigo.numPostura == SPRITE_ATACANDO:
+                if (enemigo.numImagenPostura == len(enemigo.coordenadasHoja[SPRITE_ATACANDO])-1) and not enemigo.atacado:
+                    enemigo.atacado = True
                     self.vida = self.vida - enemigo.dano
-                    #print(self.vida)
                     if self.vida <= 0:
                         self.numPostura = SPRITE_MUERTE
                         self.dead()
-                    self.currentIFrames = self.iFrames
+                    #self.currentIFrames = self.iFrames
+                else:
+                    if (enemigo.numImagenPostura != len(enemigo.coordenadasHoja[SPRITE_ATACANDO])-1):
+                        enemigo.atacado = False
+            elif enemigo.numPostura == SPRITE_ATACANDO_EN_SALTO:
+                if (enemigo.numImagenPostura == len(enemigo.coordenadasHoja[SPRITE_ATACANDO_EN_SALTO])-1) and not enemigo.atacado:
+                    enemigo.atacado = True
+                    self.vida = self.vida - enemigo.dano
+                    if self.vida <= 0:
+                        self.numPostura = SPRITE_MUERTE
+                        self.dead()
+                    #self.currentIFrames = self.iFrames
+                else:
+                    if (enemigo.numImagenPostura != len(enemigo.coordenadasHoja[SPRITE_ATACANDO_EN_SALTO])-1):
+                        enemigo.atacado = False
 
 
 
