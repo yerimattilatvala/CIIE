@@ -451,7 +451,7 @@ class Personaje(MiSprite):
         self.scaley = scaley
 
         #vida y dano
-        self.atacado = False
+        self.atacado = True
         self.vida = vida
         self.dano = dano
         self.iFrames = iFrames
@@ -706,6 +706,7 @@ class Personaje(MiSprite):
 
         #Reseteamos la frame inicial si cambiamos de postura
         if self.numPostura != posturaNueva:
+            self.atacado = True
             self.numImagenPostura = len(self.coordenadasHoja[posturaNueva])-1
 
         # Asignamos la postura auxiliar
@@ -783,6 +784,7 @@ class Jugador(Personaje):
                     enemigo.vida = enemigo.vida - self.dano
                     #print("enemigo vida %d" , enemigo.vida)
                     if enemigo.vida <= 0:
+                        enemigo.atacando = False
                         enemigo.retardoAccion -= 1
                         enemigo.numPostura = SPRITE_MUERTE
                     #enemigo.currentIFrames = enemigo.iFrames
@@ -795,6 +797,7 @@ class Jugador(Personaje):
                     enemigo.vida = enemigo.vida - self.dano
                     #print("enemigo vida %d" , enemigo.vida)
                     if enemigo.vida <= 0:
+                        enemigo.atacando = False
                         enemigo.retardoAccion -= 1
                         enemigo.numPostura = SPRITE_MUERTE
                     #enemigo.currentIFrames = enemigo.iFrames
