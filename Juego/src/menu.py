@@ -384,10 +384,10 @@ class Menu(Escena):
     def salirPrograma(self):
         self.director.salirPrograma()
 
+
     def ejecutarJuego(self):
         fase = Fase(self.director,self.jugador,1,4800,getValues(TEXT,'FASE1_FONDO='),getValues(TEXT,'FASE1_FONDO_SCALE='),getValues(TEXT,'FASE1_CIELO='),getValues(TEXT,'FASE1_CIELO_SCALE='),getValues(TEXT,'FASE1_POS_JUGADOR='),getValues(TEXT,'FASE1_ENEMIGOS='),getValues(TEXT,'FASE1_ENEMIGOS_POS='),getValues(TEXT,'FASE1_PLATAFORMAS='),None,None,getValues(TEXT,'FASE1_POCIONES='),getValues(TEXT,'FASE1_POS_POCIONES='),getValues(TEXT,'FASE1_OBSTACULOS='),getValues(TEXT,'FASE1_OBSTACULOS_POS='),getValues(TEXT,'FASE1_ACELERACION='),None,None,None,False)
         self.director.apilarEscena(fase)
-
 		
     def ejecutarFase1(self):
         #fase = Fase(self.director,self.jugador,1,1000,getValues(TEXT,'FASE1BOSS_FONDO='),getValues(TEXT,'FASE1BOSS_FONDO_SCALE='),getValues(TEXT,'FASE1BOSS_CIELO='),getValues(TEXT,'FASE1BOSS_CIELO_SCALE='),getValues(TEXT,'FASE1BOSS_POS_JUGADOR='),getValues(TEXT,'FASE1BOSS_ENEMIGOS='),getValues(TEXT,'FASE1BOSS_ENEMIGOS_POS='),getValues(TEXT,'FASE1BOSS_PLATAFORMAS='),None,None,None,None,None, None,None,None,None,None,True)
@@ -425,23 +425,6 @@ class Menu(Escena):
         fase = Fase(self.director,self.jugador, 5, 4600, getValues(TEXT,'FASE5_FONDO='),getValues(TEXT,'FASE5_FONDO_SCALE='),getValues(TEXT,'FASE5_CIELO='),getValues(TEXT,'FASE5_CIELO_SCALE='),getValues(TEXT,'FASE5_POS_JUGADOR='),getValues(TEXT,'FASE5_ENEMIGOS='),getValues(TEXT,'FASE5_ENEMIGOS_POS='),getValues(TEXT,'FASE5_PLATAFORMAS='),getValues(TEXT,'FASE5_ANIMACIONES='),getValues(TEXT,'FASE5_POS_ANIMACIONES='),getValues(TEXT,'FASE5_POCIONES='),getValues(TEXT,'FASE5_POS_POCIONES='),None,None,None,None,None,None, False)
         self.director.apilarEscena(fase)
         
-
-
-    '''
-    # Para una unica escena
-
-
-
-    
-    def ejecutarJuego(self):
-        # Creamos la escena con la animacion antes de jugar
-        escena = EscenaAnimacion(self.director)
-        self.director.apilarEscena(escena)
-        ##
-        # Iniciar Fase 1
-        fase = Fase(self.director, 1, 5000, getValues(TEXT,'FASE1_FONDO='),getValues(TEXT,'FASE1_FONDO_SCALE='),getValues(TEXT,'FASE1_CIELO='),getValues(TEXT,'FASE1_CIELO_SCALE='),getValues(TEXT,'FASE1_POS_JUGADOR='),getValues(TEXT,'FASE1_ENEMIGOS='),getValues(TEXT,'FASE1_ENEMIGOS_POS='),getValues(TEXT,'FASE1_PLATAFORMAS='),None,None,None,None,None,None,None,None,None,None, False)
-        self.director.apilarEscena(fase)
-    '''
 
     def mostrarPantallaInicial(self):
         self.pantallaActual = 0

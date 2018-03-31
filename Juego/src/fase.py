@@ -408,18 +408,6 @@ class Fase(Escena):
                 self.director.salirEscena()
 
 
-
-
-            '''
-            if (self.numeroFase == 3):
-                # Ejecutar Jefe
-                #faseBoss = Fase(self.director, self.numeroFase, getValues(TEXT,'MAX_DISTANCE='))    
-
-                #EjecutarSiguienteFase
-                #fase = Fase(self.director, self.numeroFase+1, getValues(TEXT,'MAX_DISTANCE='),getValues(TEXT,'FASE4_FONDO='),getValues(TEXT,'FASE4_FONDO_SCALE='), None, None, getValues(TEXT,'FASE4_POS_JUGADOR='),getValues(TEXT,'FASE4_ENEMIGOS='),getValues(TEXT,'FASE4_ENEMIGOS_POS='),getValues(TEXT,'FASE4_PLATAFORMAS='),None,None,None,None,None,None,None,None,None,None)
-                #self.director.cambiarEscena(fase)
-            '''
-
         
 
 
