@@ -24,7 +24,7 @@ MAXIMO_X_JUGADOR = ANCHO_PANTALLA - MINIMO_X_JUGADOR
 # Clase Fase
 
 class Fase(Escena):
-    def __init__(self, director, numeroFase, max_distance, img_decorado,scale_decorado,sky_img,sky_scale,pos_jugador,enemigos,pos_enemigos,plataformas,animaciones,pos_animaciones,pociones,pos_pociones,obstaculos,pos_obstaculos ,velo_obsta,objetos,pos_objetos,object_action, isBoss):
+    def __init__(self, director, jugador, numeroFase, max_distance, img_decorado,scale_decorado,sky_img,sky_scale,pos_jugador,enemigos,pos_enemigos,plataformas,animaciones,pos_animaciones,pociones,pos_pociones,obstaculos,pos_obstaculos ,velo_obsta,objetos,pos_objetos,object_action, isBoss):
 
         # Primero invocamos al constructor de la clase padre
         Escena.__init__(self, director)
@@ -45,6 +45,7 @@ class Fase(Escena):
 
         # Creamos los sprites de los jugadores
         self.jugador1 = Jugador()
+        self.jugador1.vida = jugador.vida
         self.grupoJugadores = pygame.sprite.Group( self.jugador1 )
 
         # Ponemos a los jugadores en sus posiciones iniciales
@@ -134,7 +135,7 @@ class Fase(Escena):
                 self.grupoPociones = pygame.sprite.Group() 
         else:
             self.grupoPociones = pygame.sprite.Group() 
-
+        ##########################################################
     
         
     # Devuelve True o False según se ha tenido que desplazar el scroll
@@ -290,9 +291,22 @@ class Fase(Escena):
         #Actualizamos el Hud
         self.grupoHud.update(self.jugador1)
 
-        #Si estamos muerto nos vamos a la pantalla principal
+        #Si estamos muerto nos vamos al pricipio del nivel
         if self.jugador1.muerto:
-            self.director.salirEscena()
+            self.jugador1.vida = 8
+            if self.numeroFase == 1:
+                fase = Fase(self.director,self.jugador1,1,4800,getValues(TEXT,'FASE1_FONDO='),getValues(TEXT,'FASE1_FONDO_SCALE='),getValues(TEXT,'FASE1_CIELO='),getValues(TEXT,'FASE1_CIELO_SCALE='),getValues(TEXT,'FASE1_POS_JUGADOR='),getValues(TEXT,'FASE1_ENEMIGOS='),getValues(TEXT,'FASE1_ENEMIGOS_POS='),getValues(TEXT,'FASE1_PLATAFORMAS='),None,None,getValues(TEXT,'FASE1_POCIONES='),getValues(TEXT,'FASE1_POS_POCIONES='),getValues(TEXT,'FASE1_OBSTACULOS='),getValues(TEXT,'FASE1_OBSTACULOS_POS='),getValues(TEXT,'FASE1_ACELERACION='),None,None,None,False)
+                self.director.cambiarEscena(fase)
+            elif self.numeroFase == 2:
+                fase = Fase(self.director,self.jugador1, 2, 5400, getValues(TEXT,'FASE2_FONDO='),getValues(TEXT,'FASE2_FONDO_SCALE='),getValues(TEXT,'FASE2_CIELO='),getValues(TEXT,'FASE2_CIELO_SCALE='),getValues(TEXT,'FASE2_POS_JUGADOR='),getValues(TEXT,'FASE2_ENEMIGOS='),getValues(TEXT,'FASE2_ENEMIGOS_POS='),getValues(TEXT,'FASE2_PLATAFORMAS='),None,None,getValues(TEXT,'FASE2_POCIONES='),getValues(TEXT,'FASE2_POS_POCIONES='),getValues(TEXT,'FASE2_OBSTACULOS='),getValues(TEXT,'FASE2_OBSTACULOS_POS='),getValues(TEXT,'FASE2_ACELERACION='),None,None,None, False)
+                self.director.cambiarEscena(fase)
+            elif self.numeroFase == 3:
+                fase = Fase(self.director,self.jugador1, 3, 4900, getValues(TEXT,'FASE3_FONDO='),getValues(TEXT,'FASE3_FONDO_SCALE='),None, None, getValues(TEXT,'FASE3_POS_JUGADOR='),getValues(TEXT,'FASE3_ENEMIGOS='),getValues(TEXT,'FASE3_ENEMIGOS_POS='),getValues(TEXT,'FASE3_PLATAFORMAS='),None,None,getValues(TEXT,'FASE3_POCIONES='), getValues(TEXT,'FASE3_POS_POCIONES='),getValues(TEXT,'FASE3_OBSTACULOS=') , getValues(TEXT,'FASE3_OBSTACULOS_POS='), getValues(TEXT,'FASE3_ACELERACION='),None,None,None, False)
+                self.director.cambiarEscena(fase)
+            elif self.numeroFase == 5:
+                fase = Fase(self.director,self.jugador1, 5, 4600, getValues(TEXT,'FASE5_FONDO='),getValues(TEXT,'FASE5_FONDO_SCALE='),getValues(TEXT,'FASE5_CIELO='),getValues(TEXT,'FASE5_CIELO_SCALE='),getValues(TEXT,'FASE5_POS_JUGADOR='),getValues(TEXT,'FASE5_ENEMIGOS='),getValues(TEXT,'FASE5_ENEMIGOS_POS='),getValues(TEXT,'FASE5_PLATAFORMAS='),getValues(TEXT,'FASE5_ANIMACIONES='),getValues(TEXT,'FASE5_POS_ANIMACIONES='),getValues(TEXT,'FASE5_POCIONES='),getValues(TEXT,'FASE5_POS_POCIONES='),None,None,None,None,None,None, False)
+                self.director.cambiarEscena(fase)
+            
 
         #Miramos si hay que matar enemigos
         self.grupoEnemigos = [enemy for enemy in self.grupoEnemigos if enemy.muerto == False]
@@ -367,16 +381,32 @@ class Fase(Escena):
         
         #Cambiar a escena
         if (self.jugador1.posicion[0]>self.max_distance) and not (self.isBoss):
-            #Esto para todos
-            if (self.numeroFase == 2):
-                fase = Fase(self.director, 2, getValues(TEXT,'MAX_DISTANCE_2BOSS='), getValues(TEXT,'FASE2BOSS_FONDO='),getValues(TEXT,'FASE2BOSS_FONDO_SCALE='),getValues(TEXT,'FASE2BOSS_CIELO='),getValues(TEXT,'FASE2BOSS_CIELO_SCALE='),getValues(TEXT,'FASE2BOSS_POS_JUGADOR='),getValues(TEXT,'FASE2BOSS_ENEMIGOS='),getValues(TEXT,'FASE2BOSS_ENEMIGOS_POS='),getValues(TEXT,'FASE2BOSS_PLATAFORMAS='),None,None,None,None,None,None,None,getValues(TEXT,'FASE2BOSS_OBJETOS='),getValues(TEXT,'FASE2BOSS_OBJETOS_POS='),getValues(TEXT,'FASE2BOSS_OBJETOS_ACTION='), True)
+            if self.numeroFase == 1:
+                fase = Fase(self.director,self.jugador1,1,1000,getValues(TEXT,'FASE1BOSS_FONDO='),getValues(TEXT,'FASE1BOSS_FONDO_SCALE='),getValues(TEXT,'FASE1BOSS_CIELO='),getValues(TEXT,'FASE1BOSS_CIELO_SCALE='),getValues(TEXT,'FASE1BOSS_POS_JUGADOR='),getValues(TEXT,'FASE1BOSS_ENEMIGOS='),getValues(TEXT,'FASE1BOSS_ENEMIGOS_POS='),getValues(TEXT,'FASE1BOSS_PLATAFORMAS='),None,None,None,None,None, None,None,None,None,None,True)
                 self.director.cambiarEscena(fase)
-                
+            elif self.numeroFase == 2:
+                fase = Fase(self.director,self.jugador1, 2, 5000, getValues(TEXT,'FASE2BOSS_FONDO='),getValues(TEXT,'FASE2BOSS_FONDO_SCALE='),getValues(TEXT,'FASE2BOSS_CIELO='),getValues(TEXT,'FASE2BOSS_CIELO_SCALE='),getValues(TEXT,'FASE2BOSS_POS_JUGADOR='),getValues(TEXT,'FASE2BOSS_ENEMIGOS='),getValues(TEXT,'FASE2BOSS_ENEMIGOS_POS='),getValues(TEXT,'FASE2BOSS_PLATAFORMAS='),None,None,None,None,None,None,None,getValues(TEXT,'FASE2BOSS_OBJETOS='),getValues(TEXT,'FASE2BOSS_OBJETOS_POS='),getValues(TEXT,'FASE2BOSS_OBJETOS_ACTION='), True)
+                self.director.cambiarEscena(fase)
+            elif self.numeroFase == 3:
+                fase = Fase(self.director,self.jugador1, 3, 5000, getValues(TEXT,'FASE3BOSS_FONDO='),getValues(TEXT,'FASE3BOSS_FONDO_SCALE='),getValues(TEXT,'FASE3BOSS_CIELO='),getValues(TEXT,'FASE3BOSS_CIELO_SCALE='),getValues(TEXT,'FASE3BOSS_POS_JUGADOR='),getValues(TEXT,'FASE3BOSS_ENEMIGOS='),getValues(TEXT,'FASE3BOSS_ENEMIGOS_POS='),getValues(TEXT,'FASE3BOSS_PLATAFORMAS='),None,None,getValues(TEXT, 'FASE3_POCIONES_BOSS='), getValues(TEXT, 'FASE3_POS_POCIONES_BOSS='), getValues(TEXT,'FASE3_OBSTACULOS_BOSS='), getValues(TEXT,'FASE3_OBSTACULOS_POS_BOSS='),getValues(TEXT,'FASE3_ACELERACION_BOSS='),None,None,None, True)
+                self.director.cambiarEscena(fase)
+            elif self.numeroFase == 5:
+                fase = Fase(self.director,self.jugador1, 5,1499,getValues(TEXT,'FASE5BOSS_FONDO='),getValues(TEXT,'FASE5BOSS_FONDO_SCALE='),getValues(TEXT,'FASE5BOSS_CIELO='),getValues(TEXT,'FASE5BOSS_CIELO_SCALE='),getValues(TEXT,'FASE5BOSS_POS_JUGADOR='),getValues(TEXT,'FASE5BOSS_ENEMIGOS='),getValues(TEXT,'FASE5BOSS_ENEMIGOS_POS='),getValues(TEXT,'FASE5BOSS_PLATAFORMAS='),None,None,None,None,None,None,None,None,None,None,True)
+                self.director.cambiarEscena(fase)
 
-        if (self.jugador1.posicion[0]>self.max_distance) and self.isBoss:
-            if (self.numeroFase == 2):
-                fase = Fase(self.director, 3, getValues(TEXT,'MAX_DISTANCE_3='), getValues(TEXT,'FASE3_FONDO='),getValues(TEXT,'FASE3_FONDO_SCALE='),None, None, getValues(TEXT,'FASE3_POS_JUGADOR='),getValues(TEXT,'FASE3_ENEMIGOS='),getValues(TEXT,'FASE3_ENEMIGOS_POS='),getValues(TEXT,'FASE3_PLATAFORMAS='),None,None,None,None,None,None,None,None,None,None, False)
+        if len(self.grupoEnemigos) == 0 and self.isBoss:
+            if self.numeroFase == 1:
+                fase = Fase(self.director,self.jugador1, 2, 5400, getValues(TEXT,'FASE2_FONDO='),getValues(TEXT,'FASE2_FONDO_SCALE='),getValues(TEXT,'FASE2_CIELO='),getValues(TEXT,'FASE2_CIELO_SCALE='),getValues(TEXT,'FASE2_POS_JUGADOR='),getValues(TEXT,'FASE2_ENEMIGOS='),getValues(TEXT,'FASE2_ENEMIGOS_POS='),getValues(TEXT,'FASE2_PLATAFORMAS='),None,None,getValues(TEXT,'FASE2_POCIONES='),getValues(TEXT,'FASE2_POS_POCIONES='),getValues(TEXT,'FASE2_OBSTACULOS='),getValues(TEXT,'FASE2_OBSTACULOS_POS='),getValues(TEXT,'FASE2_ACELERACION='),None,None,None, False)
                 self.director.cambiarEscena(fase)
+            elif self.numeroFase == 2:
+                fase = Fase(self.director,self.jugador1, 3, 4900, getValues(TEXT,'FASE3_FONDO='),getValues(TEXT,'FASE3_FONDO_SCALE='),None, None, getValues(TEXT,'FASE3_POS_JUGADOR='),getValues(TEXT,'FASE3_ENEMIGOS='),getValues(TEXT,'FASE3_ENEMIGOS_POS='),getValues(TEXT,'FASE3_PLATAFORMAS='),None,None,getValues(TEXT,'FASE3_POCIONES='), getValues(TEXT,'FASE3_POS_POCIONES='),getValues(TEXT,'FASE3_OBSTACULOS=') , getValues(TEXT,'FASE3_OBSTACULOS_POS='), getValues(TEXT,'FASE3_ACELERACION='),None,None,None, False)
+                self.director.cambiarEscena(fase)
+            elif self.numeroFase == 3:
+                fase = Fase(self.director,self.jugador1, 5, 4600, getValues(TEXT,'FASE5_FONDO='),getValues(TEXT,'FASE5_FONDO_SCALE='),getValues(TEXT,'FASE5_CIELO='),getValues(TEXT,'FASE5_CIELO_SCALE='),getValues(TEXT,'FASE5_POS_JUGADOR='),getValues(TEXT,'FASE5_ENEMIGOS='),getValues(TEXT,'FASE5_ENEMIGOS_POS='),getValues(TEXT,'FASE5_PLATAFORMAS='),getValues(TEXT,'FASE5_ANIMACIONES='),getValues(TEXT,'FASE5_POS_ANIMACIONES='),getValues(TEXT,'FASE5_POCIONES='),getValues(TEXT,'FASE5_POS_POCIONES='),None,None,None,None,None,None, False)
+                self.director.cambiarEscena(fase)
+            elif self.numeroFase == 5:
+                self.director.salirEscena()
+
 
 
 

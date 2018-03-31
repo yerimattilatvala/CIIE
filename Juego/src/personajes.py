@@ -539,6 +539,7 @@ class Personaje(MiSprite):
             '''self.rect.bottom = self.posicion[1]'''
             if self.duracionMuerte == 0:
                 self.muerto = True
+                posturaNueva = SPRITE_QUIETO
             self.duracionMuerte -= 1
             velocidadx = 0
             velocidady = 0
