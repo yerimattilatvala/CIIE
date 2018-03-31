@@ -275,6 +275,20 @@ class Fase(Escena):
                     sprite.activar = True
                     for x in sprite.activeObstacules:
                         self.obstaculos.add(x)
+                        
+        #Objetos Enemigos
+        collide1 = pygame.sprite.groupcollide(self.objetos, self.grupoEnemigos, False, False)
+        collide2= pygame.sprite.groupcollide(self.grupoEnemigos,self.objetos, False, False)
+        #collide contine los sprites del primer grupo con los que ha colisionado
+        if collide1!={}:
+            for sprite in collide1:
+                for sprite2 in collide2:
+                    if sprite2.movimiento==QUIETO:
+                        sprite.activar = True
+                    elif sprite2.movimiento ==IZQUIERDA:
+                        sprite.activar=False
+                for x in sprite.activeObstacules:
+                    self.obstaculos.add(x)       
 
         #Pociones
         collidePociones = pygame.sprite.groupcollide(self.grupoPociones, self.grupoJugadores, False, False)
@@ -382,7 +396,7 @@ class Fase(Escena):
         #Cambiar a escena
         if (self.jugador1.posicion[0]>self.max_distance) and not (self.isBoss):
             if self.numeroFase == 1:
-                fase = Fase(self.director,self.jugador1,1,1000,getValues(TEXT,'FASE1BOSS_FONDO='),getValues(TEXT,'FASE1BOSS_FONDO_SCALE='),getValues(TEXT,'FASE1BOSS_CIELO='),getValues(TEXT,'FASE1BOSS_CIELO_SCALE='),getValues(TEXT,'FASE1BOSS_POS_JUGADOR='),getValues(TEXT,'FASE1BOSS_ENEMIGOS='),getValues(TEXT,'FASE1BOSS_ENEMIGOS_POS='),getValues(TEXT,'FASE1BOSS_PLATAFORMAS='),None,None,None,None,None, None,None,None,None,None,True)
+                fase = Fase(self.director,self.jugador1,1,1000,getValues(TEXT,'FASE1BOSS_FONDO='),getValues(TEXT,'FASE1BOSS_FONDO_SCALE='),getValues(TEXT,'FASE1BOSS_CIELO='),getValues(TEXT,'FASE1BOSS_CIELO_SCALE='),getValues(TEXT,'FASE1BOSS_POS_JUGADOR='),getValues(TEXT,'FASE1BOSS_ENEMIGOS='),getValues(TEXT,'FASE1BOSS_ENEMIGOS_POS='),getValues(TEXT,'FASE1BOSS_PLATAFORMAS='),None,None,None,None,None, None,None,getValues(TEXT,'FASE1BOSS_OBJETOS='),getValues(TEXT,'FASE1BOSS_OBJETOS_POS='),getValues(TEXT,'FASE1BOSS_OBJETOS_ACTION='),True)
                 self.director.cambiarEscena(fase)
             elif self.numeroFase == 2:
                 fase = Fase(self.director,self.jugador1, 2, 5000, getValues(TEXT,'FASE2BOSS_FONDO='),getValues(TEXT,'FASE2BOSS_FONDO_SCALE='),getValues(TEXT,'FASE2BOSS_CIELO='),getValues(TEXT,'FASE2BOSS_CIELO_SCALE='),getValues(TEXT,'FASE2BOSS_POS_JUGADOR='),getValues(TEXT,'FASE2BOSS_ENEMIGOS='),getValues(TEXT,'FASE2BOSS_ENEMIGOS_POS='),getValues(TEXT,'FASE2BOSS_PLATAFORMAS='),None,None,None,None,None,None,None,getValues(TEXT,'FASE2BOSS_OBJETOS='),getValues(TEXT,'FASE2BOSS_OBJETOS_POS='),getValues(TEXT,'FASE2BOSS_OBJETOS_ACTION='), True)
