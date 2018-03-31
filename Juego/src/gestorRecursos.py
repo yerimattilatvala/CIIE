@@ -146,3 +146,8 @@ def convertObjects(enemies,action):
         cont += 1
         r.append(str_to_class('personajes',x,bool(action[cont])))
     return r
+    
+    
+def cargarSonido(nombre):
+    r = os.path.join('sonidos', nombre)
+    return r

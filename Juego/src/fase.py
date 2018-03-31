@@ -24,11 +24,21 @@ MAXIMO_X_JUGADOR = ANCHO_PANTALLA - MINIMO_X_JUGADOR
 # Clase Fase
 
 class Fase(Escena):
-    def __init__(self, director, jugador, numeroFase, max_distance, img_decorado,scale_decorado,sky_img,sky_scale,pos_jugador,enemigos,pos_enemigos,plataformas,animaciones,pos_animaciones,pociones,pos_pociones,obstaculos,pos_obstaculos ,velo_obsta,objetos,pos_objetos,object_action, isBoss):
+    def __init__(self, director, jugador, numeroFase, max_distance, img_decorado,scale_decorado,sky_img,sky_scale,pos_jugador,enemigos,pos_enemigos,plataformas,animaciones,pos_animaciones,pociones,pos_pociones,obstaculos,pos_obstaculos ,velo_obsta,objetos,pos_objetos,object_action, isBoss, music):
 
         # Primero invocamos al constructor de la clase padre
         Escena.__init__(self, director)
-
+        
+        if music is not None:
+            #pre_inicializamos e inicializamos mixer
+            pygame.mixer.pre_init(44100,16,2,4096)
+            pygame.mixer.init()
+            #cargamos el archivo
+            pygame.mixer.music.load(cargarSonido(music))
+            #lo reproducimos en bucle
+            pygame.mixer.music.play(-1)
+        
+        
         # Creamos el decorado y el fondo
         self.fondo = Cielo(sky_img, sky_scale)
         self.decorado = Decorado(img_decorado, scale_decorado)
@@ -309,16 +319,16 @@ class Fase(Escena):
         if self.jugador1.muerto:
             self.jugador1.vida = 8
             if self.numeroFase == 1:
-                fase = Fase(self.director,self.jugador1,1,4800,getValues(TEXT,'FASE1_FONDO='),getValues(TEXT,'FASE1_FONDO_SCALE='),getValues(TEXT,'FASE1_CIELO='),getValues(TEXT,'FASE1_CIELO_SCALE='),getValues(TEXT,'FASE1_POS_JUGADOR='),getValues(TEXT,'FASE1_ENEMIGOS='),getValues(TEXT,'FASE1_ENEMIGOS_POS='),getValues(TEXT,'FASE1_PLATAFORMAS='),None,None,getValues(TEXT,'FASE1_POCIONES='),getValues(TEXT,'FASE1_POS_POCIONES='),getValues(TEXT,'FASE1_OBSTACULOS='),getValues(TEXT,'FASE1_OBSTACULOS_POS='),getValues(TEXT,'FASE1_ACELERACION='),None,None,None,False)
+                fase = Fase(self.director,self.jugador1,1,4800,getValues(TEXT,'FASE1_FONDO='),getValues(TEXT,'FASE1_FONDO_SCALE='),getValues(TEXT,'FASE1_CIELO='),getValues(TEXT,'FASE1_CIELO_SCALE='),getValues(TEXT,'FASE1_POS_JUGADOR='),getValues(TEXT,'FASE1_ENEMIGOS='),getValues(TEXT,'FASE1_ENEMIGOS_POS='),getValues(TEXT,'FASE1_PLATAFORMAS='),None,None,getValues(TEXT,'FASE1_POCIONES='),getValues(TEXT,'FASE1_POS_POCIONES='),getValues(TEXT,'FASE1_OBSTACULOS='),getValues(TEXT,'FASE1_OBSTACULOS_POS='),getValues(TEXT,'FASE1_ACELERACION='),None,None,None,False,getValues(TEXT,'FASE1BOSS_MUSIC='))
                 self.director.cambiarEscena(fase)
             elif self.numeroFase == 2:
-                fase = Fase(self.director,self.jugador1, 2, 5400, getValues(TEXT,'FASE2_FONDO='),getValues(TEXT,'FASE2_FONDO_SCALE='),getValues(TEXT,'FASE2_CIELO='),getValues(TEXT,'FASE2_CIELO_SCALE='),getValues(TEXT,'FASE2_POS_JUGADOR='),getValues(TEXT,'FASE2_ENEMIGOS='),getValues(TEXT,'FASE2_ENEMIGOS_POS='),getValues(TEXT,'FASE2_PLATAFORMAS='),None,None,getValues(TEXT,'FASE2_POCIONES='),getValues(TEXT,'FASE2_POS_POCIONES='),getValues(TEXT,'FASE2_OBSTACULOS='),getValues(TEXT,'FASE2_OBSTACULOS_POS='),getValues(TEXT,'FASE2_ACELERACION='),None,None,None, False)
+                fase = Fase(self.director,self.jugador1, 2, 5400, getValues(TEXT,'FASE2_FONDO='),getValues(TEXT,'FASE2_FONDO_SCALE='),getValues(TEXT,'FASE2_CIELO='),getValues(TEXT,'FASE2_CIELO_SCALE='),getValues(TEXT,'FASE2_POS_JUGADOR='),getValues(TEXT,'FASE2_ENEMIGOS='),getValues(TEXT,'FASE2_ENEMIGOS_POS='),getValues(TEXT,'FASE2_PLATAFORMAS='),None,None,getValues(TEXT,'FASE2_POCIONES='),getValues(TEXT,'FASE2_POS_POCIONES='),getValues(TEXT,'FASE2_OBSTACULOS='),getValues(TEXT,'FASE2_OBSTACULOS_POS='),getValues(TEXT,'FASE2_ACELERACION='),None,None,None, False,None)
                 self.director.cambiarEscena(fase)
             elif self.numeroFase == 3:
-                fase = Fase(self.director,self.jugador1, 3, 4900, getValues(TEXT,'FASE3_FONDO='),getValues(TEXT,'FASE3_FONDO_SCALE='),None, None, getValues(TEXT,'FASE3_POS_JUGADOR='),getValues(TEXT,'FASE3_ENEMIGOS='),getValues(TEXT,'FASE3_ENEMIGOS_POS='),getValues(TEXT,'FASE3_PLATAFORMAS='),None,None,getValues(TEXT,'FASE3_POCIONES='), getValues(TEXT,'FASE3_POS_POCIONES='),getValues(TEXT,'FASE3_OBSTACULOS=') , getValues(TEXT,'FASE3_OBSTACULOS_POS='), getValues(TEXT,'FASE3_ACELERACION='),None,None,None, False)
+                fase = Fase(self.director,self.jugador1, 3, 4900, getValues(TEXT,'FASE3_FONDO='),getValues(TEXT,'FASE3_FONDO_SCALE='),None, None, getValues(TEXT,'FASE3_POS_JUGADOR='),getValues(TEXT,'FASE3_ENEMIGOS='),getValues(TEXT,'FASE3_ENEMIGOS_POS='),getValues(TEXT,'FASE3_PLATAFORMAS='),None,None,getValues(TEXT,'FASE3_POCIONES='), getValues(TEXT,'FASE3_POS_POCIONES='),getValues(TEXT,'FASE3_OBSTACULOS=') , getValues(TEXT,'FASE3_OBSTACULOS_POS='), getValues(TEXT,'FASE3_ACELERACION='),None,None,None, False,getValues(TEXT,'FASE3BOSS_MUSIC='))
                 self.director.cambiarEscena(fase)
             elif self.numeroFase == 5:
-                fase = Fase(self.director,self.jugador1, 5, 4600, getValues(TEXT,'FASE5_FONDO='),getValues(TEXT,'FASE5_FONDO_SCALE='),getValues(TEXT,'FASE5_CIELO='),getValues(TEXT,'FASE5_CIELO_SCALE='),getValues(TEXT,'FASE5_POS_JUGADOR='),getValues(TEXT,'FASE5_ENEMIGOS='),getValues(TEXT,'FASE5_ENEMIGOS_POS='),getValues(TEXT,'FASE5_PLATAFORMAS='),getValues(TEXT,'FASE5_ANIMACIONES='),getValues(TEXT,'FASE5_POS_ANIMACIONES='),getValues(TEXT,'FASE5_POCIONES='),getValues(TEXT,'FASE5_POS_POCIONES='),None,None,None,None,None,None, False)
+                fase = Fase(self.director,self.jugador1, 5, 4600, getValues(TEXT,'FASE5_FONDO='),getValues(TEXT,'FASE5_FONDO_SCALE='),getValues(TEXT,'FASE5_CIELO='),getValues(TEXT,'FASE5_CIELO_SCALE='),getValues(TEXT,'FASE5_POS_JUGADOR='),getValues(TEXT,'FASE5_ENEMIGOS='),getValues(TEXT,'FASE5_ENEMIGOS_POS='),getValues(TEXT,'FASE5_PLATAFORMAS='),getValues(TEXT,'FASE5_ANIMACIONES='),getValues(TEXT,'FASE5_POS_ANIMACIONES='),getValues(TEXT,'FASE5_POCIONES='),getValues(TEXT,'FASE5_POS_POCIONES='),None,None,None,None,None,None, False,None)
                 self.director.cambiarEscena(fase)
             
 
@@ -499,3 +509,5 @@ class Decorado:
 
     def dibujar(self, pantalla):
         pantalla.blit(self.imagen, self.rect, self.rectSubimagen)
+
+        

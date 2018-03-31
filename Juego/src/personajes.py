@@ -66,9 +66,11 @@ VELOCIDAD_FASE5BOSSREINA = 0.18 # Pixeles por milisegundo
 VELOCIDAD_SALTO_FASE5BOSSREINA = 0.28 # Pixeles por milisegundo
 RETARDO_ANIMACION_FASE5BOSSREINA = 30 # updates que durará cada imagen del personaje
 
-# El Sniper camina un poco más lento que el jugador, y salta menos
-
 GRAVEDAD = 0.0003 # Píxeles / ms2
+
+pygame.mixer.pre_init(44100,16,2,4096)
+pygame.mixer.init()
+
 
 # -------------------------------------------------
 # -------------------------------------------------
@@ -741,6 +743,9 @@ class Jugador(Personaje):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         Personaje.__init__(self,'Enano.png','coordEnano.txt', [4, 11, 1, 7, 3, 7], VELOCIDAD_JUGADOR, VELOCIDAD_SALTO_JUGADOR, RETARDO_ANIMACION_JUGADOR,VIDA_JUGADOR,DANO_JUGADOR,INVULNERABLE_JUGADOR,DURACION_MUERTE_JUGADOR,False,None,None);
 
+        #cargamos sonido ataque
+        self.sonidoAtaqueJugador = pygame.mixer.Sound(cargarSonido('AtaqueJugador.wav'))
+
     def mover(self, teclasPulsadas, arriba, abajo, izquierda, derecha, atacar):
 
         if self.rect.left>0 and self.rect.right<ANCHO_PANTALLA and self.rect.top<ALTO_PANTALLA:
@@ -755,6 +760,7 @@ class Jugador(Personaje):
             elif teclasPulsadas[atacar]:
                 self.atacando = True
                 Personaje.mover(self,ATACAR)
+                canal=self.sonidoAtaqueJugador.play()
             else:
                 Personaje.mover(self,QUIETO)
             if self.currentIFrames > 0:
@@ -906,7 +912,9 @@ class Fase3Enemigo(NoJugador):
     # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
     # La implementacion de la inteligencia segun este personaje particular
     def mover_cpu(self, jugador):
-       NoJugador.mover_cpu(self,jugador)
+        NoJugador.mover_cpu(self,jugador)   
+
+
 
 
 # -------------------------------------------------
@@ -973,7 +981,6 @@ class Fase1Enemigo(NoJugador):
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
         NoJugador.__init__(self,'fase1Enemigo1.png','coordFase1Enemigo1.txt', [2, 6, 4, 4, 1, 2], VELOCIDAD_ENEMIGO, VELOCIDAD_SALTO_ENEMIGO, RETARDO_ANIMACION_ENEMIGO,VIDA_ENEMIGO,DANO_ENEMIGO,INVULNERABLE_ENEMIGO,DURACION_MUERTE_ENEMIGO,False,None,None);
-
     # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
     # La implementacion de la inteligencia segun este personaje particular
     def mover_cpu(self, jugador1):
