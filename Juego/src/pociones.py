@@ -50,8 +50,6 @@ class PocionCerveza(pygame.sprite.Sprite):
             self.currentImage = 0
         
         pantalla.blit(self.images[self.currentImage],(self.posX-scrollX,self.posY))
-        #self.rect = self.images[self.currentImage].get_rect()
-        #self.rect.left = self.posX-scrollX
 
     def collect(self,jugador):
         jugador.vida += 2

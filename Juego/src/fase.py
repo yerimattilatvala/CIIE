@@ -371,7 +371,6 @@ class Fase(Escena):
             sprite.draw(pantalla,self.scrollx)
 
         # El hud
-        #self.grupoHud.draw(pantalla)
         for sprite in self.grupoHud:
             sprite.draw(pantalla)     
 
@@ -428,7 +427,6 @@ class Fase(Escena):
 # -------------------------------------------------
 # Clase Plataforma
 
-#class Plataforma(pygame.sprite.Sprite):
 class Plataforma(MiSprite):
     def __init__(self,rectangulo):
         # Primero invocamos al constructor de la clase padre
