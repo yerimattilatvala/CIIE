@@ -889,41 +889,6 @@ class NoJugador(Personaje):
         else:
             Personaje.mover(self,QUIETO)
             
-            
-
-# -------------------------------------------------
-# Clase Sniper
-# -------------------------------------------------
-class Sniper(NoJugador):
-    "El enemigo 'Sniper'"
-    def __init__(self):
-        # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        NoJugador.__init__(self,'Sniper.png','coordSniper.txt', [5, 10, 6, 0, 0, 11], VELOCIDAD_ENEMIGO, VELOCIDAD_SALTO_ENEMIGO, RETARDO_ANIMACION_ENEMIGO,VIDA_ENEMIGO,DANO_ENEMIGO,INVULNERABLE_ENEMIGO,DURACION_MUERTE_ENEMIGO,False,None,None);
-
-    # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
-    # La implementacion de la inteligencia segun este personaje particular
-    def mover_cpu(self, jugador1):
-        #Restamos iFrames
-        if self.currentIFrames > 0:
-            self.currentIFrames -= 1
-
-        # Movemos solo a los enemigos que esten en la pantalla
-        if self.rect.left>0 and self.rect.right<ANCHO_PANTALLA and self.rect.bottom>0 and self.rect.top<ALTO_PANTALLA:
-
-            # Nos movemos andando hacia el
-            if jugador1.posicion[0]<self.posicion[0]:
-                Personaje.mover(self,IZQUIERDA)
-                Personaje.mover(self, ARRIBA)
-            else:
-                Personaje.mover(self,DERECHA)
-                Personaje.mover(self, ARRIBA)
-
-            if jugador1.movimiento==ARRIBA:
-                Personaje.mover(self, ARRIBA)
-
-        # Si este personaje no esta en pantalla, no hara nada
-        else:
-            Personaje.mover(self,QUIETO)
 
 
 # -------------------------------------------------

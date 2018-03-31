@@ -30,7 +30,6 @@ class Hud(pygame.sprite.Sprite):
         auxCounter = 1
         while auxVida > 0:
             self.blit_alpha(pantalla,self.image1,(self.scalex * auxCounter,self.topPadding),64)
-            #pantalla.blit(self.image1,(self.scalex * auxCounter,self.topPadding))
             auxCounter += 1
             auxVida -= 4
 
