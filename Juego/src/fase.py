@@ -318,7 +318,7 @@ class Fase(Escena):
 
         #Si estamos muerto nos vamos al pricipio del nivel
         if self.jugador1.muerto:
-            self.jugador1.vida = 8
+            self.jugador1.vida = 20
             if self.numeroFase == 1:
                 fase = Fase(self.director,self.jugador1,1,4800,getValues(TEXT,'FASE1_FONDO='),getValues(TEXT,'FASE1_FONDO_SCALE='),getValues(TEXT,'FASE1_CIELO='),getValues(TEXT,'FASE1_CIELO_SCALE='),getValues(TEXT,'FASE1_POS_JUGADOR='),getValues(TEXT,'FASE1_ENEMIGOS='),getValues(TEXT,'FASE1_ENEMIGOS_POS='),getValues(TEXT,'FASE1_PLATAFORMAS='),None,None,getValues(TEXT,'FASE1_POCIONES='),getValues(TEXT,'FASE1_POS_POCIONES='),getValues(TEXT,'FASE1_OBSTACULOS='),getValues(TEXT,'FASE1_OBSTACULOS_POS='),getValues(TEXT,'FASE1_ACELERACION='),None,None,None,False,getValues(TEXT,'FASE1_MUSIC='))
                 self.director.cambiarEscena(fase)
