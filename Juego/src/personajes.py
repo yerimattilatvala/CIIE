@@ -40,13 +40,13 @@ VIDA_BOSSREINA = 250
 VIDA_SIF = 1000
 
 #Dano personajes
-DANO_JUGADOR = 35
+DANO_JUGADOR = 40
 DANO_ENEMIGO = 1
-DANO_BOSSREINA = 8
-DANO_SIF = 4
+DANO_BOSSREINA = 4
+DANO_SIF = 2
 
 #Frames de invencibilidad despues de ser atacados
-INVULNERABLE_JUGADOR = 20
+INVULNERABLE_JUGADOR = 25
 INVULNERABLE_ENEMIGO = 10
 
 # Velocidades de los distintos personajes
