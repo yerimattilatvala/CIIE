@@ -36,10 +36,14 @@ DURACION_ATACAR = 10
 MAX_VIDA_JUGADOR = 40
 VIDA_JUGADOR = MAX_VIDA_JUGADOR
 VIDA_ENEMIGO = 80
+VIDA_BOSSREINA = 250
+VIDA_SIF = 1000
 
 #Dano personajes
 DANO_JUGADOR = 35
 DANO_ENEMIGO = 1
+DANO_BOSSREINA = 8
+DANO_SIF = 4
 
 #Frames de invencibilidad despues de ser atacados
 INVULNERABLE_JUGADOR = 20
@@ -58,19 +62,21 @@ RETARDO_ANIMACION_ENEMIGO = 5 # updates que durará cada imagen del personaje
                              
 VELOCIDAD_FASE1BOSS= 0.09
 
-VELOCIDAD_FASE5BOSSLOBO = 0.07 # Pixeles por milisegundo
-VELOCIDAD_SALTO_FASE5BOSSLOBO = 0.4 # Pixeles por milisegundo
+VELOCIDAD_FASE5BOSSLOBO = 0.5 # Pixeles por milisegundo
+VELOCIDAD_SALTO_FASE5BOSSLOBO = 0.2 # Pixeles por milisegundo
 RETARDO_ANIMACION_FASE5BOSSLOBO = 10 # updates que durará cada imagen del personaje
 
-VELOCIDAD_FASE5BOSSREINA = 0.18 # Pixeles por milisegundo
+VELOCIDAD_FASE5BOSSREINA = 0.08 # Pixeles por milisegundo
 VELOCIDAD_SALTO_FASE5BOSSREINA = 0.28 # Pixeles por milisegundo
-RETARDO_ANIMACION_FASE5BOSSREINA = 30 # updates que durará cada imagen del personaje
+RETARDO_ANIMACION_FASE5BOSSREINA = 5 # updates que durará cada imagen del personaje
 
 GRAVEDAD = 0.0003 # Píxeles / ms2
 
 pygame.mixer.pre_init(44100,16,2,4096)
 pygame.mixer.init()
 
+#Variable fase5Boss
+venirSif = False
 
 # -------------------------------------------------
 # -------------------------------------------------
@@ -1294,9 +1300,11 @@ class Fase5BossLobo(NoJugador):
 
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        NoJugador.__init__(self,'fase5BossLobo.png','coordFase5BossLobo.txt', [6,6,1,2,2,7], VELOCIDAD_FASE5BOSSLOBO, VELOCIDAD_SALTO_FASE5BOSSLOBO, RETARDO_ANIMACION_FASE5BOSSLOBO,1500,int(VIDA_JUGADOR/3),INVULNERABLE_ENEMIGO,DURACION_MUERTE_ENEMIGO,False,None,None);
+        NoJugador.__init__(self,'fase5BossLobo.png','coordFase5BossLobo.txt', [6,6,1,2,3,7], VELOCIDAD_FASE5BOSSLOBO, VELOCIDAD_SALTO_FASE5BOSSLOBO, RETARDO_ANIMACION_FASE5BOSSLOBO,VIDA_SIF,DANO_SIF,INVULNERABLE_ENEMIGO,DURACION_MUERTE_ENEMIGO,False,None,None);
         self.visto = False
-
+        self.pos = True
+        self.saltoI = False
+        self.saltoD = False
         #cargamos sonido ataque
         #self.sonidoAtaqueJugador = pygame.mixer.Sound(cargarSonido(''))
 
@@ -1306,39 +1314,42 @@ class Fase5BossLobo(NoJugador):
     def mover_cpu(self, jugador1):
         # Por defecto un enemigo no hace nada
         #  (se podria programar, por ejemplo, que disparase al jugador por defecto)
-
+        
         #Restamos iFrames
         if self.currentIFrames > 0:
             self.currentIFrames -= 1
 
-        # Movemos solo a los enemigos que esten en la pantalla
-        if self.rect.left>0 and self.rect.right<ANCHO_PANTALLA and self.rect.bottom>0 and self.rect.top<ALTO_PANTALLA or self.visto:
+        if venirSif:
+            #Corretear por la pantalla
+            if self.posicion[1] >= 492:
+                if self.posicion[0] <= 0:
+                    self.posR = False
+                    self.saltoI = False
+                elif self.posicion[0] >= 1300:
+                    self.posR = True
 
-            #Una vez que veamos al boss nos persigue siempre, da igual si sale de nuestra pantalla
-            self.visto = True
+                if self.posicion[0] > 0 and self.posR:
+                    Personaje.mover(self,IZQUIERDA)
+                elif self.posicion[0] < 1300 and not self.posR:
+                    Personaje.mover(self,DERECHA)
 
-            # Por ejemplo, intentara acercarse al jugador mas cercano en el eje x
-            # Miramos cual es el jugador mas cercano
+                if jugador1.posicion[1] < self.posicion[1] and jugador1.posicion[0] - self.posicion[0] > - 200 and self.posR and not self.saltoI:
+                    self.saltoI = True
+                    Personaje.mover(self,ARRIBA)
 
-            # Y nos movemos andando hacia el
-            if (jugador1.posicion[0] < self.posicion[0]):
-                Personaje.mover(self, IZQUIERDA)
-                self.atacando = False
-            elif (jugador1.posicion[0]>self.posicion[0]):
-                Personaje.mover(self, DERECHA)
-                self.atacando = False              
-
-
-            # Cuando este cerca atacara
-            collide = pygame.sprite.groupcollide(pygame.sprite.Group(jugador1),pygame.sprite.Group(self), False, False)
-            #collide contine los sprites del primer grupo con los que ha colisionado
-            if collide!={}:
-                #canal=self.sonidoAtaqueJugador.play()
+                #Si estamos en el suelo y chocamos con el jugador le atacamos
+                # Cuando este cerca atacara
+                collide = pygame.sprite.groupcollide(pygame.sprite.Group(jugador1),pygame.sprite.Group(self), False, False)
+                #collide contine los sprites del primer grupo con los que ha colisionado
+                if collide!={}:
+                    self.atacando = True
+                    Personaje.mover(self,ATACAR)
+            else:
+                #Atacamos en el aire todo el rato
                 self.atacando = True
                 Personaje.mover(self,ATACAR)
-            #else: canal=self.sonidoAtaqueJugador.stop()
 
-        # Si este personaje no esta en pantalla, no hara nada
+        # Espera fuera hasta que la reina necesite ayuda
         else:
             Personaje.mover(self,QUIETO)
 
@@ -1349,7 +1360,7 @@ class Fase5BossReina(NoJugador):
 
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        NoJugador.__init__(self,'fase5BossReina.png','coordFase5BossReina.txt', [1,1,1,2,2,2], VELOCIDAD_FASE5BOSSREINA, VELOCIDAD_SALTO_FASE5BOSSREINA, RETARDO_ANIMACION_FASE5BOSSREINA,1500,int(VIDA_JUGADOR/3),INVULNERABLE_ENEMIGO,DURACION_MUERTE_ENEMIGO,False,None,None);
+        NoJugador.__init__(self,'fase5BossReina.png','coordFase5BossReina.txt', [1,1,1,7,2,2], VELOCIDAD_FASE5BOSSREINA, VELOCIDAD_SALTO_FASE5BOSSREINA, RETARDO_ANIMACION_FASE5BOSSREINA,VIDA_BOSSREINA,DANO_BOSSREINA,INVULNERABLE_ENEMIGO,DURACION_MUERTE_ENEMIGO,False,None,None);
         self.visto = False
 
         #cargamos sonido ataque
@@ -1375,6 +1386,10 @@ class Fase5BossReina(NoJugador):
             # Por ejemplo, intentara acercarse al jugador mas cercano en el eje x
             # Miramos cual es el jugador mas cercano
 
+            if self.vida < VIDA_BOSSREINA/2:
+                global venirSif
+                venirSif = True
+
             # Y nos movemos andando hacia el
             if (jugador1.posicion[0] < self.posicion[0]):
                 Personaje.mover(self, IZQUIERDA)
@@ -1382,7 +1397,6 @@ class Fase5BossReina(NoJugador):
             elif (jugador1.posicion[0]>self.posicion[0]):
                 Personaje.mover(self, DERECHA)
                 self.atacando = False              
-
 
             # Cuando este cerca atacara
             collide = pygame.sprite.groupcollide(pygame.sprite.Group(jugador1),pygame.sprite.Group(self), False, False)
@@ -1392,6 +1406,7 @@ class Fase5BossReina(NoJugador):
                 self.atacando = True
                 Personaje.mover(self,ATACAR)
             else: canal=self.sonidoAtaqueJugador.stop()
+        
 
         # Si este personaje no esta en pantalla, no hara nada
         else:

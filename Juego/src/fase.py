@@ -92,6 +92,7 @@ class Fase(Escena):
             # Creamos otro grupo con todos los Sprites
             self.grupoSprites = pygame.sprite.Group( self.grupoJugadores, self.grupoPlataformas ) 
 
+        self.numEnemigos = len(self.grupoEnemigos)
 
         #Animaciones
         if animaciones is not None:
@@ -417,7 +418,7 @@ class Fase(Escena):
                 fase = Fase(self.director,self.jugador1, 5,1499,getValues(TEXT,'FASE5BOSS_FONDO='),getValues(TEXT,'FASE5BOSS_FONDO_SCALE='),getValues(TEXT,'FASE5BOSS_CIELO='),getValues(TEXT,'FASE5BOSS_CIELO_SCALE='),getValues(TEXT,'FASE5BOSS_POS_JUGADOR='),getValues(TEXT,'FASE5BOSS_ENEMIGOS='),getValues(TEXT,'FASE5BOSS_ENEMIGOS_POS='),getValues(TEXT,'FASE5BOSS_PLATAFORMAS='),None,None,None,None,None,None,None,None,None,None,True,getValues(TEXT,'FASE5BOSS_MUSIC='))
                 self.director.cambiarEscena(fase)
 
-        if len(self.grupoEnemigos) == 0 and self.isBoss:
+        if len(self.grupoEnemigos) == self.numEnemigos-1 and self.isBoss:
             if self.numeroFase == 1:
                 fase = Fase(self.director,self.jugador1, 2, 5400, getValues(TEXT,'FASE2_FONDO='),getValues(TEXT,'FASE2_FONDO_SCALE='),getValues(TEXT,'FASE2_CIELO='),getValues(TEXT,'FASE2_CIELO_SCALE='),getValues(TEXT,'FASE2_POS_JUGADOR='),getValues(TEXT,'FASE2_ENEMIGOS='),getValues(TEXT,'FASE2_ENEMIGOS_POS='),getValues(TEXT,'FASE2_PLATAFORMAS='),None,None,getValues(TEXT,'FASE2_POCIONES='),getValues(TEXT,'FASE2_POS_POCIONES='),getValues(TEXT,'FASE2_OBSTACULOS='),getValues(TEXT,'FASE2_OBSTACULOS_POS='),getValues(TEXT,'FASE2_ACELERACION='),None,None,None, False,getValues(TEXT,'FASE2_MUSIC='))
                 self.director.cambiarEscena(fase)
