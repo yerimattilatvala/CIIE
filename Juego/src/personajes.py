@@ -1108,13 +1108,61 @@ class Fase5Enemigo(NoJugador):
         NoJugador.__init__(self,'fase5Enemigo.png','coordFase5Enemigo.txt', [3, 6, 2, 3, 2, 4], VELOCIDAD_ENEMIGO, VELOCIDAD_SALTO_ENEMIGO, RETARDO_ANIMACION_ENEMIGO,VIDA_ENEMIGO,DANO_ENEMIGO,INVULNERABLE_ENEMIGO,DURACION_MUERTE_ENEMIGO,False,None,None);
 
         #cargamos sonido ataque
-        self.sonidoAtaqueJugador = pygame.mixer.Sound(cargarSonido('fase5Enemigo.wav'))
+        self.sonidoAtaqueJugador = pygame.mixer.Sound(cargarSonido('fase5Enemigo.ogg'))
 
 
     # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
     # La implementacion de la inteligencia segun este personaje particular
     def mover_cpu(self, jugador1):
         NoJugador.mover_cpu(self,jugador1)
+
+class Fase5EnemigoEsperando(Fase5Enemigo):
+
+    def __init__(self):
+        # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
+        Fase5Enemigo.__init__(self)
+
+        self.jugadorAbajo = False
+        #cargamos sonido ataque
+        self.sonidoAtaqueJugador = pygame.mixer.Sound(cargarSonido('fase5Enemigo.ogg'))
+
+
+    # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
+    # La implementacion de la inteligencia segun este personaje particular
+    def mover_cpu(self, jugador1):
+        # Por defecto un enemigo no hace nada
+        #  (se podria programar, por ejemplo, que disparase al jugador por defecto)
+
+        #Restamos iFrames
+        if self.currentIFrames > 0:
+            self.currentIFrames -= 1
+
+        # Movemos solo a los enemigos que esten en la pantalla
+        if self.rect.left>0 and self.rect.right<ANCHO_PANTALLA and self.rect.bottom>0 and self.rect.top<ALTO_PANTALLA:
+
+
+            # Y nos movemos andando hacia el
+            if jugador1.posicion[1] >= self.posicion[1] or self.jugadorAbajo:
+                self.jugadorAbajo = True
+                if jugador1.posicion[0] < self.posicion[0]:
+                    Personaje.mover(self,IZQUIERDA)
+                elif jugador1.posicion[0] > self.posicion[0]:
+                    Personaje.mover(self,DERECHA)
+
+               # Cuando este cerca atacara
+                collide = pygame.sprite.groupcollide(pygame.sprite.Group(jugador1),pygame.sprite.Group(self), False, False)
+                #collide contine los sprites del primer grupo con los que ha colisionado
+                if collide!={}:
+                    canal=self.sonidoAtaqueJugador.play()
+                    self.atacando = True
+                    Personaje.mover(self,ATACAR)
+                else: canal=self.sonidoAtaqueJugador.stop()
+
+            else:
+                Personaje.mover(self,QUIETO)
+        # Si este personaje no esta en pantalla, no hara nada
+        else:
+            Personaje.mover(self,QUIETO)
 
 # -------------------------------------------------
 # Clase Fase2Enemigo
@@ -1296,7 +1344,7 @@ class Fase5BossReina(NoJugador):
         self.visto = False
 
         #cargamos sonido ataque
-        self.sonidoAtaqueJugador = pygame.mixer.Sound(cargarSonido('fase5BossAttack.mp3'))
+        self.sonidoAtaqueJugador = pygame.mixer.Sound(cargarSonido('fase5BossAttack.ogg'))
 
 
     # Aqui vendria la implementacion de la IA segun las posiciones de los jugadores
