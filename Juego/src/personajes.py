@@ -1006,7 +1006,7 @@ class Fase1Boss(NoJugador):
 
     def __init__(self):
         # Invocamos al constructor de la clase padre con la configuracion de este personaje concreto
-        NoJugador.__init__(self,'fase1Boss.png','coordFase1Boss.txt', [5, 4, 5, 8, 5, 5], VELOCIDAD_FASE1BOSS, VELOCIDAD_SALTO_ENEMIGO, 5,1000,int(VIDA_JUGADOR/8),INVULNERABLE_ENEMIGO,30,False,None,None);
+        NoJugador.__init__(self,'fase1Boss.png','coordFase1Boss.txt', [5, 4, 5, 8, 5, 5], VELOCIDAD_FASE1BOSS, VELOCIDAD_SALTO_ENEMIGO, 5,250,int(VIDA_JUGADOR/10),INVULNERABLE_ENEMIGO,30,False,None,None);
         self.mirando = IZQUIERDA
         self.vidaIni=self.vida
         self.atacando=False
@@ -1020,8 +1020,10 @@ class Fase1Boss(NoJugador):
         self.time2=0
         self.timeVen=0
 
-        #cargamos sonido ataque
-        #self.sonidoAtaqueJugador = pygame.mixer.Sound(cargarSonido(''))
+        #cargamos sonidos
+        self.sonidoAtaque = pygame.mixer.Sound(cargarSonido('fase1BossAttack.ogg'))
+        self.sonidoMuerte = pygame.mixer.Sound(cargarSonido('fase1BossDead.ogg'))
+        self.sonidoVeneno = pygame.mixer.Sound(cargarSonido('fase1BossVenom.ogg'))
 
 
     def mover_cpu(self, jugador1):
@@ -1035,61 +1037,69 @@ class Fase1Boss(NoJugador):
             # Por ejemplo, intentara acercarse al jugador mas cercano en el eje x
             # Miramos cual es el jugador mas cercano
             
-            
-            if self.arriba==True:
-                if (self.posicion[0]<700):
-                    Personaje.mover(self,DERECHA)
-                else:
-                    Personaje.mover(self,QUIETO)
-                    timeVen=(pygame.time.get_ticks()-self.timeVen)#calculate how many seconds
-                    if timeVen>=8000:
-                        self.arriba=False
-                        self.bajar=True
-                        self.time2=pygame.time.get_ticks()
-            elif self.bajar==True:
-                if (self.posicion[0]>450):
-                    Personaje.mover(self,IZQUIERDA)
-                else:
-                    Personaje.mover(self,QUIETO)
-                    timetp2=(pygame.time.get_ticks()-self.time2)#calculate how many seconds
-                    if timetp2>=3000:
-                        self.fase2=True
-                        self.bajar=False
-                        self.establecerPosicion((500,550))
-            
+            if self.vida <=0:
+                self.sonidoMuerte.play()
+                self.sonidoMuerte.set_volume(1.0)
             else:
-                if (self.fase1==False and self.fase2==False and (self.vida <= (self.vidaIni/2))):
-                    self.fase1=True
-                    self.time1=pygame.time.get_ticks() #starter tick
-                    
-                elif self.fase1==True:
-                    Personaje.mover(self,QUIETO)
-                    timetp=(pygame.time.get_ticks()-self.time1)#calculate how many seconds
-                    if timetp>=600:
-                        self.establecerPosicion((450,250))
-                        self.timeVen=pygame.time.get_ticks()
-                        self.arriba=True
-                        self.fase1=False
+                self.sonidoMuerte.stop()
+                if self.arriba==True:
+                    if (self.posicion[0]<700):
+                        Personaje.mover(self,DERECHA)
+                        canal=self.sonidoVeneno.stop()
+                    else:
+                        Personaje.mover(self,QUIETO)
+                        timeVen=(pygame.time.get_ticks()-self.timeVen)#calculate how many seconds
+                        canal=self.sonidoVeneno.play()
+                        self.sonidoVeneno.set_volume(1.0)
+                        if timeVen>=8000:
+                            self.arriba=False
+                            self.bajar=True
+                            self.time2=pygame.time.get_ticks()
+                elif self.bajar==True:
+                    if (self.posicion[0]>450):
+                        Personaje.mover(self,IZQUIERDA)
+                    else:
+                        Personaje.mover(self,QUIETO)
+                        timetp2=(pygame.time.get_ticks()-self.time2)#calculate how many seconds
+                        if timetp2>=3000:
+                            self.fase2=True
+                            self.bajar=False
+                            self.establecerPosicion((500,550))
+                
                 else:
-                    # Cuando este cerca atacara
-                    collide = pygame.sprite.groupcollide(pygame.sprite.Group(jugador1),pygame.sprite.Group(self), False, False)
-                    #collide contine los sprites del primer grupo con los que ha colisionado
-                
-                
-                    if (collide!={}):
-                        #canal=self.sonidoAtaqueJugador.play()
-                        self.atacando = True
-                        Personaje.mover(self,ATACAR)
-                    else:    
-                        #canal=self.sonidoAtaqueJugador.stop()
-                        if ((jugador1.posicion[1]<self.posicion[1]) and abs(self.posicion[0]-jugador1.posicion[0])<=40):
-                            Personaje.mover(self,ARRIBA)
-                        elif ((jugador1.posicion[0]<self.posicion[0]+40) and (jugador1.posicion[1]>=self.posicion[1])):
-                            Personaje.mover(self, IZQUIERDA)
-                            self.atacando = False               
-                        elif ((jugador1.posicion[0]>self.posicion[0]-40) and (jugador1.posicion[1]>=self.posicion[1])):
-                            Personaje.mover(self, DERECHA)
-                            self.atacando = False  
+                    if (self.fase1==False and self.fase2==False and (self.vida <= (self.vidaIni/2))):
+                        self.fase1=True
+                        self.time1=pygame.time.get_ticks() #starter tick
+                        
+                    elif self.fase1==True:
+                        Personaje.mover(self,QUIETO)
+                        timetp=(pygame.time.get_ticks()-self.time1)#calculate how many seconds
+                        if timetp>=600:
+                            self.establecerPosicion((450,250))
+                            self.timeVen=pygame.time.get_ticks()
+                            self.arriba=True
+                            self.fase1=False
+                    else:
+                        # Cuando este cerca atacara
+                        collide = pygame.sprite.groupcollide(pygame.sprite.Group(jugador1),pygame.sprite.Group(self), False, False)
+                        #collide contine los sprites del primer grupo con los que ha colisionado
+                    
+                    
+                        if (collide!={}):
+                            canal=self.sonidoAtaque.play()
+                            self.sonidoAtaque.set_volume(1.0)
+                            self.atacando = True
+                            Personaje.mover(self,ATACAR)
+                        else:    
+                            canal=self.sonidoAtaque.stop()
+                            if ((jugador1.posicion[1]<self.posicion[1]) and abs(self.posicion[0]-jugador1.posicion[0])<=40):
+                                Personaje.mover(self,ARRIBA)
+                            elif ((jugador1.posicion[0]<self.posicion[0]+40) and (jugador1.posicion[1]>=self.posicion[1])):
+                                Personaje.mover(self, IZQUIERDA)
+                                self.atacando = False               
+                            elif ((jugador1.posicion[0]>self.posicion[0]-40) and (jugador1.posicion[1]>=self.posicion[1])):
+                                Personaje.mover(self, DERECHA)
+                                self.atacando = False  
                         
         # Si este personaje no esta en pantalla, no hara nada
         else:
