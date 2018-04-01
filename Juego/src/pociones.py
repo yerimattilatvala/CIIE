@@ -2,7 +2,6 @@ import pygame, sys, os
 from pygame.locals import *
 from gestorRecursos import *
 from values import *
-from escena import *
 from personajes import MAX_VIDA_JUGADOR
 
 class PocionCerveza(pygame.sprite.Sprite):

@@ -286,13 +286,13 @@ class PantallaInicialGUI(PantallaGUI):
 
     def campos_texto(self):
         textoJugar = CampoTexto(self,'Empezar aventura',FONT_MENU,WHITE,30,20,200,self.menu.mostrarPantallaDificultad)
-        textoCargar = CampoTexto(self,'Cargar aventura',FONT_MENU,WHITE,30,20,300,self.menu.noHaceNada)
-        textoOpciones = CampoTexto(self,'Opciones',FONT_MENU,WHITE,30,20,400,self.menu.noHaceNada)
+        #textoCargar = CampoTexto(self,'Cargar aventura',FONT_MENU,WHITE,30,20,300,self.menu.noHaceNada)
+        #textoOpciones = CampoTexto(self,'Opciones',FONT_MENU,WHITE,30,20,400,self.menu.noHaceNada)
         textoSalir = CampoTexto(self,'Salir del juego',FONT_MENU,WHITE,30,20,500,self.menu.salirPrograma)
 
         self.elementosGUI.append(textoJugar)
-        self.elementosGUI.append(textoCargar)
-        self.elementosGUI.append(textoOpciones)
+        #self.elementosGUI.append(textoCargar)
+        #self.elementosGUI.append(textoOpciones)
         self.elementosGUI.append(textoSalir)
 
 #Si se necesitan más menús se copia esta clase, se modifican los campos de texto
@@ -302,20 +302,17 @@ class PantallaDificultadGUI(PantallaInicialGUI):
         PantallaInicialGUI.__init__(self,menu)
 
     def campos_texto(self):
-        #CampoTexto(self,texto,nombre_fuente,tamaño_fuente,x,y,accion_a_realizar_al_pulsar)
-        textFase0 = CampoTexto(self,'Fase Test',FONT_MENU,WHITE,30,20,200,self.menu.ejecutarJuego)
-        textFase1 = CampoTexto(self,'Ruben',FONT_MENU,WHITE,30,20,250,self.menu.ejecutarFase1)
-        textFase2 = CampoTexto(self,'Isa-GIGANTES',FONT_MENU,WHITE,30,20,300,self.menu.ejecutarFase3)
-        textFase3 = CampoTexto(self,'Yeray',FONT_MENU,WHITE,30,20,350,self.menu.ejecutarFase2)
-        #textFase4 = CampoTexto(self,'Nagas',FONT_MENU,WHITE,30,20,400,self.menu.ejecutarFase4)
-        textFase5 =CampoTexto(self,'Dani',FONT_MENU,WHITE,30,20,450,self.menu.ejecutarFase5)
+        textFase0 = CampoTexto(self,'Todos los niveles',FONT_MENU,WHITE,30,20,200,self.menu.ejecutarJuego)
+        textFase1 = CampoTexto(self,'Nivel 1 ',FONT_MENU,WHITE,30,20,250,self.menu.ejecutarFase1)
+        textFase2 = CampoTexto(self,'Nivel 2 ',FONT_MENU,WHITE,30,20,300,self.menu.ejecutarFase3)
+        textFase3 = CampoTexto(self,'Nivel 3 ',FONT_MENU,WHITE,30,20,350,self.menu.ejecutarFase2)
+        textFase5 =CampoTexto(self,'Nivel 4',FONT_MENU,WHITE,30,20,400,self.menu.ejecutarFase5)
         textMenu = CampoTexto(self,'Menu Principal',FONT_MENU,WHITE,30,20,500,self.menu.mostrarPantallaInicial)
 
         self.elementosGUI.append(textFase0)
         self.elementosGUI.append(textFase1)
         self.elementosGUI.append(textFase2)
         self.elementosGUI.append(textFase3)
-        #self.elementosGUI.append(textFase4)
         self.elementosGUI.append(textFase5)
         self.elementosGUI.append(textMenu)
 

@@ -2,7 +2,6 @@ import pygame, sys, os
 from pygame.locals import *
 from gestorRecursos import *
 from values import *
-from escena import *
 from personajes import MAX_VIDA_JUGADOR
 
 class Hud(pygame.sprite.Sprite):
@@ -37,7 +36,6 @@ class Hud(pygame.sprite.Sprite):
         auxCounter = 1
 
         while auxVida >= 4:
-            #self.blit_alpha(pantalla,self.image1,(self.scalex * auxCounter,self.topPadding),128)
             pantalla.blit(self.image1,(self.scalex * auxCounter,self.topPadding))
             auxCounter += 1
             auxVida -= 4

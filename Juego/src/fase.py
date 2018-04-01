@@ -4,7 +4,6 @@ import pygame, escena
 from escena import *
 from personajes import *
 from pygame.locals import *
-from animaciones import *
 from hud import *
 from pociones import *
 

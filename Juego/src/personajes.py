@@ -264,7 +264,6 @@ class Fuego(Objeto):
         self.images.append(pygame.image.load('imagenes/flame_a_0004.png'))
         self.images.append(pygame.image.load('imagenes/flame_a_0005.png'))
         self.images.append(pygame.image.load('imagenes/flame_a_0006.png'))
-        #image = pygame.image.load(file)
         self.image = self.images[0]
         self.visible = False
     
