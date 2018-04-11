@@ -16,9 +16,12 @@ public class CameraControl : MonoBehaviour
     private float sensitivityX = 4.0f;
     private float sensitivityY = 1.0f;
 
+	private float baseFOV;
+
     private void Start()
     {
         camTransform = transform;
+		baseFOV = Camera.main.fieldOfView;
     }
 
     private void Update()
@@ -27,6 +30,11 @@ public class CameraControl : MonoBehaviour
         currentY += Input.GetAxis("Mouse Y");
 
         currentY = Mathf.Clamp(currentY, Y_ANGLE_MIN, Y_ANGLE_MAX);
+
+		if (Input.GetMouseButton(1))
+			Camera.main.fieldOfView = 10;
+		else 
+			Camera.main.fieldOfView = baseFOV;
     }
 
     private void LateUpdate()
@@ -36,4 +44,5 @@ public class CameraControl : MonoBehaviour
         camTransform.position = lookAt.position - rotation * dir;
         camTransform.LookAt(lookAt.position);
     }
+
 }
