@@ -3445,6 +3445,13 @@ MonoBehaviour:
   lookAt: {fileID: 1503878241}
   camTransform: {fileID: 0}
   distance: 1.5
+  crosshairImage: {fileID: 2800000, guid: 3c7d9fb026078ec45ad0620865f44641, type: 3}
+  position:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
 --- !u!1 &2017257892
 GameObject:
   m_ObjectHideFlags: 0

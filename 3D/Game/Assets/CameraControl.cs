@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class CameraControl : MonoBehaviour
 {
     private const float Y_ANGLE_MIN = -30.0f;
@@ -16,7 +17,10 @@ public class CameraControl : MonoBehaviour
     private float sensitivityX = 4.0f;
     private float sensitivityY = 1.0f;
 
-	private float baseFOV;
+    public Texture2D crosshairImage;
+    public Rect position;
+
+    private float baseFOV;
 
     private void Start()
     {
@@ -31,10 +35,14 @@ public class CameraControl : MonoBehaviour
 
         currentY = Mathf.Clamp(currentY, Y_ANGLE_MIN, Y_ANGLE_MAX);
 
-		if (Input.GetMouseButton(1))
-			Camera.main.fieldOfView = 10;
-		else 
-			Camera.main.fieldOfView = baseFOV;
+        if (Input.GetMouseButton(1))
+        {
+            Camera.main.fieldOfView = 10;
+            
+            position = new Rect((Screen.width - crosshairImage.width) / 2, (Screen.height - crosshairImage.height) / 2, crosshairImage.width, crosshairImage.height);
+        }
+        else
+            Camera.main.fieldOfView = baseFOV;
     }
 
     private void LateUpdate()
@@ -43,6 +51,13 @@ public class CameraControl : MonoBehaviour
 		Quaternion rotation = Quaternion.Euler(currentY*sensitivityY, currentX*sensitivityX, 0);
         camTransform.position = lookAt.position - rotation * dir;
         camTransform.LookAt(lookAt.position);
+    }
+
+    //Dibuja la cruceta en la pantalla
+    void OnGUI()
+    {
+        if (Input.GetMouseButton(1))
+            GUI.Label(new Rect(Screen.width / 2 - 25, Screen.height / 2 - 25, 50, 50), crosshairImage);
     }
 
 }
