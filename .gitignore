@@ -36,3 +36,5 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+3D/Game/Assets/default.unity
+3D/Game/.vs/Game/v15/sqlite3/storage.ide
