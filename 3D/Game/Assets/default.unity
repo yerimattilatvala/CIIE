@@ -3064,7 +3064,6 @@ GameObject:
   - component: {fileID: 1703635003}
   - component: {fileID: 1703635005}
   - component: {fileID: 1703635004}
-  - component: {fileID: 1703635010}
   m_Layer: 0
   m_Name: Enemigo1
   m_TagString: Untagged
@@ -3164,7 +3163,7 @@ Animator:
   m_GameObject: {fileID: 1703635002}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 1a640a07d86cdaf4f91509c2bddd555b, type: 3}
-  m_Controller: {fileID: 9100000, guid: e2cf68ff4b1ffda45a77f7307dd789b9, type: 2}
+  m_Controller: {fileID: 9100000, guid: 71a3ce9479096994c9e1986b397ef6c4, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -3186,17 +3185,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1703635010
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1703635002}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 521b611700410be45810047f0a74e899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1709286444
 GameObject:
   m_ObjectHideFlags: 0
