@@ -26,10 +26,11 @@ using UnityEngine;
 			if (target != null)
 				agent.SetDestination(target.position);
 
-			if (agent.remainingDistance > agent.stoppingDistance)
-				character.Move(agent.desiredVelocity, false, false);
-			else
-				character.Move(Vector3.zero, false, false);
+		if (agent.remainingDistance > agent.stoppingDistance)
+			character.Move (agent.desiredVelocity, false, false, false);
+		else 
+			character.Move(Vector3.zero, false, false, true);
+
 		}
 
 
