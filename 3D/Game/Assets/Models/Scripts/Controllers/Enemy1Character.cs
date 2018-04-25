@@ -40,11 +40,18 @@ public class Enemy1Character : MonoBehaviour
 		m_Animator.SetBool ("Attack", false);
 	}
 
+    
+    
+    public void Attack(){
+        m_Animator.SetBool ("Attack", true);
+    }
+    
+    
 
-	public void Move(Vector3 move, bool crouch, bool jump, bool attack)
+	public void Move(Vector3 move, bool crouch, bool jump)
 	{
+        m_Animator.SetBool ("Attack", false);
 
-		m_Animator.SetBool ("Attack", attack);
 
 		// convert the world relative moveInput vector into a local-relative
 		// turn amount and forward amount required to head in the desired
