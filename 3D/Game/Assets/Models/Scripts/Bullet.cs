@@ -15,7 +15,7 @@ public class Bullet : MonoBehaviour {
 		float x = Screen.width / 2;
 		float y = Screen.height / 2;
 
-		var ray = myCamera.ScreenPointToRay(new Vector3(x, y, 0));
+		//var ray = myCamera.ScreenPointToRay(new Vector3(x, y, 0));
 		//Vector3 mousePos = Input.mousePosition;
 		Ray castPoint = Camera.main.ScreenPointToRay(new Vector3(x, y, 0));
 		RaycastHit hit;
