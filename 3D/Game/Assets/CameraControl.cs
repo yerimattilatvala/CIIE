@@ -10,6 +10,7 @@ public class CameraControl : MonoBehaviour
 
     public Transform lookAt;
     public Transform camTransform;
+	public Transform character;
     public float distance = 10.0f;
 
     private float currentX = 0.0f;
@@ -35,14 +36,20 @@ public class CameraControl : MonoBehaviour
 
         currentY = Mathf.Clamp(currentY, Y_ANGLE_MIN, Y_ANGLE_MAX);
 
-        if (Input.GetMouseButton(1))
-        {
-            Camera.main.fieldOfView = 10;
+		if (Input.GetMouseButton (1)) {
+			Camera.main.fieldOfView = 10;
             
-            position = new Rect((Screen.width - crosshairImage.width) / 2, (Screen.height - crosshairImage.height) / 2, crosshairImage.width, crosshairImage.height);
-        }
-        else
-            Camera.main.fieldOfView = baseFOV;
+			position = new Rect ((Screen.width - crosshairImage.width) / 2, (Screen.height - crosshairImage.height) / 2, crosshairImage.width, crosshairImage.height);
+        	
+			character.transform.rotation = camTransform.transform.rotation;
+		} else {
+			//Puse rotar siempre por problemas a salir y entrar del apuntado
+			character.transform.rotation = camTransform.transform.rotation;
+			Camera.main.fieldOfView = baseFOV;
+
+		}
+
+
     }
 
     private void LateUpdate()
