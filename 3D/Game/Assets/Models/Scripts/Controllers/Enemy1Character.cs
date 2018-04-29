@@ -3,6 +3,8 @@
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
 [RequireComponent(typeof(Animator))]
+
+
 public class Enemy1Character : MonoBehaviour
 {
 	[SerializeField] float m_MovingTurnSpeed = 360;

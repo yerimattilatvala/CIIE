@@ -30,12 +30,21 @@ using UnityEngine;
 
             if(distance <= lookRadius){
                 agent.SetDestination(target.position);
-                character.Move (agent.desiredVelocity, false, false);    
-                
+                character.Move (agent.desiredVelocity, false, false);
+
+            //Debug.Log("Radio inside");            
+
                 if (agent.remainingDistance < agent.stoppingDistance)
+            {
                 character.Attack();
-            }else
-                character.Move (Vector3.zero, false, false);    
+               // Debug.Log("Attack");
+            }
+                    
+            }else {
+                character.Move(Vector3.zero, false, false);
+                //Debug.Log("Idle");
+            }
+                
         }
 
 		public void SetTarget(Transform target)
