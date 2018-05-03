@@ -24,7 +24,7 @@ using UnityEngine;
 
 		private void Update()
 		{
-             if (target != null)
+            if (target != null)
                 distance= Vector3.Distance(target.position, transform.position);
 
 
@@ -35,12 +35,13 @@ using UnityEngine;
             //Debug.Log("Radio inside");            
 
                 if (agent.remainingDistance < agent.stoppingDistance)
-            {
+                {
                 character.Attack();
                // Debug.Log("Attack");
-            }
+                }
                     
             }else {
+                agent.SetDestination(agent.transform.localPosition);
                 character.Move(Vector3.zero, false, false);
                 //Debug.Log("Idle");
             }
