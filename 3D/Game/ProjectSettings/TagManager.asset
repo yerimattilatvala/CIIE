@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - potion
+  - enemy
   layers:
   - Default
   - TransparentFX

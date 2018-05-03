@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -492,7 +492,7 @@ Prefab:
       objectReference: {fileID: 9100000, guid: 3b2a18d1fc866b34fa35df84b8d4d05c, type: 2}
     - target: {fileID: 100080, guid: fe2eb0b4e90413643a3ddc78c368140f, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: enemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fe2eb0b4e90413643a3ddc78c368140f, type: 3}
@@ -1256,6 +1256,23 @@ Prefab:
 GameObject:
   m_PrefabParentObject: {fileID: 100080, guid: fe2eb0b4e90413643a3ddc78c368140f, type: 3}
   m_PrefabInternal: {fileID: 181453118}
+--- !u!114 &475339505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 475339504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c17a28c95740b7943a5031b5cd38dc11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  origin: {fileID: 475339506}
+  distance: 20
+--- !u!4 &475339506 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 400080, guid: fe2eb0b4e90413643a3ddc78c368140f, type: 3}
+  m_PrefabInternal: {fileID: 181453118}
 --- !u!114 &475339507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1338,6 +1355,46 @@ CapsuleCollider:
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!114 &475339512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 475339504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bbaf319b58c5d04fbfb0dead02ae1c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  damage:
+    baseValue: 25
+  life:
+    baseValue: 0
+--- !u!65 &475339514
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 475339504}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.15, y: 0.2, z: 0.8}
+  m_Center: {x: -0.2, y: 1.2, z: 0.5}
+--- !u!65 &475339515
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 475339504}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.15, y: 0.2, z: 0.8}
+  m_Center: {x: 0.4, y: 1.2, z: 0.5}
 --- !u!1 &476470235
 GameObject:
   m_ObjectHideFlags: 0
@@ -2496,6 +2553,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.0018473021, y: 0.0018473017, z: 0.0032311329}
   m_Center: {x: 0, y: 0, z: 0.0016230978}
+--- !u!114 &907814711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 907814709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bbaf319b58c5d04fbfb0dead02ae1c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  damage:
+    baseValue: 0
+  life:
+    baseValue: 22
 --- !u!1 &933338823
 GameObject:
   m_ObjectHideFlags: 0
@@ -2793,17 +2866,6 @@ CapsuleCollider:
   m_Height: 0
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1121982245
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1121982241}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08745138d395eb14a86b595cc28762ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1157144320
 GameObject:
   m_ObjectHideFlags: 0
@@ -3326,9 +3388,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1547845565}
   - component: {fileID: 1547845566}
-  - component: {fileID: 1547845567}
   - component: {fileID: 1547845568}
   - component: {fileID: 1547845569}
+  - component: {fileID: 1547845567}
   m_Layer: 0
   m_Name: Enana
   m_TagString: Player
@@ -3373,9 +3435,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1547845564}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08745138d395eb14a86b595cc28762ee, type: 3}
+  m_Script: {fileID: 11500000, guid: 4d0cf50c205ac144d9c2550cd811c88b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  origin: {fileID: 1547845565}
+  distance: 20
 --- !u!136 &1547845568
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3403,6 +3467,8 @@ MonoBehaviour:
   maxHealth: 100
   damage:
     baseValue: 0
+  life:
+    baseValue: 22
 --- !u!1 &1561062265
 GameObject:
   m_ObjectHideFlags: 0
@@ -3516,13 +3582,32 @@ GameObject:
   - component: {fileID: 1703635004}
   - component: {fileID: 1703635010}
   - component: {fileID: 1703635011}
+  - component: {fileID: 1703635003}
+  - component: {fileID: 1703635005}
+  - component: {fileID: 1703635012}
   m_Layer: 0
   m_Name: Enemigo1
-  m_TagString: Untagged
+  m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1703635003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1703635002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bbaf319b58c5d04fbfb0dead02ae1c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  damage:
+    baseValue: 10
+  life:
+    baseValue: 0
 --- !u!195 &1703635004
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3544,6 +3629,18 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!65 &1703635005
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1703635002}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.9, y: 0.3, z: 0.4}
+  m_Center: {x: -1, y: 1.6, z: 0}
 --- !u!136 &1703635006
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3639,6 +3736,19 @@ MonoBehaviour:
   target: {fileID: 1547845565}
   lookRadius: 10
   distance: 0
+--- !u!114 &1703635012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1703635002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c17a28c95740b7943a5031b5cd38dc11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  origin: {fileID: 1703635009}
+  distance: 15
 --- !u!1 &1709286444
 GameObject:
   m_ObjectHideFlags: 0

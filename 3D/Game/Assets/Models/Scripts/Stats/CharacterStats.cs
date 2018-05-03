@@ -11,6 +11,7 @@ public class CharacterStats : MonoBehaviour {
 
     //Stats que pueden ser modificados
     public Stat damage;
+    public Stat life;
 
     void Awake(){
         currentHealth=maxHealth;
@@ -19,6 +20,20 @@ public class CharacterStats : MonoBehaviour {
     void Update(){
         if (Input.GetKeyDown(KeyCode.T))
             TakeDamage(10);
+    }
+
+    public void IncreaseHealth(int life)
+    {
+        if (currentHealth != maxHealth)
+        {
+            Debug.Log("Incremento vida a "+ transform.name + ". Antes: " + currentHealth);
+            currentHealth += life;
+            if (currentHealth > maxHealth)
+            {
+                currentHealth = maxHealth;
+            }
+            Debug.Log("Ahora: " + currentHealth);
+        }
     }
     
     public void TakeDamage (int damage){
