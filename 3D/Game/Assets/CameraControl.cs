@@ -6,7 +6,7 @@ using UnityEngine;
 public class CameraControl : MonoBehaviour
 {
     private const float Y_ANGLE_MIN = -30.0f;
-    private const float Y_ANGLE_MAX = 50.0f;
+    private const float Y_ANGLE_MAX = 30.0f;
 
     public Transform lookAt;
     public Transform camTransform;
