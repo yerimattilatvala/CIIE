@@ -122,6 +122,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			m_Animator.SetFloat("Turn", m_TurnAmount, 0.1f, Time.deltaTime);
 			m_Animator.SetBool("Crouch", m_Crouching);
 			m_Animator.SetBool("OnGround", m_IsGrounded);
+			m_Animator.SetFloat ("SideAngle", 0.25f);
 			if (Camera.main.transform.eulerAngles.x < 90)
 				m_Animator.SetFloat ("AimAngle", Camera.main.transform.eulerAngles.x);
 			else

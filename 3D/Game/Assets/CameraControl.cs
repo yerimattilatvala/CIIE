@@ -38,7 +38,7 @@ public class CameraControl : MonoBehaviour
         currentY = Mathf.Clamp(currentY, Y_ANGLE_MIN, Y_ANGLE_MAX);
 
 		if (Input.GetMouseButton (1)) {
-			Camera.main.fieldOfView = 10;
+			Camera.main.fieldOfView = 20;
             
 			position = new Rect ((Screen.width - crosshairImage.width) / 2, (Screen.height - crosshairImage.height) / 2, crosshairImage.width, crosshairImage.height);
 
