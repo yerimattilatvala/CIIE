@@ -21,13 +21,11 @@ public class Bullet : MonoBehaviour {
 		hits = Physics.RaycastAll(castPoint, Mathf.Infinity);
 		List<RaycastHit> someList = new List<RaycastHit>(hits);
 
-
-
-		someList.Sort ((v1, v2) => (v1.transform.position - transform.position).sqrMagnitude.CompareTo ((v2.transform.position - transform.position).sqrMagnitude));
+		someList.Sort ((v1, v2) => (v1.distance.CompareTo (v2.distance)));
 
 		foreach (var hit in someList) {
-			float sqrLen = (hit.transform.position - transform.position).sqrMagnitude;
-			if (sqrLen > 5f){
+
+			if (hit.distance > 2){
 				this.transform.LookAt (hit.point);
 				break;
 			}
