@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -1285,6 +1285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5dc605e2c48d4c43bdfb5c05e24c807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats: {fileID: 0}
   target: {fileID: 1547845565}
   lookRadius: 10
   distance: 0
@@ -1364,10 +1365,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 475339504}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bbaf319b58c5d04fbfb0dead02ae1c3, type: 3}
+  m_Script: {fileID: 11500000, guid: a9a731216e3629e4fa047d78e8d27dbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  dead: 0
   damage:
     baseValue: 25
   life:
@@ -2739,6 +2741,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  dead: 0
   damage:
     baseValue: 0
   life:
@@ -3563,8 +3566,8 @@ GameObject:
   - component: {fileID: 1547845565}
   - component: {fileID: 1547845566}
   - component: {fileID: 1547845568}
-  - component: {fileID: 1547845569}
   - component: {fileID: 1547845567}
+  - component: {fileID: 1547845569}
   m_Layer: 0
   m_Name: Enana
   m_TagString: Player
@@ -3635,12 +3638,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1547845564}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bbaf319b58c5d04fbfb0dead02ae1c3, type: 3}
+  m_Script: {fileID: 11500000, guid: a1c9c13499cec474ba41a8ccac036019, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  dead: 0
   damage:
-    baseValue: 0
+    baseValue: 20
   life:
     baseValue: 22
 --- !u!1 &1561062265
@@ -3751,12 +3755,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1703635009}
   - component: {fileID: 1703635008}
+  - component: {fileID: 1703635003}
   - component: {fileID: 1703635007}
   - component: {fileID: 1703635006}
   - component: {fileID: 1703635004}
   - component: {fileID: 1703635010}
   - component: {fileID: 1703635011}
-  - component: {fileID: 1703635003}
   - component: {fileID: 1703635005}
   - component: {fileID: 1703635012}
   m_Layer: 0
@@ -3774,10 +3778,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1703635002}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bbaf319b58c5d04fbfb0dead02ae1c3, type: 3}
+  m_Script: {fileID: 11500000, guid: a9a731216e3629e4fa047d78e8d27dbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  dead: 0
   damage:
     baseValue: 10
   life:
@@ -3855,7 +3860,7 @@ Animator:
   m_GameObject: {fileID: 1703635002}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 1a640a07d86cdaf4f91509c2bddd555b, type: 3}
-  m_Controller: {fileID: 9100000, guid: c92b439b39af5714da80349e78db22ac, type: 2}
+  m_Controller: {fileID: 9100000, guid: e4c229f2a3338104cbe77848d47c7a1e, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -3907,6 +3912,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5dc605e2c48d4c43bdfb5c05e24c807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats: {fileID: 0}
   target: {fileID: 1547845565}
   lookRadius: 10
   distance: 0
@@ -3938,7 +3944,7 @@ GameObject:
   - component: {fileID: 1709286445}
   m_Layer: 0
   m_Name: MainCharacter
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

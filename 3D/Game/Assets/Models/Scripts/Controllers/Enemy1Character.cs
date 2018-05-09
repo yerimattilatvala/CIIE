@@ -3,7 +3,7 @@
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
 [RequireComponent(typeof(Animator))]
-
+[RequireComponent(typeof(CharacterStats))]
 
 public class Enemy1Character : MonoBehaviour
 {
@@ -16,6 +16,7 @@ public class Enemy1Character : MonoBehaviour
 	[SerializeField] float m_AnimSpeedMultiplier = 1f;
 	[SerializeField] float m_GroundCheckDistance = 0.1f;
 
+	CharacterStats m_Stats;
 	Rigidbody m_Rigidbody;
 	Animator m_Animator;
 	bool m_IsGrounded;
@@ -40,6 +41,7 @@ public class Enemy1Character : MonoBehaviour
 		m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
 		m_OrigGroundCheckDistance = m_GroundCheckDistance;
 		m_Animator.SetBool ("Attack", false);
+		m_Animator.SetBool ("Dead", false);
 	}
 
     
@@ -48,6 +50,9 @@ public class Enemy1Character : MonoBehaviour
         m_Animator.SetBool ("Attack", true);
     }
     
+	public void Die(){
+		m_Animator.SetBool ("Dead", true);
+	}
     
 
 	public void Move(Vector3 move, bool crouch, bool jump)
