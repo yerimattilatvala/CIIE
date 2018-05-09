@@ -15,14 +15,26 @@ public class Bullet : MonoBehaviour {
 		float x = Screen.width / 2;
 		float y = Screen.height / 2;
 
-		//var ray = myCamera.ScreenPointToRay(new Vector3(x, y, 0));
-		//Vector3 mousePos = Input.mousePosition;
 		Ray castPoint = Camera.main.ScreenPointToRay(new Vector3(x, y, 0));
-		RaycastHit hit;
-		if (Physics.Raycast(castPoint, out hit, Mathf.Infinity))
-		{
-			this.transform.LookAt(hit.point);
+
+		RaycastHit[] hits;
+		hits = Physics.RaycastAll(castPoint, Mathf.Infinity);
+		List<RaycastHit> someList = new List<RaycastHit>(hits);
+
+
+
+		someList.Sort ((v1, v2) => (v1.transform.position - transform.position).sqrMagnitude.CompareTo ((v2.transform.position - transform.position).sqrMagnitude));
+
+		foreach (var hit in someList) {
+			float sqrLen = (hit.transform.position - transform.position).sqrMagnitude;
+			if (sqrLen > 5f){
+				this.transform.LookAt (hit.point);
+				break;
+			}
+				
 		}
+			
+
 		Destroy (gameObject, timeToLive);
 	}
 
