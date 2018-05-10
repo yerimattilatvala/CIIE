@@ -23,7 +23,7 @@ public class CharacterStats : MonoBehaviour {
             TakeDamage(10);
     }
 
-    public void IncreaseHealth(int life)
+    public virtual void IncreaseHealth(int life)
     {
         if (currentHealth != maxHealth)
         {
@@ -37,7 +37,7 @@ public class CharacterStats : MonoBehaviour {
         }
     }
     
-    public void TakeDamage (int damage){
+    public virtual void TakeDamage (int damage){
         currentHealth -=damage;
         Debug.Log(transform.name + " takes " + damage + " damage.");
 
