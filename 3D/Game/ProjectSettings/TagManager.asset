@@ -6,6 +6,7 @@ TagManager:
   tags:
   - potion
   - enemy
+  - hitMarker
   layers:
   - Default
   - TransparentFX

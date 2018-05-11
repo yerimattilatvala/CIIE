@@ -13,6 +13,7 @@ using UnityEngine;
 		public Transform target;                                    // target to aim for
         public float lookRadius = 15f;
         public float distance=20f;
+		public CharacterStats playerStats;
 
 		private void Start()
 		{
@@ -22,6 +23,7 @@ using UnityEngine;
 			stats = GetComponent<CharacterStats>();
 			agent.updateRotation = false;
 			agent.updatePosition = true;
+			playerStats = GameObject.FindWithTag ("Player").GetComponent<CharacterStats> ();
 		}
 
 
@@ -64,4 +66,6 @@ using UnityEngine;
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, lookRadius);
         }
+
+
 }
