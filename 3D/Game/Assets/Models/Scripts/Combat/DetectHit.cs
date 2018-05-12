@@ -13,13 +13,21 @@ public class DetectHit : MonoBehaviour {
 
 		if (col.gameObject.tag == "hitMarker")
 		{
-			if (timer >= invulnerability) {
+			print ("COLL");
+			if (((EnemyAttackTimer)col.gameObject.GetComponent(typeof(EnemyAttackTimer))).canAttack()){
+				print ("ATTACK");
+				playerStats = this.gameObject.GetComponentInChildren<CharacterStats> ();
+				enemyStats = col.gameObject.GetComponentInParent<CharacterStats> ();
+				Stat enemyDamage = enemyStats.damage;
+				playerStats.TakeDamage (enemyDamage.getValue ());
+			}
+			/*if (timer >= invulnerability) {
 				playerStats = this.gameObject.GetComponentInChildren<CharacterStats> ();
 				enemyStats = col.gameObject.GetComponentInParent<CharacterStats> ();
 				Stat enemyDamage = enemyStats.damage;
 				playerStats.TakeDamage (enemyDamage.getValue ());
 				timer = 0.0f;
-			}
+			}*/
 		}
 	}
 

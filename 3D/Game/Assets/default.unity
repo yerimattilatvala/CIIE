@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -538,13 +538,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 198730642}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
   m_LocalPosition: {x: -0.6605362, y: 0.0012970911, z: 0.055346116}
   m_LocalScale: {x: 0.08386272, y: 0.08386272, z: 0.08386272}
   m_Children: []
   m_Father: {fileID: 1694438466}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
 --- !u!23 &198730644
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1872,6 +1872,7 @@ GameObject:
   - component: {fileID: 735341314}
   - component: {fileID: 735341313}
   - component: {fileID: 735341312}
+  - component: {fileID: 735341315}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: hitMarker
@@ -1885,11 +1886,11 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 735341310}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.64, y: -0.049, z: 1.092}
-  m_LocalScale: {x: 0.11684549, y: 0.11684549, z: 0.11684549}
+  m_LocalRotation: {x: -0.6790216, y: -0.46151102, z: -0.27370134, w: -0.5010239}
+  m_LocalPosition: {x: -0.07960901, y: 0.004174646, z: -0.023990057}
+  m_LocalScale: {x: 0.11684554, y: 0.11684559, z: 0.11684554}
   m_Children: []
-  m_Father: {fileID: 892114682}
+  m_Father: {fileID: 2034291978}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &735341312
@@ -1945,6 +1946,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 735341310}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &735341315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 735341310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 808023088a777714d8aa0d764838a2fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  invulnerability: 1
 --- !u!1 &741599478
 GameObject:
   m_ObjectHideFlags: 0
@@ -2611,10 +2624,6 @@ Transform:
   m_Father: {fileID: 933338824}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &892114682 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 400060, guid: fe2eb0b4e90413643a3ddc78c368140f, type: 3}
-  m_PrefabInternal: {fileID: 181453118}
 --- !u!1 &896789299
 GameObject:
   m_ObjectHideFlags: 0
@@ -2713,6 +2722,7 @@ GameObject:
   - component: {fileID: 924153741}
   - component: {fileID: 924153740}
   - component: {fileID: 924153739}
+  - component: {fileID: 924153742}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: hitMarker
@@ -2726,11 +2736,11 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 924153737}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.639, y: -0.034, z: 1.091}
-  m_LocalScale: {x: 0.09982693, y: 0.09982692, z: 0.09982692}
+  m_LocalRotation: {x: 0.27369982, y: -0.50102496, z: 0.6790213, w: -0.4615112}
+  m_LocalPosition: {x: -0.074732855, y: 0.004423216, z: 0.00973567}
+  m_LocalScale: {x: 0.099827036, y: 0.09982715, z: 0.0998271}
   m_Children: []
-  m_Father: {fileID: 2025849003}
+  m_Father: {fileID: 1061827021}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &924153739
@@ -2786,6 +2796,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 924153737}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &924153742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 924153737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 808023088a777714d8aa0d764838a2fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  invulnerability: 1
 --- !u!1 &933338823
 GameObject:
   m_ObjectHideFlags: 0
@@ -2878,6 +2900,10 @@ Transform:
 Transform:
   m_PrefabParentObject: {fileID: 400014, guid: 1a640a07d86cdaf4f91509c2bddd555b, type: 3}
   m_PrefabInternal: {fileID: 474679738}
+--- !u!4 &1061827021 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 400044, guid: fe2eb0b4e90413643a3ddc78c368140f, type: 3}
+  m_PrefabInternal: {fileID: 181453118}
 --- !u!1 &1073747268
 GameObject:
   m_ObjectHideFlags: 0
@@ -3699,6 +3725,7 @@ GameObject:
   - component: {fileID: 1610350262}
   - component: {fileID: 1610350261}
   - component: {fileID: 1610350260}
+  - component: {fileID: 1610350263}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: hitMarker
@@ -3772,6 +3799,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1610350258}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1610350263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1610350258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 808023088a777714d8aa0d764838a2fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  invulnerability: 1
 --- !u!1 &1614231087
 GameObject:
   m_ObjectHideFlags: 0
@@ -4560,9 +4599,9 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2025408470}
---- !u!4 &2025849003 stripped
+--- !u!4 &2034291978 stripped
 Transform:
-  m_PrefabParentObject: {fileID: 400072, guid: fe2eb0b4e90413643a3ddc78c368140f, type: 3}
+  m_PrefabParentObject: {fileID: 400024, guid: fe2eb0b4e90413643a3ddc78c368140f, type: 3}
   m_PrefabInternal: {fileID: 181453118}
 --- !u!1 &2042819583
 GameObject:
