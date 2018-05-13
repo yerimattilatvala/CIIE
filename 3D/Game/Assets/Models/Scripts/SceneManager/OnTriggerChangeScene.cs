@@ -19,7 +19,12 @@ public class OnTriggerChangeScene : MonoBehaviour {
             
             guiObject.SetActive(true);
             if (guiObject.activeInHierarchy == true && Input.GetButtonDown("Use")){
-                SceneManager.LoadScene(sceneIndex);
+				DontDestroyOnLoad (other.gameObject);
+				SceneManager.LoadScene(sceneIndex);
+				//Scene scene = SceneManager.GetSceneByBuildIndex(sceneIndex);
+				//SceneManager.MoveGameObjectToScene (other.gameObject, scene);
+
+				other.transform.position = new Vector3 (27.0f, -2.0f, -23.0f);
             }
             
         }
