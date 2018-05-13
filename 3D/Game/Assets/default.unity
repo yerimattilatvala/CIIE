@@ -1271,6 +1271,7 @@ MonoBehaviour:
     baseValue: 25
   life:
     baseValue: 0
+  blood: {fileID: 1209576702915704, guid: f1c4c486a5035c54086cb37164bed74f, type: 2}
 --- !u!1 &476470235
 GameObject:
   m_ObjectHideFlags: 0
@@ -1423,7 +1424,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: e750338e2565fee4c9dbb257db63047e, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: e750338e2565fee4c9dbb257db63047e, type: 3}
       propertyPath: m_TagString
@@ -3921,6 +3922,7 @@ MonoBehaviour:
     baseValue: 10
   life:
     baseValue: 0
+  blood: {fileID: 1209576702915704, guid: f1c4c486a5035c54086cb37164bed74f, type: 2}
 --- !u!195 &1703635004
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -4002,7 +4004,7 @@ Transform:
   m_Children:
   - {fileID: 1121982242}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 168.738, z: 0}
 --- !u!114 &1703635010
 MonoBehaviour:
@@ -4166,7 +4168,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5311467016188584695be70fd7886969, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  invulnerability: 1
 --- !u!1 &1712309196
 GameObject:
   m_ObjectHideFlags: 0
