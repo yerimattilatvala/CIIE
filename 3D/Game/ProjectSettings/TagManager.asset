@@ -9,6 +9,7 @@ TagManager:
   - hitMarker
   - Fire
   - Bullet
+  - Terrain
   layers:
   - Default
   - TransparentFX
