@@ -17,6 +17,7 @@ using UnityEngine;
 
 		private void Start()
 		{
+            target = GameObject.FindGameObjectWithTag("Player").transform;
 			// get the components on the object we need ( should not be null due to require component so no need to check )
 			agent = GetComponentInChildren<UnityEngine.AI.NavMeshAgent>();
 			character = GetComponent<Enemy1Character>();

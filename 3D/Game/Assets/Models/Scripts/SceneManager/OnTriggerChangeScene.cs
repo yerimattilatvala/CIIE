@@ -24,7 +24,7 @@ public class OnTriggerChangeScene : MonoBehaviour {
 				//Scene scene = SceneManager.GetSceneByBuildIndex(sceneIndex);
 				//SceneManager.MoveGameObjectToScene (other.gameObject, scene);
 
-				other.transform.position = new Vector3 (27.0f, -2.0f, -23.0f);
+				other.transform.position = new Vector3 (22.0f, -3.6f, 5.0f);
             }
             
         }
