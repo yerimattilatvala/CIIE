@@ -8,9 +8,18 @@ public class Bullet : MonoBehaviour {
 	[SerializeField]float speed;
 	[SerializeField]float timeToLive;
 	[SerializeField]float damage;
+	private AudioSource audioSource;
+
+	private float volLowRange = .5f;
+	private float volHighRange = 1.0f;
 
 	void Start(){
 		Camera myCamera = Camera.main;
+
+		audioSource = GetComponent<AudioSource>();
+		//Para variar el sonido en cada disparo
+		audioSource.pitch = Random.Range (volLowRange, volHighRange);
+		audioSource.Play ();
 
 		float x = Screen.width / 2;
 		float y = Screen.height / 2;
