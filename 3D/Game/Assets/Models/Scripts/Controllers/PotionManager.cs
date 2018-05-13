@@ -15,7 +15,7 @@ public class PotionManager : MonoBehaviour {
         {
             Debug.Log("Consumir pocion");
             Destroy(this.gameObject);
-            playerStats = col.gameObject.GetComponent<CharacterStats>();
+            playerStats = col.gameObject.GetComponentInChildren<CharacterStats>();
             playerStats.IncreaseHealth(healthUp);
 
 
