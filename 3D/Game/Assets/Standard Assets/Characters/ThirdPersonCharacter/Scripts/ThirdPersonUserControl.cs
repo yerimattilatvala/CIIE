@@ -109,6 +109,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 					m_Block = false;	
 				}
 				m_Move = new Vector3 (0, 0, 0);
+				m_Character.Move(m_Move, crouch, false);
 				ScapeBar.gameObject.SetActive (true);
 				t1.gameObject.SetActive (true);
 				t2.gameObject.SetActive (true);
@@ -129,10 +130,10 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				ScapeBar2Original.gameObject.SetActive (false);
 				ScapeBar.gameObject.SetActive (false);
 				t1.gameObject.SetActive (false);
-				t2.gameObject.SetActive (false);	
+				t2.gameObject.SetActive (false);
+				m_Jump = false;
+				m_Character.Move(m_Move, crouch, m_Jump);
 			}
-			m_Character.Move(m_Move, crouch, m_Jump);
-			m_Jump = false;
 		}
 	}
 }
