@@ -22,6 +22,11 @@ public class PlayerStats : CharacterStats {
 		updateLifeBar (currentHealth);
 	}
 
+	public override void IncreaseDamage (int damage)
+	{
+		base.IncreaseDamage (damage);
+	}
+
 	public override void TakeDamage (int damage)
 	{
 		base.TakeDamage (damage);

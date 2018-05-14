@@ -4,54 +4,77 @@ using UnityEngine;
 
 public class InteractObjects : MonoBehaviour {
 
-    public GameObject guiObject;
+    public GameObject OpenMsg;
+	public GameObject CloseMsg;
     public GameObject Paper;
     public GameObject text;
 
     void Start()
     {
-        guiObject.SetActive(false);
+        OpenMsg.SetActive(false);
+		CloseMsg.SetActive(false);
         text.SetActive(false);
         Paper.SetActive(false);
       
 
     }
 
+	/* 
+
+*/
+
 
     void OnTriggerStay(Collider other)
-    {
+	{
 
-        if (other.CompareTag("Player"))
-        {
+		if (other.CompareTag ("Player")) {
+			if (Paper.activeInHierarchy == false) {
+				OpenMsg.SetActive (true);
+				if (OpenMsg.activeInHierarchy == true && Input.GetButtonDown ("Use")) {
 
-            guiObject.SetActive(true);
-            if (guiObject.activeInHierarchy == true && Input.GetButtonDown("Use"))
-            {
+					Debug.Log ("Open Text");
+					Paper.SetActive (true);
+					text.SetActive (true);
+					OpenMsg.SetActive (false);
 
-                Debug.Log("Open");
-                Paper.SetActive(true);
-                text.SetActive(true);
+				}
+			}
+			/*else {
+				OpenMsg.SetActive (false);
+				CloseMsg.SetActive (true);
+				if (CloseMsg.activeInHierarchy == true && Input.GetButtonDown ("Quit")) {
 
-            }
-        }
+					Debug.Log ("Close Text");
+					Paper.SetActive (false);
+					text.SetActive (false);
+					CloseMsg.SetActive (false);
+				}
+			}
+			*/
 
-    }
+		}
+	}
 
-    /*
+    
     private void Update()
     {
         
-               if (Paper.activeInHierarchy == true && Input.GetButtonDown("Use"))
+		if (Paper.activeInHierarchy == true){
+			CloseMsg.SetActive (true);
+			if (Input.GetButtonDown("Quit"))
                {
-                   Debug.Log("Close");
-                   Paper.SetActive(false);
-                   text.SetActive(false);
+                   Debug.Log("Close Text");
+					Paper.SetActive (false);
+					text.SetActive (false);
+					CloseMsg.SetActive (false);
                }
-    }*/
+		}
+    }
+    
 
     void OnTriggerExit()
     {
-        guiObject.SetActive(false);
+        OpenMsg.SetActive(false);
     }
 
 }

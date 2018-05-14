@@ -80,8 +80,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		// Fixed update is called in sync with physics
 		private void FixedUpdate()
 		{
-			Debug.Log (m_Block);
-			Debug.Log (count);
+			//Debug.Log (m_Block);
+			//Debug.Log (count);
 
 			// read inputs
 			float h = CrossPlatformInputManager.GetAxis("Horizontal");

@@ -36,6 +36,12 @@ public class CharacterStats : MonoBehaviour {
             Debug.Log("Ahora: " + currentHealth);
         }
     }
+
+	public virtual void IncreaseDamage(int dmg)
+	{
+		Debug.Log("Incremento daño, ahora:" + (damage.getValue()+dmg));
+		damage.setValue(damage.getValue()+dmg);
+	}
     
     public virtual void TakeDamage (int damage){
         currentHealth -=damage;
