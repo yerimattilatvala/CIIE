@@ -5,17 +5,24 @@ public class EnemyStats : CharacterStats {
 	GameObject player;
 	CharacterStats playerStats;
 	public GameObject blood;
+    AudioSource audioSource;
 
 
 	void Start(){
 		player = GameObject.FindWithTag ("Player");
 		playerStats = player.GetComponent<CharacterStats> ();
-	}
+        audioSource = GetComponent<AudioSource>();
+        
+
+    }
 
 
-	void OnCollisionEnter(Collision collision){
-		if (collision.gameObject.tag == "Bullet") {
-			this.TakeDamage (playerStats.damage.getValue());
+    void OnCollisionEnter(Collision collision){
+        
+
+        if (collision.gameObject.tag == "Bullet") {
+            audioSource.Play();
+            this.TakeDamage (playerStats.damage.getValue());
 
 			//Sangrado
 			var contact = collision.contacts[0];
@@ -29,8 +36,8 @@ public class EnemyStats : CharacterStats {
 	public override void Die ()
 	{
 		base.Die ();
-		GetComponent<AudioSource> ().Stop ();
-		GetComponent<Collider> ().enabled = false;
+		audioSource.Stop ();
+		audioSource.enabled = false;
 	}
     
 }

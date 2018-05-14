@@ -48,7 +48,8 @@ public class ZombieCharacter : MonoBehaviour
 
 	public void Attack(){
 		m_Animator.SetBool ("Attack", true);
-	}
+        GetComponent<AudioSource>().Play();
+    }
 
 	public void DontAttack(){
 		m_Animator.SetBool ("Attack", false);
@@ -57,7 +58,8 @@ public class ZombieCharacter : MonoBehaviour
 
 	public void Agarrar(){
 		m_Animator.SetBool ("Agarrar",true);
-	}
+        GetComponent<AudioSource>().Play();
+    }
 
 	public void Die(){
         m_Animator.SetBool("Agarrar", false);

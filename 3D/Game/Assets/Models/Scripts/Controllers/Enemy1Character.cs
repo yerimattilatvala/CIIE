@@ -30,7 +30,8 @@ public class Enemy1Character : MonoBehaviour
 	CapsuleCollider m_Capsule;
 	bool m_Crouching;
 
-	void Start()
+
+    void Start()
 	{
 		m_Animator = GetComponent<Animator>();
 		m_Rigidbody = GetComponent<Rigidbody>();
@@ -42,21 +43,26 @@ public class Enemy1Character : MonoBehaviour
 		m_OrigGroundCheckDistance = m_GroundCheckDistance;
 		m_Animator.SetBool ("Attack", false);
 		m_Animator.SetBool ("Dead", false);
-	}
+       
+    }
 
     
     
     public void Attack(){
         m_Animator.SetBool ("Attack", true);
+ 
     }
     
 	public void Die(){
+       
 		m_Animator.SetBool ("Dead", true);
 	}
     
 
 	public void Move(Vector3 move, bool crouch, bool jump)
 	{
+     
+
         m_Animator.SetBool ("Attack", false);
 
 

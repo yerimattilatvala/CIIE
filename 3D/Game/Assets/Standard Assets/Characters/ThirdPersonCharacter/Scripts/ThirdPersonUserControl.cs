@@ -25,11 +25,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		private void Start()
 		{
 			m_Block = false;
-			ScapeBar = GameObject.Find ("Canvas/ScapeBar");
-			ScapeBar2 = GameObject.Find ("Canvas/ScapeBarRed");
+			ScapeBar = GameObject.Find ("Zombie/CanvasCatch/ScapeBar");
+			ScapeBar2 = GameObject.Find ("Zombie/CanvasCatch/ScapeBarRed");
 			ScapeBar2Original = ScapeBar2;
-			t1 = GameObject.Find ("Canvas/TextoScape");
-			t2 = GameObject.Find ("Canvas/TextoScape2");
+			t1 = GameObject.Find ("Zombie/CanvasCatch/TextoScape");
+			t2 = GameObject.Find ("Zombie/CanvasCatch/TextoScape2");
 			ScapeBar.gameObject.SetActive (false);
 			ScapeBar2.gameObject.SetActive (false);
 			ScapeBar2Original.gameObject.SetActive (false);
@@ -128,6 +128,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			} else {
 				count = 0;
 				ScapeBar2Original = ScapeBar2;
+                /*Esto no deberia ser false?*/
 				ScapeBar2.gameObject.SetActive (true);
 				ScapeBar2Original.gameObject.SetActive (false);
 				ScapeBar.gameObject.SetActive (false);
