@@ -42,7 +42,7 @@ public class IAZombie : MonoBehaviour
 
 				//Debug.Log("Radio inside");            
 
-				if (agent.remainingDistance < agent.stoppingDistance) {
+				if (distance < agent.stoppingDistance) {
 					characterControl.setCharacterCurrentLife (playerStats.currentHealth);
 					if (characterControl.Stop ()) {
 						//characterControl.Stop ();
