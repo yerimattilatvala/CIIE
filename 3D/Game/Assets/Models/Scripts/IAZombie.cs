@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityStandardAssets.Characters.ThirdPerson;
 
 [RequireComponent(typeof (UnityEngine.AI.NavMeshAgent))]
-[RequireComponent(typeof (Enemy1Character))]
+[RequireComponent(typeof (ZombieCharacter))]
 [RequireComponent(typeof (CharacterStats))]
 
 public class IAZombie : MonoBehaviour
@@ -46,6 +46,7 @@ public class IAZombie : MonoBehaviour
 					characterControl.setCharacterCurrentLife (playerStats.currentHealth);
 					if (characterControl.Stop ()) {
 						//characterControl.Stop ();
+						characterControl.setPositionEnemy(character.transform.position);
 						character.Agarrar ();
 						character.DontAttack ();
 						count = 0;
