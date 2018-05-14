@@ -43,7 +43,7 @@ public class IABoss : MonoBehaviour {
 
 					//Debug.Log("Radio inside");            
 
-					if (agent.remainingDistance < agent.stoppingDistance) {
+					if (distance < agent.stoppingDistance) {
 						character.Attack ();
 						// Debug.Log("Attack");
 					}
