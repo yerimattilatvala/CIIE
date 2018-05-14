@@ -12,6 +12,8 @@ TagManager:
   - Player
   - Terrain
   - MCharacter
+  - HandBoss
+  - EspaldaBoss
   layers:
   - Default
   - TransparentFX

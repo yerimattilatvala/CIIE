@@ -21,6 +21,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		private int count = 0;
 		private int currentLife = 0;
 		private int lastCurrentLife = 0;
+		private Vector3 positionEnemy;
+		private int c2 = 0;
 
 		private void Start()
 		{
@@ -58,6 +60,10 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 		public void setCharacterCurrentLife(int life){
 			currentLife = life;
+		}
+
+		public void setPositionEnemy(Vector3 pos){
+			positionEnemy = pos;
 		}
 
 		private void Update()
@@ -109,9 +115,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			if (m_Block) {
 				if (count >= 20) {
 					m_Block = false;	
-				}
-				m_Move = new Vector3 (0, 0, 0);
-				m_Character.Move(m_Move, crouch, false);
+				}m_Move = new Vector3 (0, 0, 0);
+				m_Character.Move (m_Move, crouch, false);
 				ScapeBar.gameObject.SetActive (true);
 				t1.gameObject.SetActive (true);
 				t2.gameObject.SetActive (true);
@@ -125,6 +130,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 					}
 
 				}
+				c2++;
 			} else {
 				count = 0;
 				ScapeBar2Original = ScapeBar2;
@@ -134,8 +140,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				ScapeBar.gameObject.SetActive (false);
 				t1.gameObject.SetActive (false);
 				t2.gameObject.SetActive (false);
-				m_Jump = false;
 				m_Character.Move(m_Move, crouch, m_Jump);
+				m_Jump = false;
 			}
 		}
 	}
