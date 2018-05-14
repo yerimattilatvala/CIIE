@@ -60,8 +60,10 @@ public class ZombieCharacter : MonoBehaviour
 	}
 
 	public void Die(){
-		m_Animator.SetBool ("Dead", true);
-	}
+        m_Animator.SetBool("Agarrar", false);
+        m_Animator.SetBool ("Dead", true);
+        
+    }
 
 
 	public void Move(Vector3 move, bool crouch, bool jump)

@@ -35,6 +35,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			ScapeBar2Original.gameObject.SetActive (false);
 			t1.gameObject.SetActive (false);
 			t2.gameObject.SetActive (false);
+
 			// get the transform of the main camera
 			if (Camera.main != null)
 			{
@@ -75,6 +76,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 			return m_Block;
 		}
+
 		// Fixed update is called in sync with physics
 		private void FixedUpdate()
 		{
