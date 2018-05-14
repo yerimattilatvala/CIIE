@@ -21,7 +21,7 @@ public class EnemyStats : CharacterStats {
         
 
         if (collision.gameObject.tag == "Bullet") {
-            audioSource.Play();
+       
             this.TakeDamage (playerStats.damage.getValue());
 
 			//Sangrado
@@ -38,6 +38,7 @@ public class EnemyStats : CharacterStats {
 		base.Die ();
 		audioSource.Stop ();
 		audioSource.enabled = false;
+		GetComponent<Collider> ().enabled = false;
 	}
     
 }
