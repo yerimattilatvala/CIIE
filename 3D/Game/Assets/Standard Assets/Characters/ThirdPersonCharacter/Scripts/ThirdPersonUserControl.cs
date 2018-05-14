@@ -115,8 +115,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			if (m_Block) {
 				if (count >= 20) {
 					m_Block = false;	
-				}m_Move = new Vector3 (0, 0, 0);
-				m_Character.Move (m_Move, crouch, false);
+				}
+				m_Move = new Vector3 (0, 0, 0);
+				m_Character.Move (m_Move, crouch, false,true);
 				ScapeBar.gameObject.SetActive (true);
 				t1.gameObject.SetActive (true);
 				t2.gameObject.SetActive (true);
@@ -142,7 +143,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 					t1.gameObject.SetActive (false);
 					t2.gameObject.SetActive (false);
 				}
-				m_Character.Move (m_Move, crouch, m_Jump);
+				m_Character.Move (m_Move, crouch, m_Jump,false);
 				m_Jump = false;
 			}
 		}

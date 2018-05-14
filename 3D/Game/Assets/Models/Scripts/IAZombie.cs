@@ -17,6 +17,8 @@ public class IAZombie : MonoBehaviour
 	public CharacterStats playerStats;
 	public ThirdPersonUserControl characterControl;
 	private int count = 0;
+	public CameraControl c;
+	public PlayerShoot p;
 
 	private void Start()
 	{
@@ -49,10 +51,14 @@ public class IAZombie : MonoBehaviour
 						characterControl.setPositionEnemy(character.transform.position);
 						character.Agarrar ();
 						character.DontAttack ();
+						p.setBlock (true);
+						c.setBlock (true);
 						count = 0;
 						//targetLife = playerStats.currentHealth;
 					} else {
 						if (count == 0) {
+							p.setBlock (false);
+							c.setBlock (false);
 							characterControl.setCharacterLife (playerStats.currentHealth);
 							count++;
 						}

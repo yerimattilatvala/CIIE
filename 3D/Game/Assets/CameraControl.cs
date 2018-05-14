@@ -23,6 +23,7 @@ public class CameraControl : MonoBehaviour
     public Rect position;
 
     private float baseFOV;
+	private bool block=false;
 
     private void Start()
     {
@@ -30,32 +31,37 @@ public class CameraControl : MonoBehaviour
 		baseFOV = Camera.main.fieldOfView;
     }
 
+	public void setBlock(bool b){
+		block = b;
+	}
+
     private void Update()
     {
-        currentX += Input.GetAxis("Mouse X");
-        currentY += Input.GetAxis("Mouse Y");
+		if (block==false) {
+			currentX += Input.GetAxis ("Mouse X");
+			currentY += Input.GetAxis ("Mouse Y");
 
-        currentY = Mathf.Clamp(currentY, Y_ANGLE_MIN, Y_ANGLE_MAX);
+			currentY = Mathf.Clamp (currentY, Y_ANGLE_MIN, Y_ANGLE_MAX);
 
-		if (Input.GetMouseButton (1)) {
-			Camera.main.fieldOfView = 20;
+			if (Input.GetMouseButton (1)) {
+				Camera.main.fieldOfView = 20;
             
-			position = new Rect ((Screen.width - crosshairImage.width) / 2, (Screen.height - crosshairImage.height) / 2, crosshairImage.width, crosshairImage.height);
+				position = new Rect ((Screen.width - crosshairImage.width) / 2, (Screen.height - crosshairImage.height) / 2, crosshairImage.width, crosshairImage.height);
 
-			//aimUpDown.setRotation (90f);
-			character.eulerAngles = new Vector3 (character.eulerAngles.x, camTransform.eulerAngles.y, character.eulerAngles.z);
-			//animator.SetFloat ("AimAngle", aimUpDown.getAngle());
-			//character.transform.rotation = camTransform.transform.rotation;
-		} else {
-			//Puse rotar siempre por problemas a salir y entrar del apuntado
-			//aimUpDown.setRotation (camTransform.rotation.x);
-			character.eulerAngles = new Vector3 (character.eulerAngles.x, camTransform.eulerAngles.y, character.eulerAngles.z);
+				//aimUpDown.setRotation (90f);
+				character.eulerAngles = new Vector3 (character.eulerAngles.x, camTransform.eulerAngles.y, character.eulerAngles.z);
+				//animator.SetFloat ("AimAngle", aimUpDown.getAngle());
+				//character.transform.rotation = camTransform.transform.rotation;
+			} else {
+				//Puse rotar siempre por problemas a salir y entrar del apuntado
+				//aimUpDown.setRotation (camTransform.rotation.x);
+				character.eulerAngles = new Vector3 (character.eulerAngles.x, camTransform.eulerAngles.y, character.eulerAngles.z);
 
-			//character.transform.rotation = camTransform.transform.rotation;
-			Camera.main.fieldOfView = baseFOV;
+				//character.transform.rotation = camTransform.transform.rotation;
+				Camera.main.fieldOfView = baseFOV;
 
+			}
 		}
-
 
     }
 
@@ -70,8 +76,9 @@ public class CameraControl : MonoBehaviour
     //Dibuja la cruceta en la pantalla
     void OnGUI()
     {
-        if (Input.GetMouseButton(1))
-            GUI.Label(new Rect(Screen.width / 2 - 25, Screen.height / 2 - 25, 50, 50), crosshairImage);
+		if(block==false)
+        	if (Input.GetMouseButton(1))
+            	GUI.Label(new Rect(Screen.width / 2 - 25, Screen.height / 2 - 25, 50, 50), crosshairImage);
     }
 
 }

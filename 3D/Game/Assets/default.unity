@@ -2522,6 +2522,8 @@ MonoBehaviour:
   distance: 0
   playerStats: {fileID: 0}
   characterControl: {fileID: 1709286446}
+  c: {fileID: 1978672999}
+  p: {fileID: 1547845566}
 --- !u!54 &475339510
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2593,7 +2595,7 @@ AudioSource:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 475339504}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: c34ad7dc61c22ed4b821c88db0d983be, type: 3}
@@ -10079,7 +10081,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1709286444}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -128.33, y: 9.8, z: 115.54}
+  m_LocalPosition: {x: -139.5, y: 9.8, z: -38}
   m_LocalScale: {x: 1, y: 0.75094837, z: 1}
   m_Children:
   - {fileID: 1978672998}

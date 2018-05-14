@@ -21,6 +21,7 @@ public class IABoss : MonoBehaviour {
 	private int lastCurrentHealth;
 	private bool activate = false;
 
+
 	private void Start()
 	{
 		// get the components on the object we need ( should not be null due to require component so no need to check )
