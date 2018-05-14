@@ -14,6 +14,7 @@ TagManager:
   - MCharacter
   - HandBoss
   - EspaldaBoss
+  - Canvas
   layers:
   - Default
   - TransparentFX

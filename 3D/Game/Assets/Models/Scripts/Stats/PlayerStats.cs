@@ -1,15 +1,36 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
 
 public class PlayerStats : CharacterStats {
 
 	private GameObject redLifeBar;
 	private GameObject greenLifeBar;
 	private int originalLife;
+	public int buffTime;
+	private int timeLeft;
+	private GameObject dmgGUI;
+	public Text timeText;
 
 	void Start(){
 		redLifeBar = GameObject.Find ("Canvas/RedHealth");
 		greenLifeBar = GameObject.Find ("Canvas/GreenHealth");
 		originalLife = maxHealth;
+		dmgGUI = timeText.gameObject;
+		dmgGUI.SetActive (false);
+		timeLeft = buffTime;
+	}
+
+	void Update(){
+		if (timeLeft >= 1) {
+			timeText.text = ("Daño Aumentado: " + timeLeft);
+
+		} else {
+			dmgGUI.SetActive (false);
+		}
+
 	}
 
 	void OnCollisionEnter(Collision collision){
@@ -24,6 +45,11 @@ public class PlayerStats : CharacterStats {
 
 	public override void IncreaseDamage (int damage)
 	{
+		dmgGUI.SetActive (true);
+		timeLeft = buffTime;
+		StartCoroutine ("LoseTime");
+		Time.timeScale = 1;
+
 		base.IncreaseDamage (damage);
 	}
 
@@ -55,6 +81,14 @@ public class PlayerStats : CharacterStats {
 	{
 		base.Die ();
 		Debug.Log(transform.name + " died.");
+	}
+
+
+	IEnumerator LoseTime (){
+		while (true) {
+			yield return new WaitForSeconds (1);
+			timeLeft--;
+		}
 	}
     
     

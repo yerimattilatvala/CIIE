@@ -133,14 +133,16 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				c2++;
 			} else {
 				count = 0;
-				ScapeBar2Original = ScapeBar2;
-                /*Esto no deberia ser false?*/
-				ScapeBar2.gameObject.SetActive (true);
-				ScapeBar2Original.gameObject.SetActive (false);
-				ScapeBar.gameObject.SetActive (false);
-				t1.gameObject.SetActive (false);
-				t2.gameObject.SetActive (false);
-				m_Character.Move(m_Move, crouch, m_Jump);
+				if (ScapeBar2 != null) {
+					ScapeBar2Original = ScapeBar2;
+					/*Esto no deberia ser false?*/
+					ScapeBar2.gameObject.SetActive (true);
+					ScapeBar2Original.gameObject.SetActive (false);
+					ScapeBar.gameObject.SetActive (false);
+					t1.gameObject.SetActive (false);
+					t2.gameObject.SetActive (false);
+				}
+				m_Character.Move (m_Move, crouch, m_Jump);
 				m_Jump = false;
 			}
 		}

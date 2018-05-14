@@ -18,7 +18,7 @@ public class DetectCollisionEnemies : MonoBehaviour {
         {
             Debug.Log("Collision emeny with player");
 
-            playerStats = col.gameObject.GetComponent<CharacterStats>();
+            playerStats = col.gameObject.GetComponentInChildren<CharacterStats>();
             characterStats = origin.GetComponent<CharacterStats>();
             Stat enemyDamage = characterStats.damage;
 
