@@ -1204,7 +1204,7 @@ AnimatorState:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Die
-  m_Speed: 1.5
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []
@@ -1216,7 +1216,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 62ffb0cd5e1706d45b8a1f64beac844b, type: 3}
+  m_Motion: {fileID: 7400000, guid: 25bb03191b8ebf14d8a0553263b5674e, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

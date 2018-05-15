@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityStandardAssets.Characters.ThirdPerson;
 
 public class PlayerStats : CharacterStats {
 
+	public ThirdPersonUserControl userControl;
 	private GameObject redLifeBar;
 	private GameObject greenLifeBar;
 	private int originalLife;
@@ -80,6 +81,7 @@ public class PlayerStats : CharacterStats {
 	public override void Die ()
 	{
 		base.Die ();
+		userControl.die ();
 		Debug.Log(transform.name + " died.");
 	}
 

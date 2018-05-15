@@ -30,6 +30,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		CapsuleCollider m_Capsule;
 		bool m_Crouching;
 		bool agony;
+		bool m_Dead;
+
 
 		void Start()
 		{
@@ -44,8 +46,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		}
 
 
-		public void Move(Vector3 move, bool crouch, bool jump,bool a)
+		public void Move(Vector3 move, bool crouch, bool jump, bool a, bool dead)
 		{
+			m_Dead = dead;
 			agony = a;
 			// convert the world relative moveInput vector into a local-relative
 			// turn amount and forward amount required to head in the desired
@@ -120,6 +123,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		{
 			m_Animator.SetBool ("Agonia", agony);
 			// update the animator parameters
+			m_Animator.SetBool("Dead", m_Dead);
 			m_Animator.SetFloat("Forward", m_ForwardAmount, 0.1f, Time.deltaTime);
 			m_Animator.SetFloat("Turn", m_TurnAmount, 0.1f, Time.deltaTime);
 			m_Animator.SetBool("Crouch", m_Crouching);

@@ -1,4 +1,4 @@
-﻿﻿using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,8 +11,8 @@ public class IABoss : MonoBehaviour {
 
 	public UnityEngine.AI.NavMeshAgent agent { get; private set; }             // the navmesh agent required for the path finding
 	public BossCharacter character { get; private set; } // the character we are controlling
-	public CharacterStats stats;
-	public Transform target;                                    // target to aim for
+	private CharacterStats stats;
+	private Transform target;                                    // target to aim for
 	public float lookRadius = 15f;
 	public float distance=20f;
 	public CharacterStats playerStats;

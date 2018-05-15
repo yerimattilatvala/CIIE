@@ -10,7 +10,7 @@ public class IAZombie : MonoBehaviour
 {
 	public UnityEngine.AI.NavMeshAgent agent { get; private set; }             // the navmesh agent required for the path finding
 	public ZombieCharacter character { get; private set; } // the character we are controlling
-	public CharacterStats stats;
+	private CharacterStats stats;
 	public Transform target;                                    // target to aim for
 	public float lookRadius = 15f;
 	public float distance=20f;
