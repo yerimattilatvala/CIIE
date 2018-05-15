@@ -12,14 +12,12 @@ public class EnemyStats : CharacterStats {
 		player = GameObject.FindWithTag ("Player");
 		playerStats = player.GetComponent<CharacterStats> ();
         audioSource = GetComponent<AudioSource>();
-        
-
+    
     }
 
 
     void OnCollisionEnter(Collision collision){
         
-
         if (collision.gameObject.tag == "Bullet") {
        
             this.TakeDamage (playerStats.damage.getValue());
@@ -31,6 +29,7 @@ public class EnemyStats : CharacterStats {
 
 			Destroy (collision.gameObject);
 		}
+        audioSource.Play();
 	}
 
 	public override void Die ()
