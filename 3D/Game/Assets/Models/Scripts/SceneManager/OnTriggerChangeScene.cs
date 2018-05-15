@@ -19,6 +19,7 @@ public class OnTriggerChangeScene : MonoBehaviour {
             
             guiObject.SetActive(true);
             if (guiObject.activeInHierarchy == true && Input.GetButtonDown("Use")){
+				guiObject.SetActive (false);
 				DontDestroyOnLoad (GameObject.FindGameObjectWithTag("Canvas"));
 				DontDestroyOnLoad (other.gameObject);
 				DontDestroyOnLoad (Camera.main.gameObject);
