@@ -24,21 +24,24 @@ public class Bullet : MonoBehaviour {
 		float x = Screen.width / 2;
 		float y = Screen.height / 2;
 
-		Ray castPoint = Camera.main.ScreenPointToRay(new Vector3(x, y, 0));
+		if (Input.GetMouseButton (1)) {
 
-		RaycastHit[] hits;
-		hits = Physics.RaycastAll(castPoint, Mathf.Infinity);
-		List<RaycastHit> someList = new List<RaycastHit>(hits);
+			Ray castPoint = Camera.main.ScreenPointToRay (new Vector3 (x, y, 0));
 
-		someList.Sort ((v1, v2) => (v1.distance.CompareTo (v2.distance)));
+			RaycastHit[] hits;
+			hits = Physics.RaycastAll (castPoint, Mathf.Infinity);
+			List<RaycastHit> someList = new List<RaycastHit> (hits);
 
-		foreach (var hit in someList) {
+			someList.Sort ((v1, v2) => (v1.distance.CompareTo (v2.distance)));
 
-			if (hit.distance > 2){
-				this.transform.LookAt (hit.point);
-				break;
+			foreach (var hit in someList) {
+
+				if (hit.distance > 2) {
+					this.transform.LookAt (hit.point);
+					break;
+				}
+					
 			}
-				
 		}
 			
 

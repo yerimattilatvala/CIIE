@@ -21,6 +21,7 @@ public class OnTriggerChangeScene : MonoBehaviour {
             if (guiObject.activeInHierarchy == true && Input.GetButtonDown("Use")){
 				DontDestroyOnLoad (GameObject.FindGameObjectWithTag("Canvas"));
 				DontDestroyOnLoad (other.gameObject);
+				DontDestroyOnLoad (Camera.main.gameObject);
 				SceneManager.LoadScene(sceneIndex);
 				//Scene scene = SceneManager.GetSceneByBuildIndex(sceneIndex);
 				//SceneManager.MoveGameObjectToScene (other.gameObject, scene);

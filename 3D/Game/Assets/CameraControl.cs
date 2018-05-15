@@ -25,6 +25,7 @@ public class CameraControl : MonoBehaviour
     private float baseFOV;
 	private bool block=false;
 
+
     private void Start()
     {
         camTransform = transform;
@@ -48,16 +49,10 @@ public class CameraControl : MonoBehaviour
             
 				position = new Rect ((Screen.width - crosshairImage.width) / 2, (Screen.height - crosshairImage.height) / 2, crosshairImage.width, crosshairImage.height);
 
-				//aimUpDown.setRotation (90f);
-				character.eulerAngles = new Vector3 (character.eulerAngles.x, camTransform.eulerAngles.y, character.eulerAngles.z);
-				//animator.SetFloat ("AimAngle", aimUpDown.getAngle());
-				//character.transform.rotation = camTransform.transform.rotation;
-			} else {
-				//Puse rotar siempre por problemas a salir y entrar del apuntado
-				//aimUpDown.setRotation (camTransform.rotation.x);
 				character.eulerAngles = new Vector3 (character.eulerAngles.x, camTransform.eulerAngles.y, character.eulerAngles.z);
 
-				//character.transform.rotation = camTransform.transform.rotation;
+			} else {
+				
 				Camera.main.fieldOfView = baseFOV;
 
 			}
