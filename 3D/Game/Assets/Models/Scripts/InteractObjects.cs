@@ -18,10 +18,7 @@ public class InteractObjects : MonoBehaviour {
       
 
     }
-
-	/* 
-
-*/
+		
 
 
     void OnTriggerStay(Collider other)
@@ -38,43 +35,31 @@ public class InteractObjects : MonoBehaviour {
 					OpenMsg.SetActive (false);
 
 				}
-			}
-			/*else {
+			}else {
 				OpenMsg.SetActive (false);
 				CloseMsg.SetActive (true);
 				if (CloseMsg.activeInHierarchy == true && Input.GetButtonDown ("Quit")) {
-
 					Debug.Log ("Close Text");
 					Paper.SetActive (false);
 					text.SetActive (false);
 					CloseMsg.SetActive (false);
 				}
 			}
-			*/
+
 
 		}
 	}
 
     
-    private void Update()
-    {
-        
-		if (Paper.activeInHierarchy == true){
-			CloseMsg.SetActive (true);
-			if (Input.GetButtonDown("Quit"))
-               {
-                   Debug.Log("Close Text");
-					Paper.SetActive (false);
-					text.SetActive (false);
-					CloseMsg.SetActive (false);
-               }
-		}
-    }
     
 
     void OnTriggerExit()
     {
         OpenMsg.SetActive(false);
+		Debug.Log("Close Text");
+		text.SetActive (false);
+		Paper.SetActive (false);
+		CloseMsg.SetActive (false);
     }
 
 }
