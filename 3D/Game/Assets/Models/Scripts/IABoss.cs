@@ -43,9 +43,9 @@ public class IABoss : MonoBehaviour {
 	private void FixedUpdate()
 	{
         
-		shield.SetActive (true);
+		shield.SetActive (activate);
 		if (activate) {
-            shield.transform.position = agent.transform.position+ new Vector3(0.0f,1.4f,3.0f);
+            shield.transform.position = agent.transform.position+ new Vector3(0.0f,1.2f,3.0f);
 			shield.transform.rotation = agent.transform.rotation;
 			if (!stats.isDead ()) {
 				agent.transform.position = pos2;
