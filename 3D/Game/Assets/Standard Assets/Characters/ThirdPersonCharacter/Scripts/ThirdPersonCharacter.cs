@@ -124,6 +124,13 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			m_Animator.SetBool ("Agonia", agony);
 			// update the animator parameters
 			m_Animator.SetBool("Dead", m_Dead);
+			if (m_Dead) {
+				this.enabled = false;
+				GetComponent<ThirdPersonUserControl> ().enabled = false;
+				GetComponent<Rigidbody> ().constraints = RigidbodyConstraints.FreezePositionZ 
+					| RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionX;
+				GetComponent<Rigidbody> ().freezeRotation = true;
+			}
 			m_Animator.SetFloat("Forward", m_ForwardAmount, 0.1f, Time.deltaTime);
 			m_Animator.SetFloat("Turn", m_TurnAmount, 0.1f, Time.deltaTime);
 			m_Animator.SetBool("Crouch", m_Crouching);
