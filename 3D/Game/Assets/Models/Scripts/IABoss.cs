@@ -42,9 +42,10 @@ public class IABoss : MonoBehaviour {
 
 	private void FixedUpdate()
 	{
-		shield.SetActive (activate);
+        
+		shield.SetActive (true);
 		if (activate) {
-			shield.transform.position = agent.transform.position+ new Vector3(0f,-0.3f,2.5f);
+            shield.transform.position = agent.transform.position+ new Vector3(0.0f,1.4f,3.0f);
 			shield.transform.rotation = agent.transform.rotation;
 			if (!stats.isDead ()) {
 				agent.transform.position = pos2;
@@ -54,11 +55,13 @@ public class IABoss : MonoBehaviour {
 					// Debug.Log("Attack");
 				}
 			} else {
-				character.Die ();
+                shield.SetActive(false);
+                character.Die ();
 				agent.isStopped = true;
 			}
 		}else {
-			pos2 = agent.transform.position + new Vector3 (-0.3f, 11f, 2f);
+        
+			pos2 = agent.transform.position + new Vector3 (-0.3f, 11f, 3.0f);
 			shield.transform.position = pos2;
 			shield.transform.rotation = agent.transform.rotation;
 			if (!stats.isDead ()) {
@@ -86,7 +89,8 @@ public class IABoss : MonoBehaviour {
 					//Debug.Log("Idle");
 				}
 			} else {
-				character.Die ();
+                shield.SetActive(false);
+                character.Die ();
 				agent.isStopped = true;
 			}
 		}
