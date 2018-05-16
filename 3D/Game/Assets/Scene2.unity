@@ -255,6 +255,10 @@ Prefab:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2300004, guid: 20e5579945075c34090a39916ca94897, type: 3}
+      propertyPath: m_ScaleInLightmap
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 20e5579945075c34090a39916ca94897, type: 3}
   m_IsPrefabParent: 0
@@ -272,7 +276,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 12.361107, y: 1.6936141, z: 12.464167}
+  m_Size: {x: 12, y: 1.6936141, z: 12.464167}
   m_Center: {x: 0.034415722, y: 0.34680673, z: -0.09081662}
 --- !u!4 &147366947 stripped
 Transform:
@@ -417,11 +421,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4759721672046370, guid: 5b33bf8651fe2fb4cb4c63abc23cb135, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 19.49
+      value: 19.55
       objectReference: {fileID: 0}
     - target: {fileID: 4759721672046370, guid: 5b33bf8651fe2fb4cb4c63abc23cb135, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -1.32
+      value: -1.84
       objectReference: {fileID: 0}
     - target: {fileID: 4759721672046370, guid: 5b33bf8651fe2fb4cb4c63abc23cb135, type: 2}
       propertyPath: m_LocalPosition.z
@@ -456,6 +460,16 @@ Prefab:
       propertyPath: shield
       value: 
       objectReference: {fileID: 520822674}
+    - target: {fileID: 136645991443256786, guid: 5b33bf8651fe2fb4cb4c63abc23cb135,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 195945543375168164, guid: 5b33bf8651fe2fb4cb4c63abc23cb135,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5b33bf8651fe2fb4cb4c63abc23cb135, type: 2}
   m_IsPrefabParent: 0
