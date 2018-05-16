@@ -11,7 +11,6 @@ public class CameraControl : MonoBehaviour
     public Transform lookAt;
     public Transform camTransform;
 	public Transform character;
-	public AimUpDown aimUpDown;
     public float distance = 10.0f;
 
     private float currentX = 0.0f;

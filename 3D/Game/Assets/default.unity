@@ -41199,7 +41199,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 23.06}
+  m_AnchoredPosition: {x: 0, y: 23.060059}
   m_SizeDelta: {x: 226, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &838696982
@@ -42334,6 +42334,7 @@ GameObject:
   - component: {fileID: 1694438466}
   - component: {fileID: 861260208}
   - component: {fileID: 861260207}
+  - component: {fileID: 861260209}
   - component: {fileID: 861260206}
   m_Layer: 0
   m_Name: Crossbow
@@ -42350,7 +42351,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 861260205}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a001a35b5e6f2544787cd9ed3b84af1b, type: 3}
+  m_Script: {fileID: 11500000, guid: 39635f3523291e34e89e07bdd85c4fcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rateOfFire: 0.3
@@ -42400,6 +42401,22 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 861260205}
   m_Mesh: {fileID: 4300000, guid: d1036415f6ea442a9afc3adb6e466f76, type: 3}
+--- !u!114 &861260209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 861260205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a001a35b5e6f2544787cd9ed3b84af1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rateOfFire: 0.3
+  bullet: {fileID: 4718005359180768, guid: c75a40f653fcfd849a3b02e668a0698f, type: 2}
+  muzzle: {fileID: 198730643}
+  nextFireAllowed: 0
+  canFire: 0
 --- !u!1 &864192974
 GameObject:
   m_ObjectHideFlags: 0
@@ -85727,7 +85744,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1709286444}
   m_LocalRotation: {x: -0, y: -0.032828625, z: -0, w: -0.999461}
-  m_LocalPosition: {x: -25.7, y: 0.13099998, z: 122.6}
+  m_LocalPosition: {x: -82.3, y: 0.13099998, z: 126.3}
   m_LocalScale: {x: 1, y: 0.75094837, z: 1}
   m_Children:
   - {fileID: 1547845565}
@@ -98880,7 +98897,6 @@ MonoBehaviour:
   lookAt: {fileID: 1503878241}
   camTransform: {fileID: 1978672998}
   character: {fileID: 1709286450}
-  aimUpDown: {fileID: 0}
   distance: 1.5
   crosshairImage: {fileID: 2800000, guid: 3c7d9fb026078ec45ad0620865f44641, type: 3}
   position:

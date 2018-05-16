@@ -17,11 +17,6 @@ public class CharacterStats : MonoBehaviour {
     void Awake(){
         currentHealth=maxHealth;
     }
-    
-    void Update(){
-        if (Input.GetKeyDown(KeyCode.T))
-            TakeDamage(10);
-    }
 
     public virtual void IncreaseHealth(int life)
     {
