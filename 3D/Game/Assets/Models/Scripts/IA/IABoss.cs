@@ -45,11 +45,11 @@ public class IABoss : MonoBehaviour {
         
 		shield.SetActive (activate);
 		if (activate) {
-            shield.transform.position = agent.transform.position+ new Vector3(0.0f,1.2f,3.0f);
+            shield.transform.position = pos2 + new Vector3(0.0f,-0.2f,3.0f);
 			shield.transform.rotation = agent.transform.rotation;
 			if (!stats.isDead ()) {
 				agent.transform.position = pos2;
-				if ((target.transform.position.z-shield.transform.position.z) < 3) {
+				if ((target.transform.position.z-shield.transform.position.z) < 1) {
 					activate = false;  
 					lastCurrentHealth = stats.currentHealth;
 					// Debug.Log("Attack");
@@ -68,7 +68,7 @@ public class IABoss : MonoBehaviour {
 				if (target != null)
 					distance = Vector3.Distance (target.position, transform.position);
 
-				if (stats.currentHealth < (lastCurrentHealth - 30) && (target.transform.position.z-shield.transform.position.z) > 5) {
+				if (stats.currentHealth < (lastCurrentHealth - 30)) {
 					character.Protected ();
 					activate = true;
 					pos2 = agent.transform.position;
