@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -39963,10 +39963,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
+  m_Radius: 0.5648485
+  m_Height: 2.6359596
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0, z: -0.9078789}
 --- !u!33 &814583150
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -42334,7 +42334,6 @@ GameObject:
   - component: {fileID: 1694438466}
   - component: {fileID: 861260208}
   - component: {fileID: 861260207}
-  - component: {fileID: 861260209}
   - component: {fileID: 861260206}
   m_Layer: 0
   m_Name: Crossbow
@@ -42401,22 +42400,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 861260205}
   m_Mesh: {fileID: 4300000, guid: d1036415f6ea442a9afc3adb6e466f76, type: 3}
---- !u!114 &861260209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 861260205}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a001a35b5e6f2544787cd9ed3b84af1b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rateOfFire: 0.3
-  bullet: {fileID: 4718005359180768, guid: c75a40f653fcfd849a3b02e668a0698f, type: 2}
-  muzzle: {fileID: 198730643}
-  nextFireAllowed: 0
-  canFire: 0
 --- !u!1 &864192974
 GameObject:
   m_ObjectHideFlags: 0

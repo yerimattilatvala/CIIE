@@ -27,9 +27,6 @@ public class OnTriggerChangeScene : MonoBehaviour {
 				other.transform.position = new Vector3 (22.0f, -3.6f, 5.0f);
             }
             
-        } else {
-            guiObject.SetActive(false);
-
         }
     }
     

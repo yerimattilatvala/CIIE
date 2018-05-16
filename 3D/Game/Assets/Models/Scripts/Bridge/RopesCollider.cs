@@ -8,7 +8,6 @@ public class RopesCollider : MonoBehaviour {
 
 	void OnCollisionEnter(Collision collision){
 
-		print ("HEY");
 		if (collision.gameObject.tag == "Bullet") {
 			rope.SetActive (false);
 		}
