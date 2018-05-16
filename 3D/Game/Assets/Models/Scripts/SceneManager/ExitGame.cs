@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ExitGame : MonoBehaviour {
+
+	void Start(){
+		Cursor.visible = false;
+	}
 	
 	// Update is called once per frame
 	void Update () {
